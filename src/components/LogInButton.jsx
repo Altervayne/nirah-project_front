@@ -46,6 +46,9 @@ const useStyles = makeStyles()((theme) => {
 			backgroundColor: "rgba(0, 0, 0, .5)",
 		},
 		modalWindow: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
 			position: "relative",
 
 			width: "400px",
@@ -66,6 +69,14 @@ const useStyles = makeStyles()((theme) => {
 
 			cursor: "pointer",
 		},
+		modalTitle: {
+			marginTop: theme.spacing(4),
+
+			fontSize: theme.typography.pxToRem(28),
+			fontWeight: 600,
+
+			color: "#F2F4F8"
+		},
 	}
 })
 
@@ -75,30 +86,25 @@ const LogInButton = () => {
 	const { classes } = useStyles()
 
 	const [isOpen, setIsOpen] = useState(false)
-	const handleBackgroundClick = (event) => {
-		if (event.target === event.currentTarget) {
-			setIsOpen(false)
-		}
-	}
+	const [hasAccount, setHasAccount] = useState(false)
 	const handleWindowClick = (event) => {
 		event.stopPropagation()
 	}
 
 	return  <div className={ classes.root }>
-				<motion.div
-					className={ classes.launchButton }
+				<motion.div className={ classes.launchButton }
+					onClick={() => setIsOpen(true)}
 					whileHover={{
 						scale: 1.05,
 						transition: {
 							duration: 0.1
 						}
-					}}
-					onClick={() => setIsOpen(true)}
+					}}		
 				>
 					Lancer Nirah
 				</motion.div>
-				<motion.div
-					className={ classes.modalContainer }
+
+				<motion.div className={ classes.modalContainer }
 					onClick={() => setIsOpen(false)}
 					initial={{ opacity: 0, visibility: "hidden" }}
 					animate={{
@@ -114,8 +120,7 @@ const LogInButton = () => {
 					}}
 					
 				>
-					<motion.div
-						className={ classes.modalWindow }
+					<motion.div className={ classes.modalWindow }
 						onClick={handleWindowClick}
 						initial={{ scale: 0, visibility: "hidden" }}
 						animate={{
@@ -130,10 +135,59 @@ const LogInButton = () => {
 							}
 						}}
 					>
-						<FaTimes
-							className={ classes.modalCloseButton }
+						<FaTimes className={ classes.modalCloseButton }
 							onClick={() => setIsOpen(false)}
 						/>
+
+						<motion.h2 className={ classes.modalTitle }
+							onClick={() => setHasAccount(false)}
+							initial={{ visibility: "hidden", display: "none", opacity: 0 }}
+							animate={{
+								visibility: hasAccount ? "visible" : "hidden",
+								display: hasAccount ? "block" : "none",
+								opacity: hasAccount ? 1 : 0,
+								transition: {
+									duration: .4,
+									ease: "easeInOut",
+									opacity: {
+										delay: hasAccount ? .4 : 0
+									},
+									visibility: {
+										delay: hasAccount ? 0 : .4
+									},
+									display: {
+										delay: .4
+									},
+								}
+							}}
+						>
+							Connectez-vous
+						</motion.h2>
+						<motion.h2 className={ classes.modalTitle }
+							onClick={() => setHasAccount(true)}
+							initial={{ visibility: "visible", display: "block", opacity: 1 }}
+							animate={{
+								visibility: !hasAccount ? "visible" : "hidden",
+								display: !hasAccount ? "block" : "none",
+								opacity: !hasAccount ? 1 : 0,
+								transition: {
+									duration: .4,
+									ease: "easeInOut",
+									opacity: {
+										delay: !hasAccount ? .4 : 0
+									},
+									visibility: {
+										delay: !hasAccount ? 0 : .4
+									},
+									display: {
+										delay: .4
+									},
+								}
+							}}
+						>
+							Inscrivez-vous
+						</motion.h2>
+
 					</motion.div>
 				</motion.div>
 			</div>
