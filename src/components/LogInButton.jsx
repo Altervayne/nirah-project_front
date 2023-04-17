@@ -2,6 +2,7 @@ import React from "react"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+import { FaTimes } from "react-icons/fa"
 
 
 
@@ -45,17 +46,25 @@ const useStyles = makeStyles()((theme) => {
 			backgroundColor: "rgba(0, 0, 0, .5)",
 		},
 		modalWindow: {
+			position: "relative",
+
 			width: "400px",
 			height: "400px",
 			backgroundColor: "#1B2432",
+
+			borderRadius: "20px",
 		},
 		modalCloseButton: {
-			width: "50px",
-			height: "50px",
-			borderRadius: "25px",
+			position: "absolute",
+			right: "0",
 
-			color: "white",
-			backgroundColor: "red",
+			width: "30px",
+			height: "30px",
+			margin: "15px",
+
+			color: "#F2F4F8",
+
+			cursor: "pointer",
 		},
 	}
 })
@@ -66,6 +75,14 @@ const LogInButton = () => {
 	const { classes } = useStyles()
 
 	const [isOpen, setIsOpen] = useState(false)
+	const handleBackgroundClick = (event) => {
+		if (event.target === event.currentTarget) {
+			setIsOpen(false)
+		}
+	}
+	const handleWindowClick = (event) => {
+		event.stopPropagation()
+	}
 
 	return  <div className={ classes.root }>
 				<motion.div
@@ -82,6 +99,7 @@ const LogInButton = () => {
 				</motion.div>
 				<motion.div
 					className={ classes.modalContainer }
+					onClick={() => setIsOpen(false)}
 					initial={{ opacity: 0, visibility: "hidden" }}
 					animate={{
 						opacity: isOpen ? 1 : 0,
@@ -94,9 +112,11 @@ const LogInButton = () => {
 							}
 						}
 					}}
+					
 				>
 					<motion.div
 						className={ classes.modalWindow }
+						onClick={handleWindowClick}
 						initial={{ scale: 0, visibility: "hidden" }}
 						animate={{
 							scale: isOpen ? 1 : 0,
@@ -110,12 +130,10 @@ const LogInButton = () => {
 							}
 						}}
 					>
-						<div
+						<FaTimes
 							className={ classes.modalCloseButton }
-							onClick={() => setIsOpen(false)}
-						>
-							X
-						</div>
+							onClick={handleBackgroundClick}
+						/>
 					</motion.div>
 				</motion.div>
 			</div>
