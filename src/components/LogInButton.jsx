@@ -132,7 +132,7 @@ const LogInButton = () => {
 					>
 						<FaTimes
 							className={ classes.modalCloseButton }
-							onClick={handleBackgroundClick}
+							onClick={() => setIsOpen(false)}
 						/>
 					</motion.div>
 				</motion.div>
