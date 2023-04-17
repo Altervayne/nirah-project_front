@@ -1,5 +1,6 @@
 import React from "react"
 import { makeStyles } from "tss-react/mui"
+import { motion } from "framer-motion"
 
 
 
@@ -15,7 +16,7 @@ const useStyles = makeStyles()((theme) => {
             zIndex: "1",
 
 			backgroundColor: "#121420",
-			boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.07)",
+			boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
 
 			[theme.breakpoints.down('sm')]: {
 				height: theme.spacing(8),	
@@ -48,11 +49,16 @@ const useStyles = makeStyles()((theme) => {
 		title: {
 			display: "flex",
 			color: "#ED872D",
+
 			margin: "0",
             marginLeft: "-4px",
+			width: "auto",
 
             fontFamily: "Helvetica",
 			fontWeight: 600,
+
+			overflow: "hidden",
+			whiteSpace: "nowrap",
 
 			[theme.breakpoints.down('sm')]: {
 				fontSize: theme.typography.pxToRem(34),
@@ -77,22 +83,54 @@ const useStyles = makeStyles()((theme) => {
 
 
 
+const logoRotation = {
+	rest: {
+		rotate: "31deg",
+	},
+	hover: {
+		rotate: "0deg",
+	}
+}
+
+const titleAnimation = {
+	rest: {
+		width: "0px",
+	},
+	hover: {
+		width: "auto",
+	}
+}
+
+
+
 const Header = () => {
 	const { classes } = useStyles()
 
 	return (
 		<header className={ classes.root }>
-			<div
+			<motion.div
 				className={ classes.titleAndLogoContainer }
 				onClick={() => ( window.location.href="/" )}
+				initial="rest"
+				animate="rest"
+				whileHover="hover"
+				transition={{
+					duration: 0.2,
+				}}
 			>
-				<img
+				<motion.img
 					src='/images/logos/nirah_logo.png'
 					alt='Logo de Nirah'
 					className={ classes.logo }
+					variants={ logoRotation }
 				/>
-                <p className={ classes.title }>I R A H</p>
-			</div>
+                <motion.p
+					className={ classes.title }
+					variants={ titleAnimation }
+				>
+					I R A H
+				</motion.p>
+			</motion.div>
 		</header>
 	)
 }

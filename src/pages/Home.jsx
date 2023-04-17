@@ -1,5 +1,6 @@
 import React from "react"
 import { makeStyles } from "tss-react/mui"
+import LogInButton from "../components/LogInButton"
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -23,18 +24,7 @@ const useStyles = makeStyles()((theme) => {
 			backgroundImage: "url(/images/backgrounds/sumerian_cuneiform_background.jpg)",
 			backgroundSize: "cover",
 			
-			[theme.breakpoints.down('sm')]: {
-				justifyContent: "space-evenly",
-			},
-            [theme.breakpoints.up('sm')]: {
-				justifyContent: "space-evenly",
-			},
-			[theme.breakpoints.up('md')]: {
-				justifyContent: "space-between",
-			},
-			[theme.breakpoints.up('lg')]: {
-				justifyContent: "space-evenly",
-			},
+
 			"&::before": {
                 content: "''",
                 position: "absolute",
@@ -44,14 +34,15 @@ const useStyles = makeStyles()((theme) => {
                 width: "100%",
 				height: "100%",
                 display: "inline-block",
-                background: "linear-gradient(180deg, rgba(27, 36, 50, 1) 0%, rgba(27, 36, 50, .6) 75%, rgba(27, 36, 50, .3) 100%)",
+                background: "linear-gradient(180deg, rgba(27, 36, 50, 1) 10%, rgba(27, 36, 50, .6) 60%, rgba(27, 36, 50, 1) 100%)",
             },
 		},
 		catchPhrase: {
 			position: "relative",
 			zIndex: 2,
 
-			color: "#ED872D",
+			color: "#F2F4F8",
+			textShadow: "2px 2px 10px rgba(0, 0, 0, .2)",
 			fontFamily: "Helvetica",
 
 			[theme.breakpoints.down('sm')]: {
@@ -61,8 +52,9 @@ const useStyles = makeStyles()((theme) => {
 				
 			},
 			[theme.breakpoints.up('md')]: {
-				height: theme.spacing(24),
-				fontSize: theme.typography.pxToRem(46),
+				marginTop: "35vh",
+				marginBottom: "15vh",
+				fontSize: theme.typography.pxToRem(40),
 			},
 			[theme.breakpoints.up('lg')]: {
 				
@@ -83,6 +75,7 @@ const Home = () => {
 					<h1 className={ classes.catchPhrase }>
 							Nirah, votre messager personnel
 					</h1>
+					<LogInButton />
 				</div>
 			</div>
 }
