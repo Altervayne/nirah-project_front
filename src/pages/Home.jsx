@@ -44,7 +44,7 @@ const useStyles = makeStyles()((theme) => {
                 width: "100%",
 				height: "100%",
                 display: "inline-block",
-                background: "linear-gradient(180deg, rgba(27, 36, 50, 1) 0%, rgba(27, 36, 50, .5) 65%, rgba(0, 0, 0, 0) 100%)",
+                background: "linear-gradient(180deg, rgba(27, 36, 50, 1) 0%, rgba(27, 36, 50, .6) 75%, rgba(27, 36, 50, .3) 100%)",
             },
 		},
 		catchPhrase: {
