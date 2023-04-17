@@ -1,14 +1,38 @@
-import logo from './assets/logos/nirah_logo.png';
-import './styles/App.css';
+import React from "react"
+import { makeStyles } from "tss-react/mui"
+import Header from "./components/Header"
+import ReactRoutes from "./Routes.jsx"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-    </div>
-  );
+
+
+const useStyles = makeStyles()((theme) => {
+	return {
+		root: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+
+			width: "100%",
+			height: "100vh",
+
+			backgroundColor: "#F2F4F8",
+		},
+	}
+})
+
+
+
+const App = () => {
+	const { classes } = useStyles()
+
+	return (
+		<div className={classes.root}>
+			<Header />
+			<ReactRoutes />
+		</div>
+	)
 }
 
-export default App;
+
+
+export default App
