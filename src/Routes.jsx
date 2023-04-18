@@ -1,14 +1,16 @@
 import React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
-
+import DashBoard from "./pages/DashBoard"
+import PageNotFound from "./pages/PageNotFound"
 
 const ReactRoutes = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path='/' element={<Home />} />
-{/* 				<Route path='*' element={<PageNotFound />} /> */}
+				<Route path='/dashboard' element={<DashBoard />} />
+				<Route path='*' element={<PageNotFound />} />
 			</Routes>
 		</BrowserRouter>
 	)

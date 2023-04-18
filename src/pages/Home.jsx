@@ -2,6 +2,8 @@ import React from "react"
 import { makeStyles } from "tss-react/mui"
 import LogInButton from "../components/LogInButton"
 
+
+
 const useStyles = makeStyles()((theme) => {
 	return {
 		root: {
@@ -63,21 +65,23 @@ const useStyles = makeStyles()((theme) => {
 	}
 })
 
+
+
 const Home = () => {
     const { classes } = useStyles()
 
-    return <div
-				className={ classes.root }
-			>
-				<div
-					className={ classes.catchPhraseContainer }
-				>
+    return <div className={ classes.root }>
+				<div className={ classes.catchPhraseContainer }>
+
 					<h1 className={ classes.catchPhrase }>
 							Nirah, votre messager personnel
 					</h1>
 					<LogInButton />
+
 				</div>
 			</div>
 }
+
+
 
 export default Home

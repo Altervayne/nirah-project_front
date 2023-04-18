@@ -227,6 +227,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                     </motion.h3>
 
                     <motion.h3 className={ classes.formButton }
+                        onClick={() => (window.location.href = "/dashboard")}
                         whileHover={{
                             color: "#ED872D",
                             scale: 1.05,
