@@ -4,6 +4,7 @@ import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import { FaTimes } from "react-icons/fa"
 import LogInForm from "./LogInForm"
+import CloseButton from "./CloseButton"
 
 
 
@@ -58,7 +59,11 @@ const useStyles = makeStyles()((theme) => {
 
 			borderRadius: "20px",
 		},
-		modalCloseButton: {
+		modalCloseButtonRoot: {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+
 			position: "absolute",
 			right: "0",
 
@@ -66,7 +71,13 @@ const useStyles = makeStyles()((theme) => {
 			height: "30px",
 			margin: "15px",
 
-			color: "#F2F4F8",
+			borderRadius: "15px",
+
+			backgroundColor: "#121420",
+		},
+		modalCloseButton: {
+			width: "20px",
+			height: "20px",
 
 			cursor: "pointer",
 		},
@@ -82,6 +93,7 @@ const LogInButton = () => {
 	const [hasAccount, setHasAccount] = useState(false)
 	const handleWindowClick = (event) => { event.stopPropagation() }
 	const setParentHasAccount = (value) => { setHasAccount(value) }
+	const setParentIsOpen = (value) => { setIsOpen(value) }
 
 	return  <div className={ classes.root }>
 				<motion.div className={ classes.launchButton }
@@ -134,9 +146,7 @@ const LogInButton = () => {
 						}}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
 
-						<FaTimes className={ classes.modalCloseButton }
-							onClick={() => setIsOpen(false)}
-						/>{/* Just a FontAwesome "times" sign to close the window. You can also close by clicking outside */}
+						<CloseButton setIsOpen={ setParentIsOpen } />
 
 						<LogInForm setHasAccount={ setParentHasAccount } hasAccount={ hasAccount } />
 
