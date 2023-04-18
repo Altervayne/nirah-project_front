@@ -24,7 +24,7 @@ const useStyles = makeStyles()((theme) => {
 			borderRadius: theme.spacing(4),
 
 			backgroundColor: "#121420",
-			color: "#ED872D",
+			color: "#F2F4F8",
 			boxShadow: "5px 5px 10px rgba(0, 0, 0, .5)",
 
 			fontFamily: "Helvetica",
@@ -52,7 +52,7 @@ const useStyles = makeStyles()((theme) => {
 			alignItems: "center",
 			position: "relative",
 
-			width: "400px",
+			width: "375px",
 			height: "500px",
 			backgroundColor: "#1B2432",
 
@@ -79,15 +79,16 @@ const LogInButton = () => {
 	const { classes } = useStyles()
 
 	const [isOpen, setIsOpen] = useState(false)
-	const handleWindowClick = (event) => {
-		event.stopPropagation()
-	}
+	const [hasAccount, setHasAccount] = useState(false)
+	const handleWindowClick = (event) => { event.stopPropagation() }
+	const setParentHasAccount = (value) => { setHasAccount(value) }
 
 	return  <div className={ classes.root }>
 				<motion.div className={ classes.launchButton }
 					onClick={() => setIsOpen(true)}
 					whileHover={{
 						scale: 1.05,
+						color: "#ED872D",
 						transition: {
 							duration: 0.1
 						}
@@ -115,16 +116,20 @@ const LogInButton = () => {
 
 					<motion.div className={ classes.modalWindow }
 						onClick={handleWindowClick}
-						initial={{ scale: 0, visibility: "hidden" }}
+						initial={{ scale: 0, visibility: "hidden", height:"500px" }}
 						animate={{
 							scale: isOpen ? 1 : 0,
 							visibility: isOpen ? "visible" : "hidden",
+							height: hasAccount ? "350px" : "500px" ,
 							transition: {
 								duration: .2,
 								ease: "easeInOut",
 								visibility: {
 									delay: isOpen ? 0 : .2,
-								}
+								},
+								height: {
+									delay: hasAccount ? 0.4 : 0,
+								},
 							}
 						}}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
@@ -133,7 +138,7 @@ const LogInButton = () => {
 							onClick={() => setIsOpen(false)}
 						/>{/* Just a FontAwesome "times" sign to close the window. You can also close by clicking outside */}
 
-						<LogInForm />
+						<LogInForm setHasAccount={ setParentHasAccount } hasAccount={ hasAccount } />
 
 					</motion.div>
 				</motion.div>
