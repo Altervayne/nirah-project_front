@@ -2,7 +2,6 @@ import React from "react"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
-import { FaTimes } from "react-icons/fa"
 import LogInForm from "./LogInForm"
 import CloseButton from "./CloseButton"
 
