@@ -13,7 +13,7 @@ const useStyles = makeStyles()((theme) => {
 
 			width: "100%",
 			padding: "5px 0",
-            zIndex: "1",
+            zIndex: "3",
 
 			backgroundColor: "#121420",
 			boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",

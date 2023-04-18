@@ -52,6 +52,7 @@ const useStyles = makeStyles()((theme) => {
             justifyContent: "center",
 
             backgroundColor: "#1B2432",
+            fontFamily: "Helvetica",
 		},
         number: {
             fontSize: "10vw",
