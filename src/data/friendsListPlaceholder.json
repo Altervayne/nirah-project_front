@@ -1,0 +1,42 @@
+[
+    {
+        "userName": "Diskord",
+        "isOnline": false
+    },
+    {
+        "userName": "Péri",
+        "isOnline": true
+    },
+    {
+        "userName": "Goose",
+        "isOnline": false
+    },
+    {
+        "userName": "Yenlil",
+        "isOnline": true
+    },
+    {
+        "userName": "Foeniko",
+        "isOnline": false
+    },
+    {
+        "userName": "Dam",
+        "isOnline": true
+    },
+    {
+        "userName": "Bertrand",
+        "isOnline": false
+    },
+    {
+        "userName": "Lloyd",
+        "isOnline": false
+    },
+    {
+        "userName": "Kakusa",
+        "isOnline": true
+    },
+    {
+        "userName": "Altervayne",
+        "isOnline": false
+    }
+]

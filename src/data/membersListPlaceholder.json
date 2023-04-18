@@ -1,0 +1,42 @@
+[
+    {
+        "userName": "Diskord",
+        "isFriend": true
+    },
+    {
+        "userName": "Péri",
+        "isFriend": true
+    },
+    {
+        "userName": "Goose",
+        "isFriend": false
+    },
+    {
+        "userName": "Yenlil",
+        "isFriend": true
+    },
+    {
+        "userName": "Foeniko",
+        "isFriend": false
+    },
+    {
+        "userName": "Dam",
+        "isFriend": true
+    },
+    {
+        "userName": "Bertrand",
+        "isFriend": true
+    },
+    {
+        "userName": "Lloyd",
+        "isFriend": false
+    },
+    {
+        "userName": "Kakusa",
+        "isFriend": false
+    },
+    {
+        "userName": "Altervayne",
+        "isFriend": false
+    }
+]

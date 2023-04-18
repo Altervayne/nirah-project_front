@@ -1,7 +1,8 @@
 import React from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
-import { BiExit } from "react-icons/bi"
+import { RxExit } from "react-icons/rx"
+import FriendsList from "./FriendsList"
 
 
 
@@ -61,6 +62,7 @@ const useStyles = makeStyles()((theme) => {
             justifyContent: "center",
 
             width: "75%",
+            marginBottom: theme.spacing(8),
         },
         formInput: {
             width: "100%",
@@ -137,7 +139,7 @@ const NavMenu = () => {
                         initial={{ color: "#F2F4F8", scale: 1 }}
                         whileHover={{ color: "#ED872D", scale: 1.15 }}
                     >
-                        <BiExit className={ classes.currentUserDisconnect } onClick={() => window.location.href = "/"} />
+                        <RxExit className={ classes.currentUserDisconnect } onClick={() => window.location.href = "/"} />
                     </motion.div>
                 </div>
 
@@ -161,6 +163,8 @@ const NavMenu = () => {
                             Valider
                     </motion.button>
                 </form>
+
+                <FriendsList />
             </nav>
 }
 
