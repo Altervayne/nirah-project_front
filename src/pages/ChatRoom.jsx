@@ -21,13 +21,10 @@ const useStyles = makeStyles()((theme) => {
 			alignItems: "center",
             justifyContent: "flex-start",
 
-			width: "80%",
 			height: "100vh",
 			maxHeight: "100vh",
 
             boxSizing: "border-box",
-
-            paddingBottom: theme.spacing(11),
 
 			position: "absolute",
 			top: "0",
@@ -38,18 +35,39 @@ const useStyles = makeStyles()((theme) => {
 				paddingTop: theme.spacing(10),	
 			},
 			[theme.breakpoints.up('sm')]: {
-				paddingTop: theme.spacing(8),	
+                paddingTop: theme.spacing(8),
+                paddingBottom: theme.spacing(9),
+				width: "100%",
 			},
 			[theme.breakpoints.up('md')]: {
-				paddingTop: theme.spacing(10),	
+                paddingTop: theme.spacing(10),
+                paddingBottom: theme.spacing(9),
+				width: "70%",
+			},
+			[theme.breakpoints.up('lg')]: {
+                paddingBottom: theme.spacing(11),
+				width: "80%",
 			}
 		},
         backgroundLogo: {
             position: "fixed",
             zIndex: 0,
 
-            width: "40%",
             opacity: .05,
+
+            [theme.breakpoints.down('sm')]: {
+					
+			},
+			[theme.breakpoints.up('sm')]: {
+                top: theme.spacing(22),
+				width: "60%",
+			},
+			[theme.breakpoints.up('md')]: {
+				width: "50%",
+			},
+			[theme.breakpoints.up('lg')]: {
+				width: "40%",
+			}
         },
         chatRoot: {
             position: "relative",
@@ -83,12 +101,32 @@ const useStyles = makeStyles()((theme) => {
             justifyContent: "center",
 
             position: "fixed",
-            bottom: theme.spacing(4),
             right: 0,
             zIndex: 999,
 
             height: theme.spacing(6),
-            width: "80%",
+
+            [theme.breakpoints.down('sm')]: {
+					
+			},
+			[theme.breakpoints.up('sm')]: {
+                bottom: theme.spacing(2),
+
+                paddingTop: theme.spacing(10),
+				width: "100%",
+			},
+			[theme.breakpoints.up('md')]: {
+                bottom: theme.spacing(2),
+
+                paddingTop: theme.spacing(8),
+				width: "70%",
+			},
+			[theme.breakpoints.up('lg')]: {
+                bottom: theme.spacing(4),
+
+                paddingTop: theme.spacing(10),
+				width: "80%",
+			}
         },
         chatBar: {
             border: "none",
@@ -96,7 +134,6 @@ const useStyles = makeStyles()((theme) => {
 
             padding: "0 15px",
             marginRight: theme.spacing(2),
-            width: "90%",
 
             boxSizing: "border-box",
 
@@ -107,6 +144,19 @@ const useStyles = makeStyles()((theme) => {
             "&:focus": {
                 outline: "none",
             },
+
+            [theme.breakpoints.down('sm')]: {
+					
+			},
+			[theme.breakpoints.up('sm')]: {
+                width: "87%",
+			},
+			[theme.breakpoints.up('md')]: {
+                width: "86%",
+			},
+			[theme.breakpoints.up('lg')]: {
+                width: "90%",
+			}
         },
         chatBarSendButton: {
             borderRadius: "10px",
@@ -141,7 +191,7 @@ const ChatRoom = () => {
     const { id } = useParams()
     const currentUser = "testUser3"
 
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([])
     const newMessageHandler = (newMessage) => {
         const newMessagesArray = [...messages, newMessage]
         setMessages(newMessagesArray)

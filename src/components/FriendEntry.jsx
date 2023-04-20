@@ -16,26 +16,79 @@ const useStyles = makeStyles()((theme) => {
         friendUsername: {
             margin: "10px 0",
 
-            fontSize: theme.typography.pxToRem(18),
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+
             color: "#F2F4F8",
+
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(16),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(18),
+            }
         },
         friendUsernameOffline: {
             margin: "10px 0",
 
-            fontSize: theme.typography.pxToRem(18),
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+
             color: "#C2D4EB",
             opacity: .5,
+
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(16),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(18),
+            }
         },
         friendStateContainer: {
             cursor: "pointer",
         },
         friendJoinIcon: {
-            fontSize: theme.typography.pxToRem(22),
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(20),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(22),
+            }
         },
         friendOfflineIcon: {
-            fontSize: theme.typography.pxToRem(22),
             color: "#C2D4EB",
             opacity: .5,
+
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(20),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(22),
+            }
         },
     }
 })
@@ -55,7 +108,9 @@ const FriendEntry = ({ userName, isOnline }) => {
                                     <RxEnter className={ classes.friendJoinIcon } onClick={() => window.location.href = "/room/ID_HERE"} />
                                 </motion.div> 
                             :
-                                <RiChatOffLine className={ classes.friendOfflineIcon }/>
+                                <div className={ classes.friendStateContainer }>
+                                    <RiChatOffLine className={ classes.friendOfflineIcon }/>
+                                </div>
                 }
             </div>
 }

@@ -16,7 +16,6 @@ const useStyles = makeStyles()((theme) => {
 			alignItems: "center",
             justifyContent: "center",
 
-			width: "80%",
 			height: "100vh",
 			maxHeight: "100vh",
 
@@ -24,16 +23,60 @@ const useStyles = makeStyles()((theme) => {
 			top: "0",
             right: "0",
 			zIndex: "0",
+
+			[theme.breakpoints.down('sm')]: {
+					
+			},
+			[theme.breakpoints.up('sm')]: {
+					
+			},
+			[theme.breakpoints.up('md')]: {
+				width: "70%",
+			},
+			[theme.breakpoints.up('lg')]: {
+				width: "80%",
+			}
 		},
         largeLogo: {
-            width: "20%",
+			[theme.breakpoints.down('sm')]: {
+				width: "65%",
+			},
+			[theme.breakpoints.up('sm')]: {
+				width: "40%",
+			},
+			[theme.breakpoints.up('md')]: {
+				width: "35%",
+			},
+			[theme.breakpoints.up('lg')]: {
+				width: "20%",
+			}
         },
         largeLogoTitle: {
+			boxSizing: "border-box",
             marginTop: "70px",
 
-            fontSize: theme.typography.pxToRem(36),
+            
 
             color: "#F2F4F8",
+
+			[theme.breakpoints.down('sm')]: {
+					
+			},
+			[theme.breakpoints.up('sm')]: {
+				textAlign: "center",
+
+				paddingLeft: theme.spacing(10),
+				paddingRight: theme.spacing(10),
+				fontSize: theme.typography.pxToRem(36),	
+			},
+			[theme.breakpoints.up('md')]: {
+				paddingLeft: theme.spacing(4),
+				paddingRight: theme.spacing(4),
+				fontSize: theme.typography.pxToRem(30),
+			},
+			[theme.breakpoints.up('lg')]: {
+				fontSize: theme.typography.pxToRem(36),
+			}
         },
 	}
 })

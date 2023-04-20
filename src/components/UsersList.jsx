@@ -18,7 +18,7 @@ const useStyles = makeStyles()((theme) => {
             borderRadius: theme.spacing(2),
 
             width: "85%",
-            minHeight: "550px",
+            minHeight: "350px",
             height: "68%",
             maxHeight: "68%",
             paddingBottom: theme.spacing(2),
@@ -30,26 +30,36 @@ const useStyles = makeStyles()((theme) => {
             boxSizing: "border-box",
 
             color: "#F2F4F8",
-            fontSize: theme.typography.pxToRem(20),
 
             margin: "0",
             padding: theme.spacing(2),
             paddingLeft: theme.spacing(3),
             height: "12%",
+
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(18),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(24),
+            }
         },
         listBody: {
             boxSizing: "border-box",
 
             backgroundColor: "#1B2432",
 
-            padding: theme.spacing(3),
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
             width: "100%",
             height: "88%",
             maxHeight: "88%",
 
             overflowY: "scroll",
+            overflowX: "hidden",
             scrollbarWidth: "thin",
 
             "&::-webkit-scrollbar": {
@@ -64,6 +74,25 @@ const useStyles = makeStyles()((theme) => {
                 backgroundColor: "#C2D4EB",
                 maxWidth: "10px",
                 borderRadius: theme.spacing(2),
+            },
+
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                padding: theme.spacing(2),
+                paddingTop: theme.spacing(1),
+                paddingBottom: theme.spacing(1),        
+            },
+            [theme.breakpoints.up('md')]: {
+                padding: theme.spacing(2),
+                paddingTop: theme.spacing(1),
+                paddingBottom: theme.spacing(1),
+            },
+            [theme.breakpoints.up('lg')]: {
+                padding: theme.spacing(3),
+                paddingTop: theme.spacing(1),
+                paddingBottom: theme.spacing(1),
             }
         },
     }

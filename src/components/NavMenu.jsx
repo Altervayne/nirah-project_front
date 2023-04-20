@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
+import { useMediaQuery } from "@mui/material"
 import { makeStyles } from "tss-react/mui"
+import { useTheme } from "@mui/material"
 import { motion } from "framer-motion"
 import { RxExit } from "react-icons/rx"
 import UsersList from "./UsersList"
+import { BiMenu } from "react-icons/bi"
 
 
 
@@ -20,15 +23,15 @@ const useStyles = makeStyles()((theme) => {
 
             height: "100%",
             maxHeight: "100%",
-            width: "20%",
 			padding: "5px 0",
             paddingBottom: theme.spacing(4),
-            zIndex: "1",
+            zIndex: 2,
 
 			backgroundColor: "#121420",
 			boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
 
             overflowY: "auto",
+            overflowX: "hidden",
             scrollbarWidth: "thin",
 
             "&::-webkit-scrollbar": {
@@ -58,9 +61,47 @@ const useStyles = makeStyles()((theme) => {
 				paddingTop: theme.spacing(7),	
 			},
 			[theme.breakpoints.up('md')]: {
+                width: "30%",
 				paddingTop: theme.spacing(9),	
-			}
+			},
+            [theme.breakpoints.up('lg')]: {
+				width: "20%",	
+			},
 		},
+        navMenuButton: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            zIndex: 5,
+            
+            borderRadius: theme.spacing(1),
+            outline: "none",
+            border: "none",
+
+            margin: theme.spacing(1),
+
+            height: theme.spacing(5),
+            width: theme.spacing(5),
+
+            backgroundColor: "#1B2432",
+            color: "#F2F4F8",
+
+            cursor: "pointer",
+        },
+        navMenuButtonIcon: {
+            fontSize: theme.typography.pxToRem(24),
+        },
+        navMenuBackgroundFade: {
+            position: "fixed",
+            zIndex: 2,
+            top: 0,
+            left: 0,
+
+            height: "100%",
+            width: "100%",
+
+            backgroundColor: "rgba(0, 0, 0, .5)"
+        },
         currentUserRoot: {
             display: "flex",
             alignItems: "center",
@@ -76,7 +117,10 @@ const useStyles = makeStyles()((theme) => {
         },
         currentUserName: {
             color: "#F2F4F8",
-            fontSize: theme.typography.pxToRem(26),
+            fontSize: theme.typography.pxToRem(24),
+
+            textOverflow: "ellipsis",
+            overflow: "hidden",
         },
         currentUserDisconnectRoot: {
             cursor: "pointer",
@@ -151,6 +195,7 @@ const useStyles = makeStyles()((theme) => {
             fontWeight: 600,
 
             width: "50%",
+            minWidth: theme.spacing(8),
             height: "40px",
             padding: "0 10px",
             borderTopRightRadius: "10px",
@@ -160,6 +205,10 @@ const useStyles = makeStyles()((theme) => {
 
             color: "#F2F4F8",
             backgroundColor: "#1B2432",
+
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "hidden",
 
             cursor: "pointer",
         },
@@ -183,6 +232,7 @@ const useStyles = makeStyles()((theme) => {
             borderTopLeftRadius: "10px",
             borderBottomLeftRadius: "10px",
 
+            fontSize: theme.typography.pxToRem(18),
             width: "100%",
             minHeight: "40px",
 
@@ -194,10 +244,14 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const NavMenu = ({ isChatRoom, chatRoomId }) => {
-	const { classes } = useStyles()
+const NavMenuContent = ({ isChatRoom, chatRoomId }) => {
+    const { classes } = useStyles()
+    const [chosenRoomId, setChosenRoomId] = useState('test')
+    const handleChosenRoomIdChange = (e) => {
+        setChosenRoomId(e.target.value)
+    }
 
-	return  <nav className={ classes.root }>
+    return  <>
                 <div className={ classes.currentUserRoot }>
                     <p className={ classes.currentUserName }>USERNAME</p>
                     <motion.div className={ classes.currentUserDisconnectRoot }
@@ -213,7 +267,8 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                         <form className={ classes.roomJoinForm }>
                             <div className={ classes.inputContainer }>
                                 <label className={ classes.formLabel } for="join-field">Rejoindre ou Créer un Salon</label>
-                                <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text"
+                                <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text" value={ chosenRoomId }
+                                    onChange={ handleChosenRoomIdChange }
                                     initial={{ backgroundColor: "#F2F4F8" }}
                                     whileFocus={{ backgroundColor: "#C2D4EB" }}
                                 />
@@ -258,7 +313,85 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                 </div>
 
                 { isChatRoom ? <UsersList listType="members" /> : <UsersList listType="friends" /> }
-            </nav>
+            </>
+}
+
+
+
+const NavMenu = ({ isChatRoom, chatRoomId }) => {
+	const { classes } = useStyles()
+    const [isOpen, setIsOpen] = useState(false)
+
+    const theme = useTheme()
+    const isSmallScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
+
+	return  ( isSmallScreen ? 
+                <>
+                    <motion.button className={ classes.navMenuButton }
+                        onClick={() => setIsOpen(!isOpen)}
+                        initial={{ color: "#F2F4F8", scale: 1 }}
+                        animate={{ color: isOpen ? "#ED872D" : "#F2F4F8" }}
+                        whileHover={{ color: "#ED872D", scale: 1.1 }}
+                        whileTap={{ color: "#F2F4F8", scale: .95 }}
+                    >
+                        <BiMenu className={ classes.navMenuButtonIcon }/>
+                    </motion.button>
+                    <motion.div className={ classes.navMenuBackgroundFade }
+                        initial={{
+                            visibility: "hidden",
+                            display: "none",
+                            opacity: 0,
+                        }}
+                        animate={ isOpen ? {
+                            visibility: "visible",
+                            display: "block",
+                            opacity: 1,
+                        } : {
+                            visibility: "hidden",
+                            display: "none",
+                            opacity: 0,
+                        } }
+                        transition={{
+                        duration: .5,
+                        visibility: {
+                            delay: !isOpen ? .5 : 0
+                        },
+                        display: {
+                            delay: !isOpen ? .5 : 0
+                        }}}/>
+                    <motion.nav className={ classes.root }
+                        initial={{
+                            visibility: "hidden",
+                            display: "none",
+                            width: "0",
+                        }}
+                        animate={ isOpen ? {
+                            visibility: "visible",
+                            display: "flex",
+                            width: "50%",
+                        } : {
+                            visibility: "hidden",
+                            display: "none",
+                            width: "0",
+                        } }
+                        transition={{
+                        duration: .5,
+                        visibility: {
+                            delay: !isOpen ? .5 : 0
+                        },
+                        display: {
+                            delay: !isOpen ? .5 : 0
+                        }
+                    }}>
+                        <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } />
+                    </motion.nav>
+                </>
+            : 
+                <nav className={ classes.root }>
+                    <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } />
+                </nav>  
+
+    )
 }
 
 

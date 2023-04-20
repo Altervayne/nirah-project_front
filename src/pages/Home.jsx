@@ -48,10 +48,18 @@ const useStyles = makeStyles()((theme) => {
 			fontFamily: "Helvetica",
 
 			[theme.breakpoints.down('sm')]: {
-				
+				marginTop: "35vh",
+				marginBottom: "15vh",
+				paddingLeft: theme.spacing(6),
+				paddingRight: theme.spacing(6),
+
+				fontSize: theme.typography.pxToRem(30),
+				textAlign: "center",
 			},
             [theme.breakpoints.up('sm')]: {
-				
+				marginTop: "35vh",
+				marginBottom: "15vh",
+				fontSize: theme.typography.pxToRem(30),
 			},
 			[theme.breakpoints.up('md')]: {
 				marginTop: "35vh",

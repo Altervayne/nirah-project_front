@@ -18,9 +18,24 @@ const useStyles = makeStyles()((theme) => {
         },
         memberUsername: {
             margin: "10px 0",
+            
+            textOverflow: "ellipsis",
+            overflow: "hidden",
 
-            fontSize: theme.typography.pxToRem(18),
             color: "#F2F4F8",
+
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(16),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(18),
+            }
         },
         friendStateContainer: {
             display: "flex",
@@ -28,15 +43,37 @@ const useStyles = makeStyles()((theme) => {
             justifyContent: "flex-end",
 
             height: "100%",
-            width: "10%",
+            width: "auto",
         },
         friendStateIconContainerButton: {
-            fontSize: theme.typography.pxToRem(20),
-
             cursor: "pointer",
+
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(18),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(20),
+            }
         },
         friendStateIconContainerPassive: {
-            fontSize: theme.typography.pxToRem(20),
+            [theme.breakpoints.down('sm')]: {
+    	
+            },
+            [theme.breakpoints.up('sm')]: {
+                    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(18),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(20),
+            }
         },
         addFriendIcon: {
             
