@@ -15,9 +15,10 @@ const useStyles = makeStyles()((theme) => {
 
             backgroundColor: "rgba(27, 36, 50, .5)",
 
-            borderRadius: "10px",
+            borderRadius: theme.spacing(2),
 
             width: "85%",
+            minHeight: "550px",
             height: "68%",
             maxHeight: "68%",
             paddingBottom: theme.spacing(2),
@@ -32,6 +33,7 @@ const useStyles = makeStyles()((theme) => {
             fontSize: theme.typography.pxToRem(20),
 
             margin: "0",
+            padding: theme.spacing(2),
             paddingLeft: theme.spacing(3),
             height: "12%",
         },

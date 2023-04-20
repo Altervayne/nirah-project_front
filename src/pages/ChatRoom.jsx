@@ -27,19 +27,21 @@ const useStyles = makeStyles()((theme) => {
 
             boxSizing: "border-box",
 
+            paddingBottom: theme.spacing(11),
+
 			position: "absolute",
 			top: "0",
             right: "0",
 			zIndex: "0",
 
             [theme.breakpoints.down('sm')]: {
-				paddingTop: theme.spacing(9),	
+				paddingTop: theme.spacing(10),	
 			},
 			[theme.breakpoints.up('sm')]: {
-				paddingTop: theme.spacing(7),	
+				paddingTop: theme.spacing(8),	
 			},
 			[theme.breakpoints.up('md')]: {
-				paddingTop: theme.spacing(9),	
+				paddingTop: theme.spacing(10),	
 			}
 		},
         backgroundLogo: {
@@ -55,7 +57,7 @@ const useStyles = makeStyles()((theme) => {
             boxSizing: "border-box",
 
             width: "93%",
-            height: "89%",
+            height: "100%",
             padding: theme.spacing(6),
             paddingRight: theme.spacing(7),
             paddingLeft: "0",
@@ -74,14 +76,14 @@ const useStyles = makeStyles()((theme) => {
                 backgroundColor: "#C2D4EB",
                 maxWidth: "10px",
                 borderRadius: theme.spacing(2),
-            }
+            },
         },
         chatBarContainer: {
             display: "flex",
             justifyContent: "center",
 
             position: "fixed",
-            bottom: "40px",
+            bottom: theme.spacing(4),
             right: 0,
             zIndex: 999,
 

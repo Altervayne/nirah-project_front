@@ -28,14 +28,37 @@ const useStyles = makeStyles()((theme) => {
 			backgroundColor: "#121420",
 			boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
 
+            overflowY: "auto",
+            scrollbarWidth: "thin",
+
+            "&::-webkit-scrollbar": {
+                boxSizing: "border-box",
+
+                backgroundColor: "transparent",
+
+                borderRadius: theme.spacing(2),
+                width: "10px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "rgba(194, 212, 235, 0.3)",
+                maxWidth: "10px",
+                borderRadius: theme.spacing(2),
+            },
+            "&::-webkit-scrollbar-track-piece:end": {
+                marginBottom: theme.spacing(1),
+            },
+            "&::-webkit-scrollbar-track-piece:start": {
+                marginTop: theme.spacing(10),
+            },
+
             [theme.breakpoints.down('sm')]: {
-				paddingTop: theme.spacing(8),	
+				paddingTop: theme.spacing(9),	
 			},
 			[theme.breakpoints.up('sm')]: {
-				paddingTop: theme.spacing(6),	
+				paddingTop: theme.spacing(7),	
 			},
 			[theme.breakpoints.up('md')]: {
-				paddingTop: theme.spacing(8),	
+				paddingTop: theme.spacing(9),	
 			}
 		},
         currentUserRoot: {
@@ -44,6 +67,8 @@ const useStyles = makeStyles()((theme) => {
             justifyContent: "space-between",
 
             boxSizing: "border-box",
+
+            marginBottom: theme.spacing(4),
 
             width: "75%",
             height: "12%",
@@ -64,6 +89,8 @@ const useStyles = makeStyles()((theme) => {
             alignItems: "center",
 
             boxSizing: "border-box",
+
+            marginBottom: theme.spacing(4),
 
             width: "75%",
             height: "20%",
