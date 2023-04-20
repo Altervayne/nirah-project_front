@@ -52,11 +52,22 @@ const useStyles = makeStyles()((theme) => {
 			alignItems: "center",
 			position: "relative",
 
-			width: "375px",
-			height: "500px",
+			boxSizing: "border-box",
+
 			backgroundColor: "#1B2432",
 
-			borderRadius: "20px",
+			[theme.breakpoints.down('sm')]: {
+				paddingTop: theme.spacing(8),
+
+				width: "100%",
+				minHeight: "100%",	
+			},
+			[theme.breakpoints.up('sm')]: {
+				width: "375px",
+				height: "500px",
+
+				borderRadius: "20px",
+			},
 		},
 		modalCloseButtonRoot: {
 			display: "flex",

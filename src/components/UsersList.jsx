@@ -2,9 +2,18 @@ import React from "react"
 import { makeStyles } from "tss-react/mui"
 import MemberEntry from "./MemberEntry"
 import FriendEntry from "./FriendEntry"
+import Divider from "./Divider"
 
 const membersListDataTemplate = require('../data/membersListPlaceholder.json')
 const friendsListDataTemplate = require('../data/friendsListPlaceholder.json')
+
+const onlineFriends = friendsListDataTemplate.filter(user => user.isOnline)
+const offlineFriends = friendsListDataTemplate.filter(user => !user.isOnline)
+
+const friendUsers = membersListDataTemplate.filter(user => user.friendState === "isFriend")
+const notFriendUsers = membersListDataTemplate.filter(user => user.friendState === "notFriend")
+const requestSentUsers = membersListDataTemplate.filter(user => user.friendState === "requestSent")
+const requestReceivedUsers = membersListDataTemplate.filter(user => user.friendState === "requestReceived")
 
 
 
@@ -114,14 +123,18 @@ const UsersList = ({ listType }) => {
                 <div className={ classes.listBody }>
                     { listType === "members" ? 
                         <>
-                            { membersListDataTemplate.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
-                            { membersListDataTemplate.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
+                            { friendUsers.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
+                            { notFriendUsers.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
+                            { requestReceivedUsers.length === 0 ? null : <Divider title="Demande reçue" /> }
+                            { requestReceivedUsers.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
+                            { requestSentUsers.length === 0 ? null : <Divider title="Demande envoyée" /> }
+                            { requestSentUsers.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
                         </>
                     : null }
                     { listType === "friends" ? 
                         <>
-                            { friendsListDataTemplate.map(friendData => <FriendEntry userName={ friendData.userName } isOnline={ friendData.isOnline } key={ friendData.userName } />) }
-                            { friendsListDataTemplate.map(friendData => <FriendEntry userName={ friendData.userName } isOnline={ friendData.isOnline } key={ friendData.userName } />) }
+                           { onlineFriends.map(memberData => <FriendEntry userName={ memberData.userName } isOnline={ memberData.isOnline } key={ memberData.userName } />) }
+                           { offlineFriends.map(memberData => <FriendEntry userName={ memberData.userName } isOnline={ memberData.isOnline } key={ memberData.userName } />) } 
                         </>
                     : null }
                 </div>
