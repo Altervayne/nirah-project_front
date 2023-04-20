@@ -67,11 +67,20 @@ const useStyles = makeStyles()((theme) => {
                 outline: "none",
             },
         },
-        chatBarSend: {
-            width: "20%",
-        },
         chatBarSendButton: {
+            borderRadius: "10px",
+            outline: "none",
+            border: "none",
 
+            width: theme.spacing(6),
+
+            backgroundColor: "#121420",
+            color: "#F2F4F8",
+
+            cursor: "pointer",
+        },
+        chatBarSendIcon: {
+            fontSize: theme.typography.pxToRem(20),
         },
 	}
 })
@@ -92,9 +101,12 @@ const ChatRoom = () => {
                                 initial={{ backgroundColor: "#F2F4F8" }}
                                 whileFocus={{ backgroundColor: "#C2D4EB" }}
                             />
-                            <button className={ classes.chatBarSendButton }>
-                                <FaPaperPlane />
-                            </button>
+                            <motion.button className={ classes.chatBarSendButton }
+                                initial={{ color: "#F2F4F8", scale: 1 }}
+                                whileHover={{ color: "#ED872D", scale: 1.1 }}
+                            >
+                                <FaPaperPlane className={ classes.chatBarSendIcon }/>
+                            </motion.button>
                     </form>
 
                     <div className={ classes.chatRoot }>

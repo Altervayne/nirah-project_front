@@ -76,6 +76,7 @@ const useStyles = makeStyles()((theme) => {
 			alignContent: "center",
             alignItems: "flex-end",
 
+			textDecoration: "none",
 			cursor: "pointer",
 		},
 	}
@@ -108,9 +109,7 @@ const Header = () => {
 
 	return (
 		<header className={ classes.root }>
-			<motion.div
-				className={ classes.titleAndLogoContainer }
-				onClick={() => ( window.location.href="/" )}
+			<motion.a className={ classes.titleAndLogoContainer } href="/"
 				initial="rest"
 				animate="rest"
 				whileHover="hover"
@@ -130,7 +129,7 @@ const Header = () => {
 				>
 					I R A H
 				</motion.p>
-			</motion.div>
+			</motion.a>
 		</header>
 	)
 }
