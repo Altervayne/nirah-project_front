@@ -57,7 +57,8 @@ const useStyles = makeStyles()((theme) => {
             opacity: .05,
 
             [theme.breakpoints.down('sm')]: {
-					
+				top: theme.spacing(22),
+				width: "90%",	
 			},
 			[theme.breakpoints.up('sm')]: {
                 top: theme.spacing(22),
