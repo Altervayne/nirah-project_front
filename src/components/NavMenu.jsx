@@ -80,16 +80,27 @@ const useStyles = makeStyles()((theme) => {
 
             margin: theme.spacing(1),
 
-            height: theme.spacing(5),
-            width: theme.spacing(5),
-
             backgroundColor: "#1B2432",
             color: "#F2F4F8",
 
             cursor: "pointer",
+
+            [theme.breakpoints.down('sm')]: {
+                height: theme.spacing(6),
+                width: theme.spacing(6),	
+			},
+			[theme.breakpoints.up('sm')]: {
+                height: theme.spacing(5),
+                width: theme.spacing(5),	
+			},
         },
-        navMenuButtonIcon: {
-            fontSize: theme.typography.pxToRem(24),
+        navMenuButtonIcon: { 
+            [theme.breakpoints.down('sm')]: {
+                fontSize: theme.typography.pxToRem(32),	
+			},
+			[theme.breakpoints.up('sm')]: {
+                fontSize: theme.typography.pxToRem(24),	
+			},
         },
         navMenuBackgroundFade: {
             position: "fixed",
@@ -246,10 +257,11 @@ const useStyles = makeStyles()((theme) => {
 
 const NavMenuContent = ({ isChatRoom, chatRoomId }) => {
     const { classes } = useStyles()
-    const [chosenRoomId, setChosenRoomId] = useState('test')
-    const handleChosenRoomIdChange = (e) => {
-        setChosenRoomId(e.target.value)
+    const [chosenRoomId, setChosenRoomId] = useState('')
+    const handleChosenRoomIdChange = (event) => {
+        setChosenRoomId(event.target.value)
     }
+    
 
     return  <>
                 <div className={ classes.currentUserRoot }>
@@ -322,6 +334,8 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
 	const { classes } = useStyles()
     const [isOpen, setIsOpen] = useState(false)
 
+    const handleWindowClick = (event) => { event.stopPropagation() }
+
     const theme = useTheme()
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
     const isPhoneScreen = useMediaQuery(theme.breakpoints.down('sm'))
@@ -338,6 +352,7 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                         <BiMenu className={ classes.navMenuButtonIcon }/>
                     </motion.button>
                     <motion.div className={ classes.navMenuBackgroundFade }
+                        onClick={() => setIsOpen(false)}
                         initial={{
                             visibility: "hidden",
                             display: "none",
@@ -361,6 +376,7 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                             delay: !isOpen ? .5 : 0
                         }}}/>
                     <motion.nav className={ classes.root }
+                        onClick={ handleWindowClick }
                         initial={{
                             visibility: "hidden",
                             display: "none",

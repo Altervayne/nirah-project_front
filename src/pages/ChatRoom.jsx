@@ -202,12 +202,12 @@ const ChatRoom = () => {
     }
 
     const [currentMessage, setCurrentMessage] = useState("")
-    const handleCurrentMessageChange = (e) => {
-        setCurrentMessage(e.target.value)
+    const handleCurrentMessageChange = (event) => {
+        setCurrentMessage(event.target.value)
     }
 
-    const handleSendingMessage = (e) => {
-        e.preventDefault()
+    const handleSendingMessage = (event) => {
+        event.preventDefault()
         const message = {
             user: currentUser,
             time: "00:00",

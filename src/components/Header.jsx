@@ -1,6 +1,8 @@
 import React from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+import { useTheme } from "@mui/material"
+import { useMediaQuery } from "@mui/material"
 
 
 
@@ -38,8 +40,8 @@ const useStyles = makeStyles()((theme) => {
 				height: theme.spacing(6),	
 			},
 			[theme.breakpoints.up('sm')]: {
-				width: theme.spacing(4),
-				height: theme.spacing(4),	
+				width: theme.spacing(4.5),
+				height: theme.spacing(4.5),	
 			},
 			[theme.breakpoints.up('md')]: {
 				width: theme.spacing(6),
@@ -61,12 +63,15 @@ const useStyles = makeStyles()((theme) => {
 			whiteSpace: "nowrap",
 
 			[theme.breakpoints.down('sm')]: {
+				marginLeft: "-4px",
 				fontSize: theme.typography.pxToRem(34),
 			},
 			[theme.breakpoints.up('sm')]: {
+				marginLeft: "0",
 				fontSize: theme.typography.pxToRem(30),	
 			},
 			[theme.breakpoints.up('md')]: {
+				marginLeft: "-4px",
 				fontSize: theme.typography.pxToRem(34),
 			}
 		},
@@ -107,25 +112,33 @@ const titleAnimation = {
 const Header = () => {
 	const { classes } = useStyles()
 
+	const theme = useTheme()
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+
 	return (
 		<header className={ classes.root }>
 			<motion.a className={ classes.titleAndLogoContainer } href="/"
 				initial="rest"
-				animate="rest"
-				whileHover="hover"
-				transition={{
-					duration: 0.2,
-				}}
+				animate={ isSmallScreen ? "hover" : "rest" }
+				whileHover={ isSmallScreen ? null : "hover" }
 			>
 				<motion.img
 					src='/images/logos/nirah_logo.png'
 					alt='Logo de Nirah'
 					className={ classes.logo }
 					variants={ logoRotation }
+					transition={{
+						duration: .3,
+						delay: isSmallScreen ? .5 : 0,
+					}}
 				/>
                 <motion.p
 					className={ classes.title }
 					variants={ titleAnimation }
+					transition={{
+						duration: .3,
+						delay: isSmallScreen ? .5 : 0,
+					}}
 				>
 					I R A H
 				</motion.p>
