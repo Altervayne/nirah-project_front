@@ -23,14 +23,17 @@ const useStyles = makeStyles()((theme) => {
             paddingBottom: theme.spacing(2),
         },
         listTitle: {
+            display: "flex",
+            alignItems: "center",
+
             boxSizing: "border-box",
 
             color: "#F2F4F8",
+            fontSize: theme.typography.pxToRem(20),
 
             margin: "0",
-            paddingTop: theme.spacing(3),
             paddingLeft: theme.spacing(3),
-            minHeight: "12%",
+            height: "12%",
         },
         listBody: {
             boxSizing: "border-box",
@@ -71,8 +74,8 @@ const UsersList = ({ listType }) => {
 
     return  <div className={ classes.root }>
                 <h2 className={ classes.listTitle }>
-                    { listType === "members" ? "Membres du salon" : null }
-                    { listType === "friends" ? "Liste d'amis" : null}
+                    { listType === "members" ? "Membres" : null }
+                    { listType === "friends" ? "Amis" : null}
                 </h2>
 
                 <div className={ classes.listBody }>
