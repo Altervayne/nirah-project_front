@@ -1,7 +1,11 @@
 import React from "react"
 import { makeStyles } from "tss-react/mui"
 import MemberEntry from "./MemberEntry"
+import FriendEntry from "./FriendEntry"
+
 const membersListDataTemplate = require('../data/membersListPlaceholder.json')
+const friendsListDataTemplate = require('../data/friendsListPlaceholder.json')
+
 
 
 const useStyles = makeStyles()((theme) => {
@@ -62,19 +66,32 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const MembersList = () => {
+const UsersList = ({ listType }) => {
     const { classes } = useStyles()
 
     return  <div className={ classes.root }>
-                <h2 className={ classes.listTitle }>Membres du salon</h2>
+                <h2 className={ classes.listTitle }>
+                    { listType === "members" ? "Membres du salon" : null }
+                    { listType === "friends" ? "Liste d'amis" : null}
+                </h2>
 
                 <div className={ classes.listBody }>
-                    { membersListDataTemplate.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
-                    { membersListDataTemplate.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
+                    { listType === "members" ? 
+                        <>
+                            { membersListDataTemplate.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
+                            { membersListDataTemplate.map(memberData => <MemberEntry userName={ memberData.userName } friendState={ memberData.friendState } key={ memberData.userName } />) }
+                        </>
+                    : null }
+                    { listType === "friends" ? 
+                        <>
+                            { friendsListDataTemplate.map(friendData => <FriendEntry userName={ friendData.userName } isOnline={ friendData.isOnline } key={ friendData.userName } />) }
+                            { friendsListDataTemplate.map(friendData => <FriendEntry userName={ friendData.userName } isOnline={ friendData.isOnline } key={ friendData.userName } />) }
+                        </>
+                    : null }
                 </div>
             </div>
 }
 
 
 
-export default MembersList
+export default UsersList

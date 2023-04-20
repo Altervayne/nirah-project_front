@@ -2,8 +2,7 @@ import React from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import { RxExit } from "react-icons/rx"
-import FriendsList from "./FriendsList"
-import MembersList from "./MembersList"
+import UsersList from "./UsersList"
 
 
 
@@ -231,7 +230,7 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                     }
                 </div>
 
-                { isChatRoom ? <MembersList /> : <FriendsList /> }
+                { isChatRoom ? <UsersList listType="members" /> : <UsersList listType="friends" /> }
             </nav>
 }
 
