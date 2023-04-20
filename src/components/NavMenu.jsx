@@ -20,8 +20,10 @@ const useStyles = makeStyles()((theme) => {
             boxSizing: "border-box",
 
             height: "100%",
+            maxHeight: "100%",
             width: "20%",
 			padding: "5px 0",
+            paddingBottom: theme.spacing(4),
             zIndex: "1",
 
 			backgroundColor: "#121420",
@@ -42,10 +44,11 @@ const useStyles = makeStyles()((theme) => {
             alignItems: "center",
             justifyContent: "space-between",
 
+            boxSizing: "border-box",
+
             width: "75%",
-            height: theme.spacing(6),
-            marginTop: theme.spacing(4),
-            marginBottom: theme.spacing(4),
+            height: "12%",
+            maxHeight: "12%",
         },
         currentUserName: {
             color: "#F2F4F8",
@@ -57,13 +60,23 @@ const useStyles = makeStyles()((theme) => {
         currentUserDisconnect: {
             fontSize: theme.typography.pxToRem(30),
         },
+        roomIdAndFormContainer: {
+            display: "flex",
+            alignItems: "center",
+
+            boxSizing: "border-box",
+
+            width: "75%",
+            height: "20%",
+            maxHeight: "20%",
+        },
         roomJoinForm: {
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "center",
 
-            width: "75%",
-            marginBottom: theme.spacing(8),
+            width: "100%",
+            
         },
         formInput: {
             width: "100%",
@@ -129,8 +142,7 @@ const useStyles = makeStyles()((theme) => {
             alignItems: "flex-end",
             justifyContent: "center",
 
-            width: "70%",
-            marginBottom: theme.spacing(8),
+            width: "100%"
         },
         roomIdNumber: {
             display: "flex",
@@ -170,52 +182,54 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                     </motion.div>
                 </div>
 
-                { !isChatRoom ? 
-                    <form className={ classes.roomJoinForm }>
-                        <div className={ classes.inputContainer }>
-                            <label className={ classes.formLabel } for="join-field">Rejoindre ou Créer un Salon</label>
-                            <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text"
-                                initial={{ backgroundColor: "#F2F4F8" }}
-                                whileFocus={{ backgroundColor: "#C2D4EB" }}
-                            />
-                        </div>
+                <div className={ classes.roomIdAndFormContainer }>
+                    { !isChatRoom ? 
+                        <form className={ classes.roomJoinForm }>
+                            <div className={ classes.inputContainer }>
+                                <label className={ classes.formLabel } for="join-field">Rejoindre ou Créer un Salon</label>
+                                <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text"
+                                    initial={{ backgroundColor: "#F2F4F8" }}
+                                    whileFocus={{ backgroundColor: "#C2D4EB" }}
+                                />
+                            </div>
+                            
+                            <motion.button className={ classes.formButton }
+                                    onClick={() => (window.location.href = "/room/ID_HERE")}
+                                    whileHover={{
+                                        color: "#ED872D",
+                                        scale: 1.05,
+                                    }}
+                                    whileTap={{
+                                        color: "#ED872D",
+                                        scale: .97,
+                                    }}
+                                >
+                                    Valider
+                            </motion.button>
+                        </form>
+                    : 
+                        <div className={ classes.roomIdContainer }>
+                            <div className={ classes.inputContainer }>
+                                <p className={ classes.formLabel }>Identifiant du Salon</p>
+                                <h2 className={ classes.roomIdNumber }>{ chatRoomId }</h2>
+                            </div>
                         
-                        <motion.button className={ classes.formButton }
-                                onClick={() => (window.location.href = "/room/ID_HERE")}
-                                whileHover={{
-                                    color: "#ED872D",
-                                    scale: 1.05,
-                                }}
-                                whileTap={{
-                                    color: "#ED872D",
-                                    scale: .97,
-                                }}
-                            >
-                                Valider
-                        </motion.button>
-                    </form>
-                : 
-                    <div className={ classes.roomIdContainer }>
-                        <div className={ classes.inputContainer }>
-                            <p className={ classes.formLabel }>Identifiant du Salon</p>
-                            <h2 className={ classes.roomIdNumber }>{ chatRoomId }</h2>
+                            <motion.button className={ classes.formButton }
+                                    onClick={() => (window.location.href = "/dashboard")}
+                                    whileHover={{
+                                        color: "#ED872D",
+                                        scale: 1.05,
+                                    }}
+                                    whileTap={{
+                                        color: "#ED872D",
+                                        scale: .97,
+                                    }}
+                                >
+                                    Quitter
+                            </motion.button>
                         </div>
-                    
-                        <motion.button className={ classes.formButton }
-                                onClick={() => (window.location.href = "/dashboard")}
-                                whileHover={{
-                                    color: "#ED872D",
-                                    scale: 1.05,
-                                }}
-                                whileTap={{
-                                    color: "#ED872D",
-                                    scale: .97,
-                                }}
-                            >
-                                Quitter
-                        </motion.button>
-                    </div>
-                }
+                    }
+                </div>
 
                 { isChatRoom ? <MembersList /> : <FriendsList /> }
             </nav>

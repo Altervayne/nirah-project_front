@@ -38,6 +38,7 @@ const useStyles = makeStyles()((theme) => {
             paddingBottom: theme.spacing(1),
             width: "100%",
             height: "88%",
+            maxHeight: "88%",
 
             overflowY: "scroll",
             scrollbarWidth: "thin",
