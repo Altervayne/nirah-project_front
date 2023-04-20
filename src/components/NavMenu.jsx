@@ -323,7 +323,8 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const theme = useTheme()
-    const isSmallScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+    const isPhoneScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
 	return  ( isSmallScreen ? 
                 <>
@@ -368,7 +369,7 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                         animate={ isOpen ? {
                             visibility: "visible",
                             display: "flex",
-                            width: "50%",
+                            width: isPhoneScreen ? "100%" : "50%" ,
                         } : {
                             visibility: "hidden",
                             display: "none",

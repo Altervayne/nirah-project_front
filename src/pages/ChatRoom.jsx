@@ -32,7 +32,8 @@ const useStyles = makeStyles()((theme) => {
 			zIndex: "0",
 
             [theme.breakpoints.down('sm')]: {
-				paddingTop: theme.spacing(10),	
+				paddingTop: theme.spacing(10),
+                paddingBottom: theme.spacing(9),	
 			},
 			[theme.breakpoints.up('sm')]: {
                 paddingTop: theme.spacing(8),
@@ -107,7 +108,10 @@ const useStyles = makeStyles()((theme) => {
             height: theme.spacing(6),
 
             [theme.breakpoints.down('sm')]: {
-					
+                bottom: theme.spacing(2),
+
+                paddingTop: theme.spacing(10),
+				width: "100%",
 			},
 			[theme.breakpoints.up('sm')]: {
                 bottom: theme.spacing(2),
@@ -146,7 +150,7 @@ const useStyles = makeStyles()((theme) => {
             },
 
             [theme.breakpoints.down('sm')]: {
-					
+				width: "82%",	
 			},
 			[theme.breakpoints.up('sm')]: {
                 width: "87%",

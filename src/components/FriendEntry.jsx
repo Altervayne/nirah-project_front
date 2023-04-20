@@ -22,10 +22,10 @@ const useStyles = makeStyles()((theme) => {
             color: "#F2F4F8",
 
             [theme.breakpoints.down('sm')]: {
-    	
+                fontSize: theme.typography.pxToRem(20),
             },
             [theme.breakpoints.up('sm')]: {
-                    
+                fontSize: theme.typography.pxToRem(18),      
             },
             [theme.breakpoints.up('md')]: {
                 fontSize: theme.typography.pxToRem(16),  
@@ -44,10 +44,10 @@ const useStyles = makeStyles()((theme) => {
             opacity: .5,
 
             [theme.breakpoints.down('sm')]: {
-    	
+                fontSize: theme.typography.pxToRem(20),
             },
             [theme.breakpoints.up('sm')]: {
-                    
+                fontSize: theme.typography.pxToRem(18),      
             },
             [theme.breakpoints.up('md')]: {
                 fontSize: theme.typography.pxToRem(16),  
@@ -56,21 +56,21 @@ const useStyles = makeStyles()((theme) => {
                 fontSize: theme.typography.pxToRem(18),
             }
         },
-        friendStateContainer: {
+        friendActiveStateContainer: {
             cursor: "pointer",
         },
         friendJoinIcon: {
             [theme.breakpoints.down('sm')]: {
-    	
+                fontSize: theme.typography.pxToRem(22),
             },
             [theme.breakpoints.up('sm')]: {
-                    
+                fontSize: theme.typography.pxToRem(20),    
             },
             [theme.breakpoints.up('md')]: {
-                fontSize: theme.typography.pxToRem(20),  
+                fontSize: theme.typography.pxToRem(18),  
             },
             [theme.breakpoints.up('lg')]: {
-                fontSize: theme.typography.pxToRem(22),
+                fontSize: theme.typography.pxToRem(20),
             }
         },
         friendOfflineIcon: {
@@ -78,16 +78,16 @@ const useStyles = makeStyles()((theme) => {
             opacity: .5,
 
             [theme.breakpoints.down('sm')]: {
-    	
+                fontSize: theme.typography.pxToRem(22),
             },
             [theme.breakpoints.up('sm')]: {
-                    
+                fontSize: theme.typography.pxToRem(20),    
             },
             [theme.breakpoints.up('md')]: {
-                fontSize: theme.typography.pxToRem(20),  
+                fontSize: theme.typography.pxToRem(18),  
             },
             [theme.breakpoints.up('lg')]: {
-                fontSize: theme.typography.pxToRem(22),
+                fontSize: theme.typography.pxToRem(20),
             }
         },
     }
@@ -101,14 +101,14 @@ const FriendEntry = ({ userName, isOnline }) => {
     return  <div className={ classes.root }>
                 <p className={ isOnline ? classes.friendUsername : classes.friendUsernameOffline }>{ userName }</p>
                 { isOnline ? 
-                                <motion.div className={ classes.friendStateContainer }
+                                <motion.div className={ classes.friendActiveStateContainer }
                                     initial={{ color: "#F2F4F8", scale: 1 }}
                                     whileHover={{ color: "#ED872D", scale: 1.15 }}
                                 >
                                     <RxEnter className={ classes.friendJoinIcon } onClick={() => window.location.href = "/room/ID_HERE"} />
                                 </motion.div> 
                             :
-                                <div className={ classes.friendStateContainer }>
+                                <div className={ classes.friendPassiveStateContainer }>
                                     <RiChatOffLine className={ classes.friendOfflineIcon }/>
                                 </div>
                 }

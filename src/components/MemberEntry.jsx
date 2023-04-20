@@ -25,10 +25,10 @@ const useStyles = makeStyles()((theme) => {
             color: "#F2F4F8",
 
             [theme.breakpoints.down('sm')]: {
-    	
+                fontSize: theme.typography.pxToRem(20),
             },
             [theme.breakpoints.up('sm')]: {
-                    
+                fontSize: theme.typography.pxToRem(18),    
             },
             [theme.breakpoints.up('md')]: {
                 fontSize: theme.typography.pxToRem(16),  
@@ -44,36 +44,24 @@ const useStyles = makeStyles()((theme) => {
 
             height: "100%",
             width: "auto",
+
+            [theme.breakpoints.down('sm')]: {
+                fontSize: theme.typography.pxToRem(22),
+            },
+            [theme.breakpoints.up('sm')]: {
+                fontSize: theme.typography.pxToRem(20),    
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: theme.typography.pxToRem(18),  
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: theme.typography.pxToRem(20),
+            }
         },
         friendStateIconContainerButton: {
             cursor: "pointer",
-
-            [theme.breakpoints.down('sm')]: {
-    	
-            },
-            [theme.breakpoints.up('sm')]: {
-                    
-            },
-            [theme.breakpoints.up('md')]: {
-                fontSize: theme.typography.pxToRem(18),  
-            },
-            [theme.breakpoints.up('lg')]: {
-                fontSize: theme.typography.pxToRem(20),
-            }
         },
         friendStateIconContainerPassive: {
-            [theme.breakpoints.down('sm')]: {
-    	
-            },
-            [theme.breakpoints.up('sm')]: {
-                    
-            },
-            [theme.breakpoints.up('md')]: {
-                fontSize: theme.typography.pxToRem(18),  
-            },
-            [theme.breakpoints.up('lg')]: {
-                fontSize: theme.typography.pxToRem(20),
-            }
         },
         addFriendIcon: {
             

@@ -39,7 +39,7 @@ const useStyles = makeStyles()((theme) => {
 		},
         largeLogo: {
 			[theme.breakpoints.down('sm')]: {
-				width: "65%",
+				width: "50%",
 			},
 			[theme.breakpoints.up('sm')]: {
 				width: "40%",
@@ -60,7 +60,11 @@ const useStyles = makeStyles()((theme) => {
             color: "#F2F4F8",
 
 			[theme.breakpoints.down('sm')]: {
-					
+				textAlign: "center",
+
+				paddingLeft: theme.spacing(10),
+				paddingRight: theme.spacing(10),
+				fontSize: theme.typography.pxToRem(30),	
 			},
 			[theme.breakpoints.up('sm')]: {
 				textAlign: "center",
