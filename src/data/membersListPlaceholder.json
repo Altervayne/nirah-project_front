@@ -1,42 +1,42 @@
 [
     {
         "userName": "Diskord",
-        "isFriend": true
+        "friendState": "isFriend"
     },
     {
         "userName": "Péri",
-        "isFriend": true
+        "friendState": "notFriend"
     },
     {
         "userName": "Goose",
-        "isFriend": false
+        "friendState": "notFriend"
     },
     {
         "userName": "Yenlil",
-        "isFriend": true
+        "friendState": "requestReceived"
     },
     {
         "userName": "Foeniko",
-        "isFriend": false
+        "friendState": "isFriend"
     },
     {
         "userName": "Dam",
-        "isFriend": true
+        "friendState": "requestSent"
     },
     {
         "userName": "Bertrand",
-        "isFriend": true
+        "friendState": "notFriend"
     },
     {
         "userName": "Lloyd",
-        "isFriend": false
+        "friendState": "notFriend"
     },
     {
         "userName": "Kakusa",
-        "isFriend": false
+        "friendState": "notFriend"
     },
     {
         "userName": "Altervayne",
-        "isFriend": false
+        "friendState": "requestSent"
     }
 ]

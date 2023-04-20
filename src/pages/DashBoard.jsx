@@ -44,7 +44,7 @@ const DashBoard = () => {
     const { classes } = useStyles()
 
     return <div className={ classes.root }>
-                <NavMenu />
+                <NavMenu isChatRoom={ false } chatRoomId={ null }/>
 				<div className={ classes.mainContainer }>
                     <img src="/images/logos/nirah_logo.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.largeLogo }/>
                     <h2 className={ classes.largeLogoTitle }>Rejoignez un salon pour parler avec vos amis !</h2>
