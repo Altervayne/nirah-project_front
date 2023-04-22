@@ -56,15 +56,15 @@ const useStyles = makeStyles()((theme) => {
 
 			backgroundColor: "#1B2432",
 
-			[theme.breakpoints.down('sm')]: {
+			[theme.breakpoints.down('md')]: {
 				paddingTop: theme.spacing(8),
 
 				width: "100%",
 				minHeight: "100%",	
 			},
-			[theme.breakpoints.up('sm')]: {
+			[theme.breakpoints.up('md')]: {
 				width: "375px",
-				height: "500px",
+				height: "600px",
 
 				borderRadius: "20px",
 			},
@@ -138,11 +138,11 @@ const LogInButton = () => {
 
 					<motion.div className={ classes.modalWindow }
 						onClick={handleWindowClick}
-						initial={{ scale: 0, visibility: "hidden", height:"500px" }}
+						initial={{ scale: 0, visibility: "hidden", height:"600px" }}
 						animate={{
 							scale: isOpen ? 1 : 0,
 							visibility: isOpen ? "visible" : "hidden",
-							height: hasAccount ? "350px" : "500px" ,
+							height: hasAccount ? "400px" : "600px" ,
 							transition: {
 								duration: .2,
 								ease: "easeInOut",

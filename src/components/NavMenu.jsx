@@ -257,6 +257,7 @@ const useStyles = makeStyles()((theme) => {
 
 const NavMenuContent = ({ isChatRoom, chatRoomId }) => {
     const { classes } = useStyles()
+    
     const [chosenRoomId, setChosenRoomId] = useState('')
     const handleChosenRoomIdChange = (event) => {
         setChosenRoomId(event.target.value)
