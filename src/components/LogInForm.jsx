@@ -168,57 +168,61 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         password: /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{6,}$/g
     }
 
-    const [formData, setFormData] = useState({
-                                                username: '',
-                                                usernameValidity: false,
-                                                usernameChanged: false,
-                                                email: '',
-                                                emailValidity: false,
-                                                emailChanged: false,
-                                                password: '',
-                                                passwordValidity: false,
-                                                passwordChanged: false,
-                                                verification: '',
-                                                verificationValidity: false,
-                                                verificationChanged: false,
-                                                isFormValid: false,
-                                            })
+    const validateField = (name, value) => {
+        let fieldIsValid = false
 
-    const handleFormChange = (event) => {
-        const valueName = event.target.name
-        const newValue = event.target.value
-        const newValueValidity = `${valueName}Validity`
-        const newValueChanged = `${valueName}Changed`
-
-        setFormData({
-            ...formData,
-            [valueName]: newValue
-        })
-
-        if(!formData[newValueChanged]) {
-            setFormData({
-                ...formData,
-                [newValueChanged]: true
-            })
-        }
-
-        if(valueName === 'verification') {
-            newValue === formData.password  ? setFormData({ ...formData, verificationValidity: true })
-                                            : setFormData({ ...formData, verificationValidity: false })
+        if(name === 'verification') {
+            value === formData.password ? fieldIsValid = true
+                                        : fieldIsValid = false
         } else {
-            regex[valueName].test(newValue) ?
-                            setFormData({ ...formData, [newValueValidity]: true})
-                            : setFormData({ ...formData, [newValueValidity]: false })
+            regex[name].test(value) ? fieldIsValid = true
+                                    : fieldIsValid = false
         }
+
+        return fieldIsValid
+    }
+
+    const validateForm = () => {
+        let isFormValid = false
 
         if( formData.usernameValidity
             && formData.emailValidity
             && formData.paswordValidity
             && formData.verificationValidity ) {
-                setFormData({ ...formData, isFormValid: true })
+                isFormValid = true
             } else {
-                setFormData({ ...formData, isFormValid: false })
+                isFormValid = false
             }
+
+        return isFormValid
+    }
+
+    const [formData, setFormData] = useState({
+                                                username: "",
+                                                usernameValidity: false,
+                                                usernameChanged: false,
+                                                email: "",
+                                                emailValidity: false,
+                                                emailChanged: false,
+                                                password: "",
+                                                passwordValidity: false,
+                                                passwordChanged: false,
+                                                verification: "",
+                                                verificationValidity: false,
+                                                verificationChanged: false,
+                                                isFormValid: false,
+                                            })
+                                            
+    const handleFormChange = (event) => {
+        const { name, value } = event.target
+
+        setFormData({
+            ...formData,
+            [name]: value,
+            [`${name}Validity`]: validateField(name, value),
+            [`${name}Changed`]: true,
+            isFormValid: validateForm
+        })
     }
     
     const handleFormSend = (event) => {
@@ -258,31 +262,31 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                         animate="fade"
                         variants={ fadeInAndOutNoAccount }
                     >
-                        <label className={ classes.inputLabel } for="username-field">Pseudonyme</label>
+                        <label className={ classes.inputLabel } htmlFor="username-field">Pseudonyme</label>
                         <input className={ classes.formInput } id="username-field" name="username" type="text" value={ formData.username }
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ formData.validUsername && formData.usernameChanged
-                                ? { visibility: "hidden", display: "none", opacity: 0 }
-                                : { visibility: "visible", display: "block", opacity: 1 }}
+                            animate={ !formData.usernameValidity && formData.usernameChanged
+                                ? { visibility: "visible", display: "block", opacity: 1 }
+                                : { visibility: "hidden", display: "none", opacity: 0 }}
                             transition={{
                                 duration: .2,
-                                opacity: { delay: !formData.validUsername ? .2 : 0},
-                                visibility: { delay: formData.validUsername ? .2 : 0},
+                                opacity: { delay: !formData.usernameValidity ? .2 : 0},
+                                visibility: { delay: formData.usernameValidity ? .2 : 0},
                                 display: { delay: .2 }
                                 }}>Veuillez utiliser entre 3 et 14 chiffres ou lettres.</motion.p>
                     </motion.div>
 
                     <div className={ classes.inputContainer }>
-                        <label className={ classes.inputLabel } for="email-field">Adresse mail</label>
+                        <label className={ classes.inputLabel } htmlFor="email-field">Adresse mail</label>
                         <input className={ classes.formInput } id="email-field" name="email" type="email" value={ formData.email }
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ (formData.emailValidity && formData.emailChanged) || hasAccount
-                                ? { visibility: "hidden", display: "none", opacity: 0 }
-                                : { visibility: "visible", display: "block", opacity: 1 }}
+                            animate={ !formData.emailValidity && formData.usernameChanged && !hasAccount
+                                ? { visibility: "visible", display: "block", opacity: 1 }
+                                : { visibility: "hidden", display: "none", opacity: 0 }}
                             transition={{
                                 duration: .2,
                                 opacity: { delay: !formData.emailValidity ? .2 : 0},
@@ -292,14 +296,14 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                     </div>
 
                     <div className={ classes.inputContainer }>
-                        <label className={ classes.inputLabel } for="password-field">Mot de passe</label>
+                        <label className={ classes.inputLabel } htmlFor="password-field">Mot de passe</label>
                         <input className={ classes.formInput } id="password-field" name="password" type="password" value={ formData.password }
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ (formData.passwordValidity && formData.passwordChanged) || hasAccount
-                                ? { visibility: "hidden", display: "none", opacity: 0 }
-                                : { visibility: "visible", display: "block", opacity: 1 }}
+                            animate={ !formData.passwordValidity && formData.passwordChanged && !hasAccount
+                                ? { visibility: "visible", display: "block", opacity: 1 }
+                                : { visibility: "hidden", display: "none", opacity: 0 }}
                             transition={{
                                 duration: .2,
                                 opacity: { delay: !formData.passwordValidity ? .2 : 0},
@@ -313,14 +317,14 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                         animate="fade"
                         variants={ fadeInAndOutNoAccount }
                     >
-                        <label className={ classes.inputLabel } for="verify-field">Vérifiez votre mot de passe</label>
+                        <label className={ classes.inputLabel } htmlFor="verify-field">Vérifiez votre mot de passe</label>
                         <input className={ classes.formInput } id="verify-field" name="verification" type="password" value={ formData.verification }
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ formData.verificationValidity && formData.verificationChanged
-                                ? { visibility: "hidden", display: "none", opacity: 0 }
-                                : { visibility: "visible", display: "block", opacity: 1 }}
+                            animate={ !formData.verificationValidity && formData.verificationChanged && !hasAccount
+                                ? { visibility: "visible", display: "block", opacity: 1 }
+                                : { visibility: "hidden", display: "none", opacity: 0 }}
                             transition={{
                                 duration: .2,
                                 opacity: { delay: !formData.verificationValidity ? .2 : 0},
