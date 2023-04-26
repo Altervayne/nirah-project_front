@@ -16,7 +16,7 @@ const logInHelper = (email, password) => {
 }
 
 
-const signInHelper = (username, email, password) => {
+const signUpHelper = (username, email, password) => {
     const userData = { username: username, email: email, password: password }
 
     axios.post(`${apiUrl}/signup`, userData)
@@ -29,4 +29,4 @@ const signInHelper = (username, email, password) => {
 
 
 
-export { logInHelper, signInHelper }
+export { logInHelper, signUpHelper }
