@@ -215,9 +215,9 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             && formData.emailValidity
             && formData.paswordValidity
             && formData.verificationValidity ) {
-                setFormData({ ... formData, isFormValid: true })
+                setFormData({ ...formData, isFormValid: true })
             } else {
-                setFormData({ ... formData, isFormValid: false })
+                setFormData({ ...formData, isFormValid: false })
             }
     }
     
