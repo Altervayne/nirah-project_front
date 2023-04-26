@@ -4,7 +4,7 @@ const apiUrl = 'http://localhost:4200'
 
 
 
-exports.logIn = (email, password) => {
+const logInHelper = (email, password) => {
     const userData = { email: email, password: password }
 
     axios.post(`${apiUrl}/login`, userData)
@@ -16,7 +16,7 @@ exports.logIn = (email, password) => {
 }
 
 
-exports.signIn = (username, email, password) => {
+const signInHelper = (username, email, password) => {
     const userData = { username: username, email: email, password: password }
 
     axios.post(`${apiUrl}/signup`, userData)
@@ -26,3 +26,7 @@ exports.signIn = (username, email, password) => {
         })
         .catch((error) => console.log(error))
 }
+
+
+
+export { logInHelper, signInHelper }

@@ -2,7 +2,7 @@ import React from "react"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
-const formHelper = require('../helpers/authFormHelper')
+import { logInHelper, signInHelper } from "../helpers/authFormHelper"
 
 
 
@@ -213,8 +213,8 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         event.preventDefault()
 
         if(formData.isFormValid) {
-            hasAccount  ? formHelper.login(formData.email, formData.password)
-                        : formHelper.signup(formData.username, formData.email, formData.password)
+            hasAccount  ? logInHelper(formData.email, formData.password)
+                        : signInHelper(formData.username, formData.email, formData.password)
         } else {
             console.log('Form data is not valid, cannot send.')
         }
@@ -363,7 +363,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                     </motion.h3>
 
                     <motion.h3 className={ classes.formButton }
-                        onClick={() => (window.location.href = "/dashboard")}
+                        onClick={() => handleFormSend}
                         whileHover={{
                             color: "#ED872D",
                             scale: 1.05,
