@@ -209,12 +209,14 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             }
     }
     
-    const sendFormHandler = (event) => {
+    const handleFormSend = (event) => {
         event.preventDefault()
 
         if(formData.isFormValid) {
             hasAccount  ? formHelper.login(formData.email, formData.password)
                         : formHelper.signup(formData.username, formData.email, formData.password)
+        } else {
+            console.log('Form data is not valid, cannot send.')
         }
     }
 
