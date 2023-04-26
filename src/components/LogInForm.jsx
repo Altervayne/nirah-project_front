@@ -171,12 +171,16 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     const [formData, setFormData] = useState({
                                                 username: '',
                                                 usernameValidity: false,
+                                                usernameChanged: false,
                                                 email: '',
                                                 emailValidity: false,
+                                                emailChanged: false,
                                                 password: '',
                                                 passwordValidity: false,
+                                                passwordChanged: false,
                                                 verification: '',
                                                 verificationValidity: false,
+                                                verificationChanged: false,
                                                 isFormValid: false,
                                             })
 
@@ -184,11 +188,19 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         const valueName = event.target.name
         const newValue = event.target.value
         const newValueValidity = `${valueName}Validity`
+        const newValueChanged = `${valueName}Changed`
 
         setFormData({
             ...formData,
             [valueName]: newValue
         })
+
+        if(!formData[newValueChanged]) {
+            setFormData({
+                ...formData,
+                [newValueChanged]: true
+            })
+        }
 
         if(valueName === 'verification') {
             newValue === formData.password  ? setFormData({ ...formData, verificationValidity: true })
@@ -251,11 +263,9 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ formData.validUsername ? {
-                                    visibility: "hidden", display: "none", opacity: 0
-                                } : {
-                                    visibility: "visible", display: "block", opacity: 1
-                                } }
+                            animate={ formData.validUsername && formData.usernameChanged
+                                ? { visibility: "hidden", display: "none", opacity: 0 }
+                                : { visibility: "visible", display: "block", opacity: 1 }}
                             transition={{
                                 duration: .2,
                                 opacity: { delay: !formData.validUsername ? .2 : 0},
@@ -270,11 +280,9 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ formData.emailValidity || hasAccount ? {
-                                    visibility: "hidden", display: "none", opacity: 0
-                                } : {
-                                    visibility: "visible", display: "block", opacity: 1
-                                } }
+                            animate={ (formData.emailValidity && formData.emailChanged) || hasAccount
+                                ? { visibility: "hidden", display: "none", opacity: 0 }
+                                : { visibility: "visible", display: "block", opacity: 1 }}
                             transition={{
                                 duration: .2,
                                 opacity: { delay: !formData.emailValidity ? .2 : 0},
@@ -289,11 +297,9 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ formData.passwordValidity || hasAccount ? {
-                                    visibility: "hidden", display: "none", opacity: 0
-                                } : {
-                                    visibility: "visible", display: "block", opacity: 1
-                                } }
+                            animate={ (formData.passwordValidity && formData.passwordChanged) || hasAccount
+                                ? { visibility: "hidden", display: "none", opacity: 0 }
+                                : { visibility: "visible", display: "block", opacity: 1 }}
                             transition={{
                                 duration: .2,
                                 opacity: { delay: !formData.passwordValidity ? .2 : 0},
@@ -312,11 +318,9 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ formData.verificationValidity ? {
-                                    visibility: "hidden", display: "none", opacity: 0
-                                } : {
-                                    visibility: "visible", display: "block", opacity: 1
-                                } }
+                            animate={ formData.verificationValidity && formData.verificationChanged
+                                ? { visibility: "hidden", display: "none", opacity: 0 }
+                                : { visibility: "visible", display: "block", opacity: 1 }}
                             transition={{
                                 duration: .2,
                                 opacity: { delay: !formData.verificationValidity ? .2 : 0},
