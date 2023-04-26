@@ -284,7 +284,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ !formData.emailValidity && formData.usernameChanged && !hasAccount
+                            animate={ !formData.emailValidity && formData.emailChanged && !hasAccount
                                 ? { visibility: "visible", display: "block", opacity: 1 }
                                 : { visibility: "hidden", display: "none", opacity: 0 }}
                             transition={{
