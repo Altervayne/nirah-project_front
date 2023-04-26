@@ -2,6 +2,7 @@ import React from "react"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+const formHelper = require('../helpers/authFormHelper')
 
 
 
@@ -160,36 +161,61 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     }
 
 
-    const [chosenUsername, setChosenUsername] = useState('')
-    const [validUsername, setValidUsername] = useState(true)
-    const usernameRegex = /^[0-9a-zA-ZÀ-ÖØ-öø-ÿÔ-]{3,14}$/g
-    const handleUsernameChange = (event) => {
-        setChosenUsername(event.target.value)
 
-        usernameRegex.test(event.target.value) ? setValidUsername(true) : setValidUsername(false)
+    const regex = {
+        username: /^[0-9a-zA-ZÀ-ÖØ-öø-ÿÔ-]{3,14}$/g,
+        email: /^[\w-.+ÔÀ-ÖØ-öø-ÿ]{1,64}@[\w-ÔÀ-ÖØ-öø-ÿ]{1,255}.+[\w-]{2,4}$/g,
+        password: /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{6,}$/g
     }
-    const [chosenEmail, setChosenEmail] = useState('')
-    const [validEmail, setValidEmail] = useState(true)
-    const emailRegex = /^[\w-.+ÔÀ-ÖØ-öø-ÿ]{1,64}@[\w-ÔÀ-ÖØ-öø-ÿ]{1,255}.+[\w-]{2,4}$/g
-    const handleEmailChange = (event) => {
-        setChosenEmail(event.target.value)
 
-        emailRegex.test(event.target.value) ? setValidEmail(true) : setValidEmail(false)
+    const [formData, setFormData] = useState({
+                                                username: '',
+                                                usernameValidity: false,
+                                                email: '',
+                                                emailValidity: false,
+                                                password: '',
+                                                passwordValidity: false,
+                                                verification: '',
+                                                verificationValidity: false,
+                                                isFormValid: false,
+                                            })
+
+    const handleFormChange = (event) => {
+        const valueName = event.target.name
+        const newValue = event.target.value
+        const newValueValidity = `${valueName}Validity`
+
+        setFormData({
+            ...formData,
+            [valueName]: newValue
+        })
+
+        if(valueName === 'verification') {
+            newValue === formData.password  ? setFormData({ ...formData, verificationValidity: true })
+                                            : setFormData({ ...formData, verificationValidity: false })
+        } else {
+            regex[valueName].test(newValue) ?
+                            setFormData({ ...formData, [newValueValidity]: true})
+                            : setFormData({ ...formData, [newValueValidity]: false })
+        }
+
+        if( formData.usernameValidity
+            && formData.emailValidity
+            && formData.paswordValidity
+            && formData.verificationValidity ) {
+                setFormData({ ... formData, isFormValid: true })
+            } else {
+                setFormData({ ... formData, isFormValid: false })
+            }
     }
-    const [chosenPassword, setChosenPassword] = useState('')
-    const [validPassword, setValidPassword] = useState(true)
-    const passwordRegex = /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{6,}$/g
-    const handlePasswordChange = (event) => {
-        setChosenPassword(event.target.value)
+    
+    const sendFormHandler = (event) => {
+        event.preventDefault()
 
-        passwordRegex.test(event.target.value) ? setValidPassword(true) : setValidPassword(false)
-    }
-    const [passwordVerification, setPasswordVerification] = useState('')
-    const [validVerification, setValidVerification] = useState(true)
-    const handlePasswordVerificationChange = (event) => {
-        setPasswordVerification(event.target.value)
-
-        event.target.value === chosenPassword ? setValidVerification(true) : setValidVerification(false)
+        if(formData.isFormValid) {
+            hasAccount  ? formHelper.login(formData.email, formData.password)
+                        : formHelper.signup(formData.username, formData.email, formData.password)
+        }
     }
 
 
@@ -219,57 +245,57 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                         variants={ fadeInAndOutNoAccount }
                     >
                         <label className={ classes.inputLabel } for="username-field">Pseudonyme</label>
-                        <input className={ classes.formInput } id="username-field" type="text" value={ chosenUsername }
-                            onChange={ handleUsernameChange }/>
+                        <input className={ classes.formInput } id="username-field" name="username" type="text" value={ formData.username }
+                            onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ validUsername ? {
+                            animate={ formData.validUsername ? {
                                     visibility: "hidden", display: "none", opacity: 0
                                 } : {
                                     visibility: "visible", display: "block", opacity: 1
                                 } }
                             transition={{
                                 duration: .2,
-                                opacity: { delay: !validUsername ? .2 : 0},
-                                visibility: { delay: validUsername ? .2 : 0},
+                                opacity: { delay: !formData.validUsername ? .2 : 0},
+                                visibility: { delay: formData.validUsername ? .2 : 0},
                                 display: { delay: .2 }
                                 }}>Veuillez utiliser entre 3 et 14 chiffres ou lettres.</motion.p>
                     </motion.div>
 
                     <div className={ classes.inputContainer }>
                         <label className={ classes.inputLabel } for="email-field">Adresse mail</label>
-                        <input className={ classes.formInput } id="email-field" type="email" value={ chosenEmail }
-                            onChange={ handleEmailChange }/>
+                        <input className={ classes.formInput } id="email-field" name="email" type="email" value={ formData.email }
+                            onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ validEmail || hasAccount ? {
+                            animate={ formData.emailValidity || hasAccount ? {
                                     visibility: "hidden", display: "none", opacity: 0
                                 } : {
                                     visibility: "visible", display: "block", opacity: 1
                                 } }
                             transition={{
                                 duration: .2,
-                                opacity: { delay: !validEmail ? .2 : 0},
-                                visibility: { delay: validEmail ? .2 : 0},
+                                opacity: { delay: !formData.emailValidity ? .2 : 0},
+                                visibility: { delay: formData.emailValidity ? .2 : 0},
                                 display: { delay: .2 }
                                 }}>Veuillez entrer une adresse email valide.</motion.p>
                     </div>
 
                     <div className={ classes.inputContainer }>
                         <label className={ classes.inputLabel } for="password-field">Mot de passe</label>
-                        <input className={ classes.formInput } id="password-field" type="password" value={ chosenPassword }
-                            onChange={ handlePasswordChange }/>
+                        <input className={ classes.formInput } id="password-field" name="password" type="password" value={ formData.password }
+                            onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ validPassword || hasAccount ? {
+                            animate={ formData.passwordValidity || hasAccount ? {
                                     visibility: "hidden", display: "none", opacity: 0
                                 } : {
                                     visibility: "visible", display: "block", opacity: 1
                                 } }
                             transition={{
                                 duration: .2,
-                                opacity: { delay: !validPassword ? .2 : 0},
-                                visibility: { delay: validPassword ? .2 : 0},
+                                opacity: { delay: !formData.passwordValidity ? .2 : 0},
+                                visibility: { delay: formData.passwordValidity ? .2 : 0},
                                 display: { delay: .2 }
                                 }}>Votre mot de passe doit contenir au moins 6 caractères dont un chiffre et une lettre</motion.p>
                     </div>
@@ -280,19 +306,19 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                         variants={ fadeInAndOutNoAccount }
                     >
                         <label className={ classes.inputLabel } for="verify-field">Vérifiez votre mot de passe</label>
-                        <input className={ classes.formInput } id="verify-field" type="password" value={ passwordVerification }
-                            onChange={ handlePasswordVerificationChange }/>
+                        <input className={ classes.formInput } id="verify-field" name="verification" type="password" value={ formData.verification }
+                            onChange={ handleFormChange }/>
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-                            animate={ validVerification ? {
+                            animate={ formData.verificationValidity ? {
                                     visibility: "hidden", display: "none", opacity: 0
                                 } : {
                                     visibility: "visible", display: "block", opacity: 1
                                 } }
                             transition={{
                                 duration: .2,
-                                opacity: { delay: !validVerification ? .2 : 0},
-                                visibility: { delay: validVerification ? .2 : 0},
+                                opacity: { delay: !formData.verificationValidity ? .2 : 0},
+                                visibility: { delay: formData.verificationValidity ? .2 : 0},
                                 display: { delay: .2 }
                                 }}>Les deux mots de passe doivent être identiques.</motion.p>
                     </motion.div>
