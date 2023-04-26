@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
@@ -199,13 +199,14 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             value: '',
             valid: false,
             changed: false
-        },
+        }
     })
+
+    const [isFormValid, setIsFormValid] = useState(false)
 
     const [formError, setFormError] = useState({
         message: 'Veuillez remplir le formulaire.',
         sendAttempted: false,
-        errorReceived: false,
     })
 
 
@@ -214,18 +215,6 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         username: /^[0-9a-zA-ZÀ-ÖØ-öø-ÿÔ-]{3,14}$/g,
         email: /^[\w-.+ÔÀ-ÖØ-öø-ÿ]{1,64}@[\w-ÔÀ-ÖØ-öø-ÿ]{1,255}.+[\w-]{2,4}$/g,
         password: /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{6,}$/g
-    }
-
-    const indicateInvalidData = () => {
-        setFormError({ message:'Les données rentrées sont invalides', sendAttempted: true, errorReceived: true })
-    }
-
-    const indicateUnchangedData = () => {
-        setFormError({ ...formError, sendAttempted: true, errorReceived: true })
-    }
-
-    const indicateValidData = () => {
-        setFormError({ ...formError, sendAttempted: true, errorReceived: false })
     }
 
     const validateField = (name, value) => {
@@ -241,11 +230,23 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
 
         return fieldIsValid
     }
+
+    const validateForm = () => {
+        if(formData.username.valid
+        && formData.email.valid
+        && formData.password.valid
+        && formData.verification.valid) {
+            setIsFormValid(true)
+        } else {
+            setFormError({ message:'Les données rentrées sont invalides' })
+            setIsFormValid(false)
+        }                                       
+    }
       
     
+
     const handleFormChange = (event) => {
         const { name, value } = event.target
-
 
         name === "verification" ? setFormData({
                                     ...formData,
@@ -268,30 +269,13 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                                     }
                                 })
 
-
-        formData.username.valid
-        && formData.email.valid
-        && formData.password.valid
-        && formData.verification.valid  ? indicateValidData()
-                                        : indicateInvalidData()
-
-
-        console.log(formData)
-        console.log('Form is valid after handleFormChange: ' + (formData.username.valid
-                                                                && formData.email.valid
-                                                                && formData.password.valid
-                                                                && formData.verification.valid))
+        validateForm()
     }
 
     useEffect(() => {
         setFormData(formData)
-        console.log(formData)
-
-        console.log('Form is valid after useEffect: ' + (formData.username.valid
-                                                            && formData.email.valid
-                                                            && formData.password.valid
-                                                            && formData.verification.valid))
-    }, [formData])
+        setIsFormValid(isFormValid)
+    }, [formData, isFormValid])
 
 
     
@@ -301,23 +285,34 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         if(hasAccount) {
             if(formData.email.valid && formData.password.valid) {
                 logInHelper(formData.email.value, formData.password.value)
-                indicateValidData()
+                setFormError({ ...formError, sendAttempted: true })
+                setIsFormValid(true)
             } else {
-                formData.username.changed
+                if(formData.username.changed
                 && formData.email.changed
                 && formData.password.changed
-                && formData.verification.changed    ? indicateInvalidData()
-                                                    : indicateUnchangedData()
+                && formData.verification.changed) {
+                    setFormError({ message:'Les données rentrées sont invalides', sendAttempted: true })
+                    setIsFormValid(false)
+                } else {
+                    setFormError({ ...formError, sendAttempted: true })
+                    setIsFormValid(false)
+                } 
             }
         } else {
             if(formData.username.valid && formData.email.valid && formData.password.valid && formData.verification.valid) {
                 signUpHelper(formData.username.value, formData.email.value, formData.password.value)
             } else {
-                formData.username.changed
+                if(formData.username.changed
                 && formData.email.changed
                 && formData.password.changed
-                && formData.verification.changed    ? indicateInvalidData()
-                                                    : indicateUnchangedData()
+                && formData.verification.changed) {
+                    setFormError({ message:'Les données rentrées sont invalides', sendAttempted: true })
+                    setIsFormValid(false)
+                } else {
+                    setFormError({ ...formError, sendAttempted: true })
+                    setIsFormValid(false)
+                }
             }
         }
     }
@@ -465,15 +460,14 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
 
                 <div className={ classes.buttonsContainer }>
                     <motion.p className={ classes.invalidForm }
-                                initial={{ visibility: "hidden", display: "block", opacity: 0 }}
-                                animate={ formError.errorReceived && formError.sendAttempted
-                                    ? { visibility: "visible", display: "block", opacity: 1 }
-                                    : { visibility: "hidden", display: "block", opacity: 0 }}
+                                initial={{ visibility: "hidden", opacity: 0 }}
+                                animate={ !isFormValid && formError.sendAttempted
+                                    ? { visibility: "visible", opacity: 1 }
+                                    : { visibility: "hidden", opacity: 0 }}
                                 transition={{
-                                    duration: .2,
-                                    opacity: { delay: formError.errorReceived && formError.sendAttempted ? .2 : 0},
-                                    visibility: { delay: !formError.errorReceived && !formError.sendAttempted ? .2 : 0},
-                                    display: { delay: .2 }
+                                    duration: .4,
+                                    opacity: { delay: 0 },
+                                    visibility: { delay: isFormValid && !formError.sendAttempted ? .4 : 0},
                                     }}>{ formError.message }</motion.p>
 
                     <motion.button className={ classes.formButton }
