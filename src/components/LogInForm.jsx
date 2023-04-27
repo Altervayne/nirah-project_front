@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import { logInHelper, signUpHelper } from "../helpers/authFormHelper"
@@ -125,6 +126,7 @@ const useStyles = makeStyles()((theme) => {
 
 const LogInForm = ({ setHasAccount, hasAccount }) => {
     const { classes } = useStyles()
+    const navigate = useNavigate()
 
     const fadeInAndOutAccount = {
         rest: {
@@ -279,14 +281,22 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
 
 
     
-    const handleFormSend = (event) => {
+    const handleFormSend = async (event) => {
         event.preventDefault()
 
         if(hasAccount) {
             if(formData.email.valid && formData.password.valid) {
-                logInHelper(formData.email.value, formData.password.value)
-                setFormError({ ...formError, sendAttempted: true })
-                setIsFormValid(true)
+                const result = await logInHelper(formData.email.value, formData.password.value)
+
+                    if(result.success) {
+                        setFormError({ ...formError, sendAttempted: true })
+                        setIsFormValid(true)
+                        navigate('/dashboard')
+                    } else {
+                        setFormError({ message: result.message, sendAttempted: true })
+                        setIsFormValid(false)
+                    }                
+                                
             } else {
                 if(formData.username.changed
                 && formData.email.changed
@@ -301,7 +311,17 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             }
         } else {
             if(formData.username.valid && formData.email.valid && formData.password.valid && formData.verification.valid) {
-                signUpHelper(formData.username.value, formData.email.value, formData.password.value)
+                const result = await signUpHelper(formData.username.value, formData.email.value, formData.password.value)    
+
+                        if(result.success) {
+                            setFormError({ ...formError, sendAttempted: true })
+                            setIsFormValid(true)
+                            navigate('/dashboard')
+                        } else {
+                            setFormError({ message: result.message, sendAttempted: true })
+                            setIsFormValid(false)
+                        } 
+
             } else {
                 if(formData.username.changed
                 && formData.email.changed
