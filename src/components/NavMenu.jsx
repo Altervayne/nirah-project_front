@@ -255,7 +255,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const NavMenuContent = ({ isChatRoom, chatRoomId }) => {
+const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
     const { classes } = useStyles()
     
     const [chosenRoomId, setChosenRoomId] = useState('')
@@ -266,7 +266,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId }) => {
 
     return  <>
                 <div className={ classes.currentUserRoot }>
-                    <p className={ classes.currentUserName }>USERNAME</p>
+                    <p className={ classes.currentUserName }>{ currentUserInfo.username }</p>
                     <motion.div className={ classes.currentUserDisconnectRoot }
                         initial={{ color: "#F2F4F8", scale: 1 }}
                         whileHover={{ color: "#ED872D", scale: 1.15 }}
@@ -274,12 +274,13 @@ const NavMenuContent = ({ isChatRoom, chatRoomId }) => {
                         <RxExit className={ classes.currentUserDisconnect } onClick={() => window.location.href = "/"} />
                     </motion.div>
                 </div>
+                
 
                 <div className={ classes.roomIdAndFormContainer }>
                     { !isChatRoom ? 
                         <form className={ classes.roomJoinForm }>
                             <div className={ classes.inputContainer }>
-                                <label className={ classes.formLabel } for="join-field">Rejoindre ou Créer un Salon</label>
+                                <label className={ classes.formLabel } htmlFor="join-field">Rejoindre ou Créer un Salon</label>
                                 <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text" value={ chosenRoomId }
                                     onChange={ handleChosenRoomIdChange }
                                     initial={{ backgroundColor: "#F2F4F8" }}
@@ -331,7 +332,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId }) => {
 
 
 
-const NavMenu = ({ isChatRoom, chatRoomId }) => {
+const NavMenu = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
 	const { classes } = useStyles()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -401,12 +402,12 @@ const NavMenu = ({ isChatRoom, chatRoomId }) => {
                             delay: !isOpen ? .5 : 0
                         }
                     }}>
-                        <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } />
+                        <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } currentUserInfo={ currentUserInfo } />
                     </motion.nav>
                 </>
             : 
                 <nav className={ classes.root }>
-                    <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } />
+                    <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } currentUserInfo={ currentUserInfo } />
                 </nav>  
 
     )

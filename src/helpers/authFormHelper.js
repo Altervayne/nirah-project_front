@@ -11,9 +11,8 @@ const logInHelper = (email, password) => {
             .then((response) => {
                 console.log(response.status)
                 localStorage.removeItem('token')
-                localStorage.setItem('token', JSON.stringify(response.data.token))
 
-                return { success: true }
+                return { success: true, token: response.data.token }
             })
             .catch((error) => {
                 console.log(error)
@@ -30,9 +29,8 @@ const signUpHelper = (username, email, password) => {
             .then((response) => {
                 console.log(response.status)
                 localStorage.removeItem('token')
-                localStorage.setItem('token', JSON.stringify(response.data.token))
 
-                return { success: true }
+                return { success: true, token: response.data.token }
             })
             .catch((error) => {
                 console.log(error)

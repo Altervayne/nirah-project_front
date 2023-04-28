@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import NavMenu from "../components/NavMenu"
 import LoadingScreen from "../components/LoadingScreen"
 import { getCurrentUserInfo } from "../helpers/userRequestHelper"
+import { useNavigate } from "react-router"
 
 
 
@@ -92,38 +93,59 @@ const useStyles = makeStyles()((theme) => {
 
 const DashBoard = () => {
     const { classes } = useStyles()
+	const navigate = useNavigate()
+
+
 
 	const [isLoaded, setIsLoaded] = useState(false)
+	const [currentUser, setCurrentUser] = useState({
+		username: '',
+		friendsList: [],
+		requestsReceived: [],
+		requestsSent: []
+	})
 
-	getCurrentUserInfo()
+
+
+	useEffect(() => {
+		const verifyCurrentUser = async () => {
+			const receivedUser = await getCurrentUserInfo()
+	
+			if(receivedUser) {
+				setCurrentUser(receivedUser)
+				setIsLoaded(true)
+				console.log("User received")	
+			} else {
+				navigate('/')
+			}
+		}
+	  
+		verifyCurrentUser()
+	}, [ navigate ])
 
 
     return 	<>
 				<motion.div className={ classes.root }
 					initial={{ display: "none", visibility: "hidden", opacity: 0 }}
 					animate={{
-						display: !isLoaded ? "none" : "block",
-						visibility: !isLoaded ? "hidden" : "visible",
-						opacity: !isLoaded ? 0 : 1,
+						display: isLoaded ? "block" : "none",
+						visibility: isLoaded ? "visible" : "hidden",
+						opacity: isLoaded ? 1 : 0,
 					}}
-
 					transition={{
 						ease: 'linear',
-						repeat: Infinity,
-						duration: .5, 
-						display: { delay: .5 },
-						visiblity: { delay: .5 }
-					}}
-				
+						duration: .5,
+					}}				
 				>
-					<NavMenu isChatRoom={ false } chatRoomId={ null }/>
+					<NavMenu 	isChatRoom={ false } chatRoomId={ null } currentUserInfo={ currentUser } />
+
 					<div className={ classes.mainContainer }>
 						<img src="/images/logos/nirah_logo.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.largeLogo }/>
 						<h2 className={ classes.largeLogoTitle }>Rejoignez un salon pour parler avec vos amis !</h2>
 					</div>									
 				</motion.div>
 
-				<LoadingScreen isLoaded={ isLoaded } />
+				<LoadingScreen isLoaded={ isLoaded } />				
 			</>
 			
 }

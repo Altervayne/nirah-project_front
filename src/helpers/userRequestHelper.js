@@ -1,13 +1,18 @@
 import axios from 'axios'
 
 const apiUrl = 'http://localhost:4200/api'
-const token = localStorage.getItem('token').replace(/"/g, '')
-const requestConfig = {
-    headers: { 'Authorization': `Bearer ${token}` }
-}
+let token = localStorage.getItem('token')
 
 const isLoggedIn = () => {
     return !!token
+}
+
+if(isLoggedIn()) {
+    token = token.replace(/"/g, '')
+}
+
+const requestConfig = {
+    headers: { 'Authorization': `Bearer ${token}` }
 }
 
 
@@ -15,9 +20,13 @@ const isLoggedIn = () => {
 const getCurrentUserInfo = () => {
     return isLoggedIn() ?   axios.get(`${apiUrl}/auth/user`, requestConfig)
                                 .then((response) => {
-                                    console.log(response)
+                                    return response.data
                                 })
-                                .catch((error) => { console.log(error) })
+                                .catch((error) => {
+                                    localStorage.removeItem('token')
+
+                                    return false
+                                })
                         :   false
 }
 

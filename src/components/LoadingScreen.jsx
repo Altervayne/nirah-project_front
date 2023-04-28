@@ -35,10 +35,24 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const LoadingScreen = ({isLoaded}) => {
+const LoadingScreen = ( isLoaded ) => {
     const { classes } = useStyles()
 
-    return  <motion.div className={ classes.root }>
+    return  <motion.div className={ classes.root }
+                initial={{ display: "block", visibility: "visible", opacity: 1 }}
+                animate={{
+                    display: isLoaded ? "none" : "block",
+                    visibility: isLoaded ? "hidden" : "visible",
+                    opacity: isLoaded ? 0 : 1,
+                }}
+
+                transition={{
+                    ease: 'linear',
+                    duration: .5, 
+                    display: { delay: .5 },
+                    visiblity: { delay: .5 }
+                }}
+            >
                 <motion.div className={ classes.spinnerRoot }
                     initial={{ rotate: 0, display: "block", visibility: "visible", opacity: 1 }}
                     animate={{
