@@ -128,6 +128,8 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     const { classes } = useStyles()
     const navigate = useNavigate()
 
+
+    /* Framer motion variants to animate the fading in and out of the form's elements when the user indicates they have or don't have an account */
     const fadeInAndOutAccount = {
         rest: {
             visibility: "hidden",
@@ -379,6 +381,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             value={ formData.username.value }
                             onChange={ handleFormChange }/>
 
+                        {/* An error message that displays only when needed */}
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
                             animate={ !formData.username.valid && formData.username.changed
@@ -406,6 +409,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             value={ formData.email.value }
                             onChange={ handleFormChange }/>
 
+                        {/* An error message that displays only when needed */}
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
                             animate={ !formData.email.valid && formData.email.changed && !hasAccount
@@ -433,6 +437,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             value={ formData.password.value }
                             onChange={ handleFormChange }/>
 
+                        {/* An error message that displays only when needed */}
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
                             animate={ !formData.password.valid && formData.password.changed && !hasAccount
@@ -464,6 +469,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                             value={ formData.verification.value }
                             onChange={ handleFormChange }/>
 
+                        {/* An error message that displays only when needed */}
                         <motion.p className={ classes.invalidInput }
                             initial={{ visibility: "hidden", display: "none", opacity: 0 }}
                             animate={ !formData.verification.valid && formData.verification.changed && !hasAccount
@@ -483,6 +489,9 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
 
 
                 <div className={ classes.buttonsContainer }>
+
+                    {/* An error message that displays only when needed */}
+                    {/* The message has variable content depending on the error detected within the form */}
                     <motion.p className={ classes.invalidForm }
                                 initial={{ visibility: "hidden", opacity: 0 }}
                                 animate={ !isFormValid && formError.sendAttempted
