@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles } from "tss-react/mui"
+import { motion } from "framer-motion"
 import NavMenu from "../components/NavMenu"
+import LoadingScreen from "../components/LoadingScreen"
 
 
 
@@ -90,13 +92,39 @@ const useStyles = makeStyles()((theme) => {
 const DashBoard = () => {
     const { classes } = useStyles()
 
-    return <div className={ classes.root }>
-                <NavMenu isChatRoom={ false } chatRoomId={ null }/>
-				<div className={ classes.mainContainer }>
-                    <img src="/images/logos/nirah_logo.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.largeLogo }/>
-                    <h2 className={ classes.largeLogoTitle }>Rejoignez un salon pour parler avec vos amis !</h2>
-				</div>
-			</div>
+	const [isLoaded, setIsLoaded] = useState(false)
+
+
+
+
+    return 	<>
+				<motion.div className={ classes.root }
+					initial={{ display: "none", visibility: "hidden", opacity: 0 }}
+					animate={{
+						display: !isLoaded ? "none" : "block",
+						visibility: !isLoaded ? "hidden" : "visible",
+						opacity: !isLoaded ? 0 : 1,
+					}}
+
+					transition={{
+						ease: 'linear',
+						repeat: Infinity,
+						duration: .5, 
+						display: { delay: .5 },
+						visiblity: { delay: .5 }
+					}}
+				
+				>
+					<NavMenu isChatRoom={ false } chatRoomId={ null }/>
+					<div className={ classes.mainContainer }>
+						<img src="/images/logos/nirah_logo.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.largeLogo }/>
+						<h2 className={ classes.largeLogoTitle }>Rejoignez un salon pour parler avec vos amis !</h2>
+					</div>									
+				</motion.div>
+
+				<LoadingScreen isLoaded={ isLoaded } />
+			</>
+			
 }
 
 
