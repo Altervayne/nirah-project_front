@@ -97,7 +97,7 @@ const DashBoard = () => {
 
 
 
-	const [isLoaded, setIsLoaded] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
 	const [currentUser, setCurrentUser] = useState({
 		username: '',
 		friendsList: [],
@@ -115,7 +115,7 @@ const DashBoard = () => {
 				navigate('/')	
 			} else {
 				setCurrentUser(receivedUser)
-				setIsLoaded(true)
+				setIsLoading(false)
 				console.log("User received")
 			}
 		}
@@ -128,9 +128,9 @@ const DashBoard = () => {
 				<motion.div className={ classes.root }
 					initial={{ display: "none", visibility: "hidden", opacity: 0 }}
 					animate={{
-						display: isLoaded ? "block" : "none",
-						visibility: isLoaded ? "visible" : "hidden",
-						opacity: isLoaded ? 1 : 0,
+						display: !isLoading ? "block" : "none",
+						visibility: !isLoading ? "visible" : "hidden",
+						opacity: !isLoading ? 1 : 0,
 					}}
 					transition={{
 						ease: 'linear',
@@ -145,7 +145,7 @@ const DashBoard = () => {
 					</div>									
 				</motion.div>
 
-				<LoadingScreen isLoaded={ isLoaded } />				
+				<LoadingScreen isActive={ isLoading } startsActivated={ true } />				
 			</>
 			
 }

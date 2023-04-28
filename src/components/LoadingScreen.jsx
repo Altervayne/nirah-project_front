@@ -12,9 +12,10 @@ const useStyles = makeStyles()((theme) => {
             alignItems: "center",
             justifyContent: "center",
 
-            position: "absolute",
+            position: "fixed",
             top: "0",
             left: "0",
+            zIndex: "999",
             width: "100%",
             height: "100%",
 
@@ -35,39 +36,38 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const LoadingScreen = ( isLoaded ) => {
+const LoadingScreen = ({ isActive, startsActivated }) => {
     const { classes } = useStyles()
 
     return  <motion.div className={ classes.root }
-                initial={{ display: "block", visibility: "visible", opacity: 1 }}
-                animate={{
-                    display: isLoaded ? "none" : "block",
-                    visibility: isLoaded ? "hidden" : "visible",
-                    opacity: isLoaded ? 0 : 1,
+                initial={{
+                    display: startsActivated ? "flex" : "none",
+                    visibility: startsActivated ? "visible" : "hidden",
+                    opacity: startsActivated ? 1 : 0
                 }}
-
+                animate={{
+                    display: isActive ? "flex" : "none",
+                    visibility: isActive ? "visible" : "hidden",
+                    opacity: isActive ? 1 : 0,
+                }}
                 transition={{
                     ease: 'linear',
-                    duration: .5, 
-                    display: { delay: .5 },
-                    visiblity: { delay: .5 }
+                    duration: .2, 
+                    display: { delay: !isActive ? .2 : 0 },
+                    visiblity: { delay: !isActive ? .2 : 0 }
                 }}
             >
                 <motion.div className={ classes.spinnerRoot }
-                    initial={{ rotate: 0, display: "block", visibility: "visible", opacity: 1 }}
+                    initial={{
+                        rotate: 0,
+                    }}
                     animate={{
                         rotate: [0, 360],
-                        display: isLoaded ? "none" : "block",
-                        visibility: isLoaded ? "hidden" : "visible",
-                        opacity: isLoaded ? 0 : 1,
                     }}
-
                     transition={{
                         ease: 'linear',
                         repeat: Infinity,
                         duration: .5, 
-                        display: { delay: .5 },
-                        visiblity: { delay: .5 }
                     }}
                 >
                     <AiOutlineLoading className={ classes.spinner }/>

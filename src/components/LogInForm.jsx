@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import { logInHelper, signUpHelper } from "../helpers/authFormHelper"
+import LoadingScreen from "./LoadingScreen"
 
 
 
@@ -210,6 +211,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         message: 'Veuillez remplir le formulaire.',
         sendAttempted: false,
     })
+    const [isLoading, setIsLoading] = useState(false)
 
 
     /* Storing the regular expressions in an object to use them and find them more efficiently */
@@ -285,22 +287,29 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     /* We make use of a useEffect hook to make sure the formData and isFormValid states are always updated to the latest input */
     useEffect(() => {
         setFormData(formData)
-        setIsFormValid(isFormValid)
-    }, [formData, isFormValid])
+    }, [formData])
     
-
     /* Helper function to deal with the form confirmation */   
     const handleFormSend = async (event) => {
         event.preventDefault()
 
+        /* We toggle the loading screen */
+        setIsLoading(true)
+
+        /* We check the entered form data to validate it */
+        const formValidity = formData.username.valid && formData.email.valid && formData.password.valid && formData.verification.valid
+
+    
         /* We create additionnal helper functions to avoid repetition and help the code be readable */
         const handleSuccessfulFormSend = () => {
             setFormError({ ...formError, sendAttempted: true })
             setIsFormValid(true)
+            setIsLoading(false)
         }
         const handleUnsuccessfulFormSend = (result) => {
             setFormError({ message: result.message, sendAttempted: true })
             setIsFormValid(false)
+            setIsLoading(false)
         }
         const wasFormChanged = (formData) => {
             let formWasChanged = formData.username.changed && formData.email.changed && formData.password.changed && formData.verification.changed
@@ -320,7 +329,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             } 
 
         /* If the user doesn't have an account, we check the entire form's validity */
-        } else if(!hasAccount && isFormValid) {
+        } else if(!hasAccount && formValidity) {
             const result = await signUpHelper(formData.username.value, formData.email.value, formData.password.value)
 
             if(result.success) {
@@ -331,20 +340,24 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             } 
 
         /* If the form isn't valid at all, we check if it was changed */
-        } else if(wasFormChanged(formData)) {
+        } else if(!formValidity && wasFormChanged(formData)) {
             setFormError({ message:'Les données rentrées sont invalides', sendAttempted: true })
             setIsFormValid(false)
+            setIsLoading(false)
 
         /* If it was changed but is still invalid, we register an error */
         } else {
             setFormError({ ...formError, sendAttempted: true })
             setIsFormValid(false)
+            setIsLoading(false)
         }
     }
 
 
 
     return  <div className={ classes.root }>
+                <LoadingScreen isActive={ isLoading } startsActivated={ false } />
+
                 <motion.h2 className={ classes.formTitle }
                     initial="rest"
                     animate="fade"
