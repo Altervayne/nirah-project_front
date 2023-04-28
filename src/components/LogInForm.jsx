@@ -289,7 +289,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         setFormData(formData)
         setIsFormValid(isFormValid)
     }, [formData, isFormValid])
-
+    
 
     /* Helper function to deal with the form confirmation */   
     const handleFormSend = async (event) => {
@@ -299,7 +299,6 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         const handleSuccessfulFormSend = () => {
             setFormError({ ...formError, sendAttempted: true })
             setIsFormValid(true)
-            navigate('/dashboard')
         }
         const handleUnsuccessfulFormSend = (result) => {
             setFormError({ message: result.message, sendAttempted: true })
@@ -345,6 +344,21 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         }
     }
 
+    /* We make use of a useEffect hook to detect if a token was added to localStorage. If yes, we redirect the user to their page */
+    useEffect(() => {
+        const handleStorageEvent = (event) => {
+            if (event.key === 'token') {
+                navigate('/dashboard')
+            }
+        }
+
+        window.addEventListener('storage', handleStorageEvent);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageEvent);
+        };
+    }, [ navigate ])
+
 
 
     return  <div className={ classes.root }>
@@ -366,7 +380,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
 
 
 
-                <form className={ classes.formRoot }>
+                <form className={ classes.formRoot } onSubmit={ handleFormSend }>
 
                     <motion.div className={ classes.inputContainer }
                         initial="rest"

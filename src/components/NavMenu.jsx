@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { RxExit } from "react-icons/rx"
 import UsersList from "./UsersList"
 import { BiMenu } from "react-icons/bi"
+import { useNavigate } from "react-router"
 
 
 
@@ -134,7 +135,16 @@ const useStyles = makeStyles()((theme) => {
             overflow: "hidden",
         },
         currentUserDisconnectRoot: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+
             cursor: "pointer",
+
+            backgroundColor: "none",
+            background: "none",
+            border: "none",
+            outline: "none",
         },
         currentUserDisconnect: {
             fontSize: theme.typography.pxToRem(30),
@@ -257,22 +267,31 @@ const useStyles = makeStyles()((theme) => {
 
 const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
     const { classes } = useStyles()
+    const navigate = useNavigate()
     
     const [chosenRoomId, setChosenRoomId] = useState('')
     const handleChosenRoomIdChange = (event) => {
         setChosenRoomId(event.target.value)
+    }
+
+    const handleDisconnect = (event) => {
+        event.preventDefault()
+
+        localStorage.removeItem('token')
+        navigate('/')
     }
     
 
     return  <>
                 <div className={ classes.currentUserRoot }>
                     <p className={ classes.currentUserName }>{ currentUserInfo.username }</p>
-                    <motion.div className={ classes.currentUserDisconnectRoot }
+                    <motion.button className={ classes.currentUserDisconnectRoot }
+                        onClick={ handleDisconnect }
                         initial={{ color: "#F2F4F8", scale: 1 }}
                         whileHover={{ color: "#ED872D", scale: 1.15 }}
                     >
                         <RxExit className={ classes.currentUserDisconnect } onClick={() => window.location.href = "/"} />
-                    </motion.div>
+                    </motion.button>
                 </div>
                 
 
