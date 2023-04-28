@@ -205,9 +205,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             changed: false
         }
     })
-
     const [isFormValid, setIsFormValid] = useState(false)
-
     const [formError, setFormError] = useState({
         message: 'Veuillez remplir le formulaire.',
         sendAttempted: false,
@@ -316,6 +314,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
 
             if(result.success) {
                 await localStorage.setItem("token", JSON.stringify(result.token))
+                navigate('/dashboard')
                 handleSuccessfulFormSend()
             } else {
                 handleUnsuccessfulFormSend(result)
@@ -327,6 +326,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
 
             if(result.success) {
                 await localStorage.setItem("token", JSON.stringify(result.token))
+                navigate('/dashboard')
                 handleSuccessfulFormSend()
             } else {
                 handleUnsuccessfulFormSend(result)
@@ -343,21 +343,6 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             setIsFormValid(false)
         }
     }
-
-    /* We make use of a useEffect hook to detect if a token was added to localStorage. If yes, we redirect the user to their page */
-    useEffect(() => {
-        const handleStorageEvent = (event) => {
-            if (event.key === 'token') {
-                navigate('/dashboard')
-            }
-        }
-
-        window.addEventListener('storage', handleStorageEvent);
-
-        return () => {
-            window.removeEventListener('storage', handleStorageEvent);
-        };
-    }, [ navigate ])
 
 
 
