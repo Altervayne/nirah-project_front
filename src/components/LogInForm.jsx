@@ -180,7 +180,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     }
 
 
-
+    /* Using state hooks to keep track of the form's data, the form's validity and if there is an error in the form */
     const [formData, setFormData] = useState({
         username: {
             value: '',
@@ -212,28 +212,33 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     })
 
 
-
+    /* Storing the regular expressions in an object to use them and find them more efficiently */
     const regex = {
         username: /^[0-9a-zA-ZÀ-ÖØ-öø-ÿÔ-]{3,14}$/g,
         email: /^[\w-.+ÔÀ-ÖØ-öø-ÿ]{1,64}@[\w-ÔÀ-ÖØ-öø-ÿ]{1,255}.+[\w-]{2,4}$/g,
         password: /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{6,}$/g
     }
-
+    /* Helper function to validate one of the form's fields */
     const validateField = (name, value) => {
         let fieldIsValid = false
 
+        /* If the field is the password verification, check if the value is the same as the entered password */
         if(name === 'verification') {
             value === formData.password.value   ? fieldIsValid = true
                                                 : fieldIsValid = false
-        } else {
+        }
+        /* Otherwise, simply check the entered value against the appropriate regex */
+        else {
             regex[name].test(value) ? fieldIsValid = true
                                     : fieldIsValid = false
         }
 
+        /* Then return a boolean that indicates if the input is valid */
         return fieldIsValid
     }
-
+    /* Helper function to validate the entire form */
     const validateForm = () => {
+        /* We simply check if every field is valid. If not, we register an error. */
         if(formData.username.valid
         && formData.email.valid
         && formData.password.valid
@@ -246,10 +251,12 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     }
       
     
-
+    /* Helper function to deal with changes to the form's data */
     const handleFormChange = (event) => {
         const { name, value } = event.target
 
+        /* If the modified field is the verification, we simply update it. Otherwise, we update the target field */
+        /* and then we check if the verification field is still valid */
         name === "verification" ? setFormData({
                                     ...formData,
                                     verification: {
@@ -271,69 +278,66 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                                     }
                                 })
 
+        /* We then verify the entire form's validity */
         validateForm()
     }
 
+    /* We make use of a useEffect hook to make sure the formData and isFormValid states are always updated to the latest input */
     useEffect(() => {
         setFormData(formData)
         setIsFormValid(isFormValid)
     }, [formData, isFormValid])
 
 
-    
+    /* Helper function to deal with the form confirmation */   
     const handleFormSend = async (event) => {
         event.preventDefault()
 
-        if(hasAccount) {
-            if(formData.email.valid && formData.password.valid) {
-                const result = await logInHelper(formData.email.value, formData.password.value)
+        /* We create additionnal helper functions to avoid repetition and help the code be readable */
+        const handleSuccessfulFormSend = () => {
+            setFormError({ ...formError, sendAttempted: true })
+            setIsFormValid(true)
+            navigate('/dashboard')
+        }
+        const handleUnsuccessfulFormSend = (result) => {
+            setFormError({ message: result.message, sendAttempted: true })
+            setIsFormValid(false)
+        }
+        const wasFormChanged = (formData) => {
+            let formWasChanged = formData.username.changed && formData.email.changed && formData.password.changed && formData.verification.changed
+            return formWasChanged
+        }
 
-                    if(result.success) {
-                        setFormError({ ...formError, sendAttempted: true })
-                        setIsFormValid(true)
-                        navigate('/dashboard')
-                    } else {
-                        setFormError({ message: result.message, sendAttempted: true })
-                        setIsFormValid(false)
-                    }                
-                                
+
+        /* We check if the user has an account, and if so, if the email and password entered are valid */
+        if(hasAccount && formData.email.valid && formData.password.valid) {
+            const result = await logInHelper(formData.email.value, formData.password.value)
+
+            if(result.success) {
+                handleSuccessfulFormSend()
             } else {
-                if(formData.username.changed
-                && formData.email.changed
-                && formData.password.changed
-                && formData.verification.changed) {
-                    setFormError({ message:'Les données rentrées sont invalides', sendAttempted: true })
-                    setIsFormValid(false)
-                } else {
-                    setFormError({ ...formError, sendAttempted: true })
-                    setIsFormValid(false)
-                } 
-            }
+                handleUnsuccessfulFormSend(result)
+            } 
+
+        /* If the user doesn't have an account, we check the entire form's validity */
+        } else if(!hasAccount && isFormValid) {
+            const result = await signUpHelper(formData.username.value, formData.email.value, formData.password.value)
+
+            if(result.success) {
+                handleSuccessfulFormSend()
+            } else {
+                handleUnsuccessfulFormSend(result)
+            } 
+
+        /* If the form isn't valid at all, we check if it was changed */
+        } else if(wasFormChanged(formData)) {
+            setFormError({ message:'Les données rentrées sont invalides', sendAttempted: true })
+            setIsFormValid(false)
+
+        /* If it was changed but is still invalid, we register an error */
         } else {
-            if(formData.username.valid && formData.email.valid && formData.password.valid && formData.verification.valid) {
-                const result = await signUpHelper(formData.username.value, formData.email.value, formData.password.value)    
-
-                        if(result.success) {
-                            setFormError({ ...formError, sendAttempted: true })
-                            setIsFormValid(true)
-                            navigate('/dashboard')
-                        } else {
-                            setFormError({ message: result.message, sendAttempted: true })
-                            setIsFormValid(false)
-                        } 
-
-            } else {
-                if(formData.username.changed
-                && formData.email.changed
-                && formData.password.changed
-                && formData.verification.changed) {
-                    setFormError({ message:'Les données rentrées sont invalides', sendAttempted: true })
-                    setIsFormValid(false)
-                } else {
-                    setFormError({ ...formError, sendAttempted: true })
-                    setIsFormValid(false)
-                }
-            }
+            setFormError({ ...formError, sendAttempted: true })
+            setIsFormValid(false)
         }
     }
 
