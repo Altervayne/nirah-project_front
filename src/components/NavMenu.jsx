@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material"
 import { motion } from "framer-motion"
 import { RxExit } from "react-icons/rx"
 import UsersList from "./UsersList"
+import { logOutHelper } from "../helpers/authFormHelper"
 import { BiMenu } from "react-icons/bi"
 import { useNavigate } from "react-router"
 
@@ -274,10 +275,10 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
         setChosenRoomId(event.target.value)
     }
 
-    const handleDisconnect = (event) => {
+    const handleDisconnect = async (event) => {
         event.preventDefault()
 
-        localStorage.removeItem('token')
+        await logOutHelper()
         navigate('/')
     }
     

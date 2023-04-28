@@ -313,7 +313,6 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             const result = await logInHelper(formData.email.value, formData.password.value)
 
             if(result.success) {
-                await localStorage.setItem("token", JSON.stringify(result.token))
                 navigate('/dashboard')
                 handleSuccessfulFormSend()
             } else {
@@ -325,7 +324,6 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
             const result = await signUpHelper(formData.username.value, formData.email.value, formData.password.value)
 
             if(result.success) {
-                await localStorage.setItem("token", JSON.stringify(result.token))
                 navigate('/dashboard')
                 handleSuccessfulFormSend()
             } else {

@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { makeStyles } from "tss-react/mui"
 import LogInButton from "../components/LogInButton"
+import { useNavigate } from "react-router"
+import { getCurrentUserInfo } from "../helpers/userRequestHelper"
 
 
 
@@ -77,6 +79,23 @@ const useStyles = makeStyles()((theme) => {
 
 const Home = () => {
     const { classes } = useStyles()
+	const navigate = useNavigate()
+
+
+
+	useEffect(() => {
+		const verifyCurrentUser = async () => {
+			const receivedUser = await getCurrentUserInfo()
+	
+			if(receivedUser) {
+				navigate('/dashboard')	
+			}
+		}
+	  
+		verifyCurrentUser()
+	}, [ navigate ])
+
+
 
     return <div className={ classes.root }>
 				<div className={ classes.catchPhraseContainer }>

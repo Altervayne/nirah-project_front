@@ -111,12 +111,12 @@ const DashBoard = () => {
 		const verifyCurrentUser = async () => {
 			const receivedUser = await getCurrentUserInfo()
 	
-			if(receivedUser) {
+			if(!receivedUser) {
+				navigate('/')	
+			} else {
 				setCurrentUser(receivedUser)
 				setIsLoaded(true)
-				console.log("User received")	
-			} else {
-				navigate('/')
+				console.log("User received")
 			}
 		}
 	  
