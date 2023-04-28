@@ -3,6 +3,7 @@ import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import NavMenu from "../components/NavMenu"
 import LoadingScreen from "../components/LoadingScreen"
+import { getCurrentUserInfo } from "../helpers/userRequestHelper"
 
 
 
@@ -94,7 +95,7 @@ const DashBoard = () => {
 
 	const [isLoaded, setIsLoaded] = useState(false)
 
-
+	getCurrentUserInfo()
 
 
     return 	<>
