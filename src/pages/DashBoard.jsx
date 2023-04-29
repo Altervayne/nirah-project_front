@@ -116,7 +116,6 @@ const DashBoard = () => {
 			} else {
 				setCurrentUser(receivedUser)
 				setIsLoading(false)
-				console.log("User received")
 			}
 		}
 	  

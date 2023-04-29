@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { makeStyles } from "tss-react/mui"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
+import { getCurrentUserInfo } from "../helpers/userRequestHelper"
+import LoadingScreen from "../components/LoadingScreen"
 import NavMenu from "../components/NavMenu"
 import Message from "../components/Message"
 import { FaPaperPlane } from "react-icons/fa"
@@ -193,7 +195,34 @@ const AlwaysScrollToBottom = () => {
 const ChatRoom = () => {
     const { classes } = useStyles() 
     const { id } = useParams()
-    const currentUser = { username: "TestUser3" }
+    const navigate = useNavigate()
+
+
+
+    const [isLoading, setIsLoading] = useState(true)
+	const [currentUser, setCurrentUser] = useState({
+		username: '',
+		friendsList: [],
+		requestsReceived: [],
+		requestsSent: []
+	})
+    
+    useEffect(() => {
+		const verifyCurrentUser = async () => {
+			const receivedUser = await getCurrentUserInfo()
+	
+			if(!receivedUser) {
+				navigate('/')	
+			} else {
+				setCurrentUser(receivedUser)
+				setIsLoading(false)
+			}
+		}
+	  
+		verifyCurrentUser()
+	}, [ navigate ])
+
+
 
     const [messages, setMessages] = useState([])
     const newMessageHandler = (newMessage) => {
@@ -217,45 +246,62 @@ const ChatRoom = () => {
         setCurrentMessage("")
     }
 
-    return <div className={ classes.root }>
-                <NavMenu isChatRoom={ true } chatRoomId={ id } currentUserInfo={ currentUser } />
-				<div className={ classes.mainContainer }>
-                    <img src="/images/logos/nirah_logo_white.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.backgroundLogo }/>
 
-                    <form className={ classes.chatBarContainer }>
-                            <motion.input className={ classes.chatBar} placeholder="Entrez votre message..." type="text" id="chat-bar" autoComplete="off" value={ currentMessage }
-                                onChange={handleCurrentMessageChange}
-                                initial={{ backgroundColor: "#F2F4F8" }}
-                                whileFocus={{ backgroundColor: "#C2D4EB" }}
-                            />
-                            <motion.button className={ classes.chatBarSendButton }
-                                onClick={handleSendingMessage}
-                                initial={{ color: "#F2F4F8", scale: 1 }}
-                                whileHover={{ color: "#ED872D", scale: 1.1 }}
-                            >
-                                <FaPaperPlane className={ classes.chatBarSendIcon }/>
-                            </motion.button>
-                    </form>
 
-                    <div className={ classes.chatRoot }>
-                        <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                        <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                        <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                        <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                        <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                        <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                        { messages.map((message, index) => (
-                            <Message
-                                key={ index }
-                                user={ message.user }
-                                time={ message.time }
-                                content={ message.content }
-                            />
-                        )) }
-                        <AlwaysScrollToBottom />
+    return  <>
+                <motion.div className={ classes.root }
+                    initial={{ display: "none", visibility: "hidden", opacity: 0 }}
+                    animate={{
+                        display: !isLoading ? "block" : "none",
+                        visibility: !isLoading ? "visible" : "hidden",
+                        opacity: !isLoading ? 1 : 0,
+                    }}
+                    transition={{
+                        ease: 'linear',
+                        duration: .5,
+                    }}				
+                >
+                    <NavMenu isChatRoom={ true } chatRoomId={ id } currentUserInfo={ currentUser } />
+                    <div className={ classes.mainContainer }>
+                        <img src="/images/logos/nirah_logo_white.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.backgroundLogo }/>
+
+                        <form className={ classes.chatBarContainer }>
+                                <motion.input className={ classes.chatBar} placeholder="Entrez votre message..." type="text" id="chat-bar" autoComplete="off" value={ currentMessage }
+                                    onChange={handleCurrentMessageChange}
+                                    initial={{ backgroundColor: "#F2F4F8" }}
+                                    whileFocus={{ backgroundColor: "#C2D4EB" }}
+                                />
+                                <motion.button className={ classes.chatBarSendButton }
+                                    onClick={handleSendingMessage}
+                                    initial={{ color: "#F2F4F8", scale: 1 }}
+                                    whileHover={{ color: "#ED872D", scale: 1.1 }}
+                                >
+                                    <FaPaperPlane className={ classes.chatBarSendIcon }/>
+                                </motion.button>
+                        </form>
+
+                        <div className={ classes.chatRoot }>
+                            <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            { messages.map((message, index) => (
+                                <Message
+                                    key={ index }
+                                    user={ message.user }
+                                    time={ message.time }
+                                    content={ message.content }
+                                />
+                            )) }
+                            <AlwaysScrollToBottom />
+                        </div>
                     </div>
-				</div>
-			</div>
+                </motion.div>
+
+                <LoadingScreen isActive={ isLoading } startsActivated={ true } />
+            </>
 }
 
 

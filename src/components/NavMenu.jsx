@@ -291,7 +291,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
                         initial={{ color: "#F2F4F8", scale: 1 }}
                         whileHover={{ color: "#ED872D", scale: 1.15 }}
                     >
-                        <RxExit className={ classes.currentUserDisconnect } onClick={() => window.location.href = "/"} />
+                        <RxExit className={ classes.currentUserDisconnect } />
                     </motion.button>
                 </div>
                 
@@ -330,7 +330,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
                             </div>
                         
                             <motion.button className={ classes.formButton }
-                                    onClick={() => (window.location.href = "/dashboard")}
+                                    onClick={() => (window.location.href = "/room/ID_HERE")}
                                     whileHover={{
                                         color: "#ED872D",
                                         scale: 1.05,

@@ -125,6 +125,8 @@ const UserEntry = ({ userName, friendState, isOnline, isFriendsList }) => {
     return  <div className={ classes.root }>
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ userName }</p>
                 <div className={ classes.userStateContainer }>
+
+                    
                     { friendState === "notFriend" && !isFriendsList && 
                             <motion.button className={ classes.userStateIconContainerButton }
                                 initial={{ color: "#F2F4F8", scale: 1 }}
@@ -132,14 +134,20 @@ const UserEntry = ({ userName, friendState, isOnline, isFriendsList }) => {
                             >
                                 <BsPersonFillAdd className={ classes.userStateIconActive } onClick={() => window.location.href = "/room/ID_HERE"} />
                             </motion.button> }
+
+
                     { friendState === "isFriend" && !isFriendsList && 
                             <div className={ classes.userStateIconContainerPassive }>
                                 <BsPersonFillCheck className={ classes.userStateIconPassive } onClick={() => window.location.href = "/room/ID_HERE"} />
                             </div> }
+
+
                     { friendState === "requestSent" && !isFriendsList && 
                             <div className={ classes.userStateIconContainerPassive }>
                                 <BsPersonFillUp className={ classes.userStateIconPassive } onClick={() => window.location.href = "/room/ID_HERE"} />
                             </div> }
+
+
                     { friendState === "requestReceived" && !isFriendsList && 
                             <>
                             <motion.button className={ classes.userStateIconContainerButton }
@@ -155,6 +163,8 @@ const UserEntry = ({ userName, friendState, isOnline, isFriendsList }) => {
                                 <FaTimes className={ classes.requestReceivedIcons } onClick={() => window.location.href = "/room/ID_HERE"} />
                             </motion.button> 
                             </> }
+
+
                     { isOnline && isFriendsList && 
                         <motion.button className={ classes.userStateIconContainerButton }
                             initial={{ color: "#F2F4F8", scale: 1 }}
@@ -162,6 +172,8 @@ const UserEntry = ({ userName, friendState, isOnline, isFriendsList }) => {
                         >
                             <RxEnter className={ classes.userStateIconActive } onClick={() => window.location.href = "/room/ID_HERE"} />
                         </motion.button> }
+
+
                     { !isOnline && isFriendsList &&
                         <div className={ classes.userStateIconContainerPassive }>
                             <RiChatOffLine className={ classes.userStateIconPassive }/>
