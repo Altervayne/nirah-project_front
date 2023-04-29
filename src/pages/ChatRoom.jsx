@@ -193,7 +193,7 @@ const AlwaysScrollToBottom = () => {
 const ChatRoom = () => {
     const { classes } = useStyles() 
     const { id } = useParams()
-    const currentUser = "testUser3"
+    const currentUser = { username: "TestUser3" }
 
     const [messages, setMessages] = useState([])
     const newMessageHandler = (newMessage) => {
@@ -218,7 +218,7 @@ const ChatRoom = () => {
     }
 
     return <div className={ classes.root }>
-                <NavMenu isChatRoom={ true } chatRoomId={ id }/>
+                <NavMenu isChatRoom={ true } chatRoomId={ id } currentUserInfo={ currentUser } />
 				<div className={ classes.mainContainer }>
                     <img src="/images/logos/nirah_logo_white.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.backgroundLogo }/>
 
