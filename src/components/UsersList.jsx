@@ -124,15 +124,16 @@ const UsersList = ({ listType }) => {
                         <>
                             { friendUsers.map(memberData => <UserEntry userName={ memberData.userName } friendState={ memberData.friendState } isFriendsList={ false } isOnline={ true } key={ memberData.userName } />) }
                             { notFriendUsers.map(memberData => <UserEntry userName={ memberData.userName } friendState={ memberData.friendState } isFriendsList={ false } isOnline={ true } key={ memberData.userName } />) }
-                            { requestReceivedUsers.length === 0 ? null : <Divider title="Demande reçue" /> }
+                            { requestReceivedUsers.length >= 0 && <Divider title="Demande reçue" /> }
                             { requestReceivedUsers.map(memberData => <UserEntry userName={ memberData.userName } friendState={ memberData.friendState } isFriendsList={ false } isOnline={ true } key={ memberData.userName } />) }
-                            { requestSentUsers.length === 0 ? null : <Divider title="Demande envoyée" /> }
+                            { requestSentUsers.length >= 0 && <Divider title="Demande envoyée" /> }
                             { requestSentUsers.map(memberData => <UserEntry userName={ memberData.userName } friendState={ memberData.friendState } isFriendsList={ false } isOnline={ true } key={ memberData.userName } />) }
                         </>
                     : null }
                     { listType === "friends" ? 
                         <>
                            { onlineFriends.map(memberData => <UserEntry userName={ memberData.userName } friendState={ "isFriend" } isFriendsList={ true } isOnline={ memberData.isOnline } key={ memberData.userName } />) }
+                           { offlineFriends.length >= 0 && <Divider title="Hors-ligne" /> }
                            { offlineFriends.map(memberData => <UserEntry userName={ memberData.userName } friendState={ "isFriend" } isFriendsList={ true } isOnline={ memberData.isOnline } key={ memberData.userName } />) } 
                         </>
                     : null }

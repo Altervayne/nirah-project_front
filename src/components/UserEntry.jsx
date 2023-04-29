@@ -128,7 +128,7 @@ const UserEntry = ({ userName, friendState, isOnline, isFriendsList }) => {
     const { classes } = useStyles()
 
     return  <div className={ classes.root }>
-                <p className={ classes.userUsername }>{ userName }</p>
+                <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ userName }</p>
                 <div className={ classes.userStateContainer }>
                     { friendState === "notFriend" && !isFriendsList && 
                             <motion.div className={ classes.userStateIconContainerButton }

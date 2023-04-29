@@ -209,7 +209,7 @@ const ChatRoom = () => {
     const handleSendingMessage = (event) => {
         event.preventDefault()
         const message = {
-            user: currentUser,
+            user: currentUser.username,
             time: "00:00",
             content: currentMessage
         }
