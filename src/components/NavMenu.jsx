@@ -1,15 +1,20 @@
+/* Libraries imports */
 import React, { useState } from "react"
-import { useMediaQuery } from "@mui/material"
-import { makeStyles } from "tss-react/mui"
-import { useTheme } from "@mui/material"
-import { motion } from "framer-motion"
-import { RxExit } from "react-icons/rx"
-import UsersList from "./UsersList"
-import { logOutHelper } from "../helpers/authFormHelper"
-import { BiMenu } from "react-icons/bi"
 import { useNavigate } from "react-router"
+import { motion } from "framer-motion"
+import io from 'socket.io-client'
+import { useMediaQuery, useTheme, makeStyles } from "@mui/material"
+/* Icons imports */
+import { RxExit } from "react-icons/rx"
+import { BiMenu } from "react-icons/bi"
+/* Components imports */
+import UsersList from "./UsersList"
+/* Helper functions imports */
+import { logOutHelper } from "../helpers/authFormHelper"
 
 
+
+const serverUrl = "http://localhost:4200"
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -281,6 +286,23 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
         await logOutHelper()
         navigate('/')
     }
+
+    const handleRoomJoin = async (event) => {
+        event.preventDefault()
+
+        const socket = io(serverUrl)
+        socket.connect()
+
+        socket.emit('joinRoom', chosenRoomId)
+
+        navigate(`/room/${chosenRoomId}`)
+    }
+
+    const handleRoomLeave = async (event) => {
+        event.preventDefault()
+
+        navigate('/dashboard')
+    }
     
 
     return  <>
@@ -298,7 +320,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
 
                 <div className={ classes.roomIdAndFormContainer }>
                     { !isChatRoom ? 
-                        <form className={ classes.roomJoinForm }>
+                        <form className={ classes.roomJoinForm } onSubmit={ handleRoomJoin }>
                             <div className={ classes.inputContainer }>
                                 <label className={ classes.formLabel } htmlFor="join-field">Rejoindre ou Créer un Salon</label>
                                 <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text" value={ chosenRoomId }
@@ -309,7 +331,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
                             </div>
                             
                             <motion.button className={ classes.formButton }
-                                    onClick={() => (window.location.href = "/room/ID_HERE")}
+                                    onClick={ handleRoomJoin }
                                     whileHover={{
                                         color: "#ED872D",
                                         scale: 1.05,
@@ -330,7 +352,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
                             </div>
                         
                             <motion.button className={ classes.formButton }
-                                    onClick={() => (window.location.href = "/room/ID_HERE")}
+                                    onClick={ handleRoomLeave }
                                     whileHover={{
                                         color: "#ED872D",
                                         scale: 1.05,
