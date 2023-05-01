@@ -2,8 +2,8 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router"
 import { motion } from "framer-motion"
-import io from 'socket.io-client'
-import { useMediaQuery, useTheme, makeStyles } from "@mui/material"
+import { useMediaQuery, useTheme } from "@mui/material"
+import { makeStyles } from "tss-react/mui"
 /* Icons imports */
 import { RxExit } from "react-icons/rx"
 import { BiMenu } from "react-icons/bi"
@@ -11,10 +11,9 @@ import { BiMenu } from "react-icons/bi"
 import UsersList from "./UsersList"
 /* Helper functions imports */
 import { logOutHelper } from "../helpers/authFormHelper"
+import { socketConnectionHandler, socketDisconnectionHandler } from "../helpers/socket"
 
 
-
-const serverUrl = "http://localhost:4200"
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -279,27 +278,37 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
     const handleChosenRoomIdChange = (event) => {
         setChosenRoomId(event.target.value)
     }
+    
 
     const handleDisconnect = async (event) => {
         event.preventDefault()
 
+
+        socketDisconnectionHandler(isChatRoom)
         await logOutHelper()
+
+
         navigate('/')
     }
+
 
     const handleRoomJoin = async (event) => {
         event.preventDefault()
 
-        const socket = io(serverUrl)
-        socket.connect()
 
-        socket.emit('joinRoom', chosenRoomId)
+        socketConnectionHandler(chosenRoomId)
+
 
         navigate(`/room/${chosenRoomId}`)
     }
 
+
     const handleRoomLeave = async (event) => {
         event.preventDefault()
+
+
+        socketDisconnectionHandler(isChatRoom)
+
 
         navigate('/dashboard')
     }

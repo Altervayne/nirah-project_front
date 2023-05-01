@@ -8,11 +8,22 @@ const SOCKET_SERVER_URL = 'http://localhost:4200'
 
 const socket = io(SOCKET_SERVER_URL, {
     transports: ['websocket'],
-    extraHeaders: {
-        Cookie: "auth=token"
-    }
+    withCredentials: true
 })
 
+const socketConnectionHandler = (roomId) => {
+    socket.connect()
+    socket.emit('joinRoom', { roomId: roomId })
+}
+
+const socketDisconnectionHandler = (isChatRoom) => {
+    if (isChatRoom) {
+        socket.emit('leaveRoom')
+    } 
+    
+    socket.disconnect()
+}
 
 
-export default socket
+
+export { socketConnectionHandler, socketDisconnectionHandler }
