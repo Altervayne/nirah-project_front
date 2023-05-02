@@ -17,4 +17,17 @@ const getCurrentUserInfo = () => {
 
 
 
-export { getCurrentUserInfo }
+const getFriendsInfo = (friendsList) => {
+    return axios.get(`${apiUrl}/friends`, { withCredentials: true })
+                .then((response) => {
+                    console.log(response)
+                    return response.data
+                })
+                .catch((error) => {
+                    return false
+                })
+}
+
+
+
+export { getCurrentUserInfo, getFriendsInfo }

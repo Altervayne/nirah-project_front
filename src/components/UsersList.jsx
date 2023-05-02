@@ -3,11 +3,6 @@ import { makeStyles } from "tss-react/mui"
 import UserEntry from "./UserEntry"
 import Divider from "./Divider"
 
-const friendsListDataTemplate = require('../data/friendsListPlaceholder.json')
-
-const onlineFriends = friendsListDataTemplate.filter(user => user.isOnline)
-const offlineFriends = friendsListDataTemplate.filter(user => !user.isOnline)
-
 
 
 const useStyles = makeStyles()((theme) => {
@@ -119,7 +114,7 @@ const UsersList = ({ listType, usersArray }) => {
                 </h2>
 
                 <div className={ classes.listBody }>
-                    { listType === "members" ? 
+                    { listType === "members" && 
                         <>
                             { usersArray["requestsReceived"].length !== 0 && <Divider title="Demandes reçues" /> }
                             { usersArray["requestsReceived"].map(memberData => <UserEntry userName={ memberData.username } friendState="requestReceived" isFriendsList={ false } isOnline={ true } key={ memberData.username } />) }
@@ -128,15 +123,16 @@ const UsersList = ({ listType, usersArray }) => {
                             { usersArray["normalUsers"].map(memberData => <UserEntry userName={ memberData.username } friendState="notFriend" isFriendsList={ false } isOnline={ true } key={ memberData.username } />) }
                             { usersArray["requestsSent"].length !== 0 && <Divider title="Demande envoyée" /> }
                             { usersArray["requestsSent"].map(memberData => <UserEntry userName={ memberData.username } friendState="requestSent" isFriendsList={ false } isOnline={ true } key={ memberData.username } />) }
-                        </>
-                    : null }
-                    { listType === "friends" ? 
+                        </> }
+                    { listType === "friends" && 
                         <>
-                           { onlineFriends.map(memberData => <UserEntry userName={ memberData.userName } friendState={ "isFriend" } isFriendsList={ true } isOnline={ memberData.isOnline } key={ memberData.userName } />) }
-                           { offlineFriends.length >= 0 && <Divider title="Hors-ligne" /> }
-                           { offlineFriends.map(memberData => <UserEntry userName={ memberData.userName } friendState={ "isFriend" } isFriendsList={ true } isOnline={ memberData.isOnline } key={ memberData.userName } />) } 
-                        </>
-                    : null }
+                            { usersArray["requestsReceived"].length !== 0 && <Divider title="Demandes reçues" /> }
+                            { usersArray["requestsReceived"].map(memberData => <UserEntry userName={ memberData.username } friendState="requestReceived" isFriendsList={ true } isOnline={ true } key={ memberData.username } />) }
+                            { usersArray["requestsReceived"].length !== 0 && <Divider title="Membres en ligne" /> }
+                            { usersArray["friendsList"].map(memberData => <UserEntry userName={ memberData.username } friendState="isFriend" isFriendsList={ true } isOnline={ true } key={ memberData.username } />) }
+                            { usersArray["requestsSent"].length !== 0 && <Divider title="Demande envoyée" /> }
+                            { usersArray["requestsSent"].map(memberData => <UserEntry userName={ memberData.username } friendState="requestSent" isFriendsList={ true } isOnline={ true } key={ memberData.username } />) } 
+                        </> }
                 </div>
             </div>
 }

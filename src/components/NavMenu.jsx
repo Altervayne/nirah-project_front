@@ -371,7 +371,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, usersArray, currentUserInfo })
                     }
                 </div>
 
-                { isChatRoom ? <UsersList listType="members" usersArray={ usersArray } /> : <UsersList listType="friends" /> }
+                { isChatRoom ? <UsersList listType="members" usersArray={ usersArray } /> : <UsersList listType="friends" usersArray={ usersArray } /> }
             </>
 }
 
