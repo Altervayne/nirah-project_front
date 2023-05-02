@@ -17,10 +17,6 @@ const socketConnectionHandler = (roomId) => {
 }
 
 const socketDisconnectionHandler = (isChatRoom) => {
-    if (isChatRoom) {
-        socket.emit('leaveRoom')
-    } 
-    
     socket.disconnect()
 }
 

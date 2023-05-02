@@ -214,7 +214,7 @@ const ChatRoom = () => {
 			if(!receivedUser) {
 				navigate('/')	
 			} else {
-				setCurrentUser(receivedUser)
+				await setCurrentUser(receivedUser)
 				setIsLoading(false)
 			}
 		}
@@ -238,10 +238,11 @@ const ChatRoom = () => {
     const handleSendingMessage = (event) => {
         event.preventDefault()
         const message = {
-            user: currentUser.username,
-            time: "00:00",
-            content: currentMessage
+            body: currentMessage,
+            sender: { username: currentUser.username },
+            createdAt: new Date()
         }
+
         newMessageHandler(message)
         setCurrentMessage("")
     }
@@ -281,18 +282,18 @@ const ChatRoom = () => {
                         </form>
 
                         <div className={ classes.chatRoot }>
-                            <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message user="TestUser1" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message user="TestUser2" time="00:00" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message senderUsername="TestUser1" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message senderUsername="TestUser2" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message senderUsername="TestUser2" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message senderUsername="TestUser1" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message senderUsername="TestUser1" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <Message senderUsername="TestUser2" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
                             { messages.map((message, index) => (
                                 <Message
                                     key={ index }
-                                    user={ message.user }
-                                    time={ message.time }
-                                    content={ message.content }
+                                    senderUsername={ message.sender.username }
+                                    createdAt={ message.createdAt }
+                                    body={ message.body }
                                 />
                             )) }
                             <AlwaysScrollToBottom />

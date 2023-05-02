@@ -1,12 +1,12 @@
-import { moment } from "moment"
+import dayjs from "dayjs"
 
 
 
 const convertDate = (date) => {
-    const now = moment()
-    const sentDate = moment(date)
+    const now = dayjs()
+    const sentDate = dayjs(date)
 
-    if(date.isSame(now, "day")) {
+    if(sentDate.isSame(now, "day")) {
         return sentDate.format("HH:mm")
     } else {
         const daysAgo = now.diff(sentDate, "days")

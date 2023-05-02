@@ -7,6 +7,7 @@ const apiUrl = 'http://localhost:4200/api'
 const getCurrentUserInfo = () => {
     return axios.get(`${apiUrl}/auth/user`, { withCredentials: true })
                 .then((response) => {
+                    console.log(response)
                     return response.data
                 })
                 .catch((error) => {

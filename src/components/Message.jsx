@@ -1,6 +1,7 @@
 import React from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+import { convertDate } from "../helpers/dateConversionHandler"
 
 
 
@@ -49,7 +50,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const Message = ({ body, senderUsername, createdAt }) => {
+const Message = ({ senderUsername, createdAt, body }) => {
     const { classes } = useStyles()
 
     return  <motion.div className={ classes.root }
@@ -61,7 +62,7 @@ const Message = ({ body, senderUsername, createdAt }) => {
             >
                 <div className={ classes.messageInfo }>
                     <p className={ classes.messageUser }>{ senderUsername }</p>
-                    <p className={ classes.messageTime }>{ createdAt }</p>
+                    <p className={ classes.messageTime }>{ convertDate(createdAt) }</p>
                 </div>
                 <div className={ classes.messageBody }>
                     <p className={ classes.messageBodyText }>{ body }</p>
