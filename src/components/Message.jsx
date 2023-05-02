@@ -49,7 +49,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const Message = ({ user, time, content }) => {
+const Message = ({ body, senderUsername, createdAt }) => {
     const { classes } = useStyles()
 
     return  <motion.div className={ classes.root }
@@ -60,11 +60,11 @@ const Message = ({ user, time, content }) => {
                 }}
             >
                 <div className={ classes.messageInfo }>
-                    <p className={ classes.messageUser }>{ user }</p>
-                    <p className={ classes.messageTime }>{ time }</p>
+                    <p className={ classes.messageUser }>{ senderUsername }</p>
+                    <p className={ classes.messageTime }>{ createdAt }</p>
                 </div>
                 <div className={ classes.messageBody }>
-                    <p className={ classes.messageBodyText }>{ content }</p>
+                    <p className={ classes.messageBodyText }>{ body }</p>
                 </div>
             </motion.div>
 }
