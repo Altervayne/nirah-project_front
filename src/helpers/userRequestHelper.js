@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-const apiUrl = 'http://localhost:4200/api'
+const apiUrl = 'http://localhost:4200/api/auth'
 
 
 
 const getCurrentUserInfo = () => {
-    return axios.get(`${apiUrl}/auth/user`, { withCredentials: true })
+    return axios.get(`${apiUrl}/user`, { withCredentials: true })
                 .then((response) => {
-                    console.log(response)
                     return response.data
                 })
                 .catch((error) => {
@@ -17,8 +16,8 @@ const getCurrentUserInfo = () => {
 
 
 
-const getFriendsInfo = (friendsList) => {
-    return axios.get(`${apiUrl}/friends`, { withCredentials: true })
+/* const getFriendsInfo = (friendsList) => {
+    return axios.get(`${apiUrl}/`, { withCredentials: true })
                 .then((response) => {
                     console.log(response)
                     return response.data
@@ -26,8 +25,22 @@ const getFriendsInfo = (friendsList) => {
                 .catch((error) => {
                     return false
                 })
+} */
+
+
+
+const sendFriendRequest = (id) => {
+    return axios.post(`${apiUrl}/sendRequest/${id}`, { withCredentials: true })
+                .then((response) => {
+                    console.log(response)
+                    return true
+                })
+                .catch((error) => {
+                    console.log(error)
+                    return false
+                })
 }
 
 
 
-export { getCurrentUserInfo, getFriendsInfo }
+export { getCurrentUserInfo, sendFriendRequest /* getFriendsInfo */ }

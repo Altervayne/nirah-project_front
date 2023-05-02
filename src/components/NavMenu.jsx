@@ -270,7 +270,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const NavMenuContent = ({ isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
+const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
     const { classes } = useStyles()
     const navigate = useNavigate()
 
@@ -371,13 +371,14 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, usersArray, currentUserInfo })
                     }
                 </div>
 
-                { isChatRoom ? <UsersList listType="members" usersArray={ usersArray } /> : <UsersList listType="friends" usersArray={ usersArray } /> }
+                { isChatRoom    ? <UsersList setUsersState={ setUsersState } listType="members" usersArray={ usersArray } />
+                                : <UsersList setUsersState={ setUsersState } listType="friends" usersArray={ usersArray } /> }
             </>
 }
 
 
 
-const NavMenu = ({ isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
+const NavMenu = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
 	const { classes } = useStyles()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -447,12 +448,20 @@ const NavMenu = ({ isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
                             delay: !isOpen ? .5 : 0
                         }
                     }}>
-                        <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } usersArray={ usersArray } currentUserInfo={ currentUserInfo } />
+                        <NavMenuContent setUsersState={ setUsersState }
+                                        isChatRoom={ isChatRoom }
+                                        chatRoomId={ chatRoomId }
+                                        usersArray={ usersArray }
+                                        currentUserInfo={ currentUserInfo } />
                     </motion.nav>
                 </>
             : 
                 <nav className={ classes.root }>
-                    <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } usersArray={ usersArray } currentUserInfo={ currentUserInfo } />
+                    <NavMenuContent setUsersState={ setUsersState }
+                                    isChatRoom={ isChatRoom }
+                                    chatRoomId={ chatRoomId }
+                                    usersArray={ usersArray }
+                                    currentUserInfo={ currentUserInfo } />
                 </nav>  
 
     )

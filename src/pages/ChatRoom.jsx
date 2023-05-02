@@ -282,7 +282,13 @@ const ChatRoom = () => {
                         duration: .5,
                     }}				
                 >
-                    <NavMenu isChatRoom={ true } chatRoomId={ id } usersArray={ members } currentUserInfo={ currentUser } />
+                    
+                    <NavMenu    setUsersState={ setMembers }
+                                isChatRoom={ true }
+                                chatRoomId={ id }
+                                usersArray={ members }
+                                currentUserInfo={ currentUser } />
+
                     <div className={ classes.mainContainer }>
                         <img src="/images/logos/nirah_logo_white.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.backgroundLogo }/>
 

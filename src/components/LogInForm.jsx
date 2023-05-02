@@ -550,7 +550,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
                     </motion.button>
 
                     <motion.button className={ classes.formButton }
-                        onClick={(event) => handleFormSend(event)}
+                        onClick={ handleFormSend }
                         whileHover={{
                             color: "#ED872D",
                             scale: 1.05,

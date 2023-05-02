@@ -1,6 +1,8 @@
+/* Libraries imports */
 import React from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+/* React-icons imports */
 import { BsPersonFillUp } from "react-icons/bs"
 import { BsPersonFillAdd } from "react-icons/bs"
 import { BsPersonFillCheck } from "react-icons/bs"
@@ -8,6 +10,8 @@ import { FaCheck } from "react-icons/fa"
 import { FaTimes } from "react-icons/fa"
 import { RxEnter } from "react-icons/rx"
 import { RiChatOffLine } from "react-icons/ri"
+/* Helper functions imports */
+import { sendFriendRequest } from "../helpers/userRequestHelper"
 
 
 
@@ -119,11 +123,21 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const UserEntry = ({ userName, friendState, isOnline, isFriendsList }) => {
+const UserEntry = ({ setUsersState, username, userId, friendState, isFriendsList, isOnline }) => {
     const { classes } = useStyles()
 
+
+
+    const addFriendHandler = async (event) => {
+        event.preventDefault()
+
+        await sendFriendRequest(userId)
+    }
+
+
+
     return  <div className={ classes.root }>
-                <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ userName }</p>
+                <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
                 <div className={ classes.userStateContainer }>
 
                     

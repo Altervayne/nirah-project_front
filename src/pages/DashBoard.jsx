@@ -96,7 +96,11 @@ const DashBoard = () => {
 	const navigate = useNavigate()
 
 
-
+	const [friends, setFriends] = useState({
+        friends: [],
+        requestsReceived: [],
+        requestsSent: [],
+    })	
 	const [isLoading, setIsLoading] = useState(true)
 	const [currentUser, setCurrentUser] = useState({
 		username: '',
@@ -115,6 +119,11 @@ const DashBoard = () => {
 				navigate('/')	
 			} else {
 				setCurrentUser(receivedUser)
+				setFriends({
+					friends: receivedUser.friendsList,
+					requestsReceived: receivedUser.requestsReceived,
+					requestsSent: receivedUser.requestsSent
+				})
 				setIsLoading(false)
 			}
 		}
@@ -136,7 +145,11 @@ const DashBoard = () => {
 						duration: .5,
 					}}				
 				>
-					<NavMenu 	isChatRoom={ false } chatRoomId={ null } usersArray={{ friendsList: [], requestsReceived: [], requestsSent: [] }} currentUserInfo={ currentUser } />
+					<NavMenu 	setUsersState={ setFriends }
+								isChatRoom={ false }
+								chatRoomId={ null }
+								usersArray={ friends }
+								currentUserInfo={ currentUser } />
 
 					<div className={ classes.mainContainer }>
 						<img src="/images/logos/nirah_logo.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.largeLogo }/>
