@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { makeStyles } from "tss-react/mui"
 import { useParams, useNavigate } from "react-router-dom"
 import { getCurrentUserInfo } from "../helpers/userRequestHelper"
+import { sortChatRoomMembers, getCurrentChatRoomInfo } from "../helpers/chatRoomHelper"
 import LoadingScreen from "../components/LoadingScreen"
 import NavMenu from "../components/NavMenu"
 import Message from "../components/Message"
@@ -198,38 +199,22 @@ const ChatRoom = () => {
     const navigate = useNavigate()
 
 
-
-    const [isLoading, setIsLoading] = useState(true)
-	const [currentUser, setCurrentUser] = useState({
-		username: '',
-		friendsList: [],
-		requestsReceived: [],
-		requestsSent: []
-	})
-    
-    useEffect(() => {
-		const verifyCurrentUser = async () => {
-			const receivedUser = await getCurrentUserInfo()
-	
-			if(!receivedUser) {
-				navigate('/')	
-			} else {
-				await setCurrentUser(receivedUser)
-				setIsLoading(false)
-			}
-		}
-	  
-		verifyCurrentUser()
-	}, [ navigate ])
-
-
-
+    /* This block is the general handler for displaying messages */
+    /* The members state is an object containing four arrays, "friends", "requestsReceived", "requestsSent" and "normalUsers" */
+    const [members, setMembers] = useState({
+        friends: [],
+        requestsReceived: [],
+        requestsSent: [],
+        normalUsers: [],
+    })
     const [messages, setMessages] = useState([])
     const newMessageHandler = (newMessage) => {
         const newMessagesArray = [...messages, newMessage]
         setMessages(newMessagesArray)
     }
 
+
+    /* This block handles writing and sending messages */
     const [currentMessage, setCurrentMessage] = useState("")
     const handleCurrentMessageChange = (event) => {
         setCurrentMessage(event.target.value)
@@ -248,6 +233,41 @@ const ChatRoom = () => {
     }
 
 
+    /* This block handles fetching the user's info and loading in the chatroom */
+    const [isLoading, setIsLoading] = useState(true)
+	const [currentUser, setCurrentUser] = useState({
+		username: '',
+		friendsList: [],
+		requestsReceived: [],
+		requestsSent: []
+	})
+    
+    useEffect(() => {
+		const connectUserToChat = async () => {
+			const authenticatedUser = await getCurrentUserInfo()
+            const chatRoomData = await getCurrentChatRoomInfo(id)
+	
+			if(!authenticatedUser) {
+				navigate('/')	
+			} else {
+                console.log("chatRoomData is:")
+                console.log(chatRoomData)
+
+                const members = sortChatRoomMembers(authenticatedUser, chatRoomData.members)
+
+				await setCurrentUser(authenticatedUser)
+                await setMessages(chatRoomData.messages)
+                await setMembers(members)
+                
+				setIsLoading(false)
+			}
+		}
+        
+	  
+		connectUserToChat()
+	}, [ navigate ])
+
+
 
     return  <>
                 <motion.div className={ classes.root }
@@ -262,7 +282,7 @@ const ChatRoom = () => {
                         duration: .5,
                     }}				
                 >
-                    <NavMenu isChatRoom={ true } chatRoomId={ id } currentUserInfo={ currentUser } />
+                    <NavMenu isChatRoom={ true } chatRoomId={ id } usersArray={ members } currentUserInfo={ currentUser } />
                     <div className={ classes.mainContainer }>
                         <img src="/images/logos/nirah_logo_white.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.backgroundLogo }/>
 
@@ -282,10 +302,6 @@ const ChatRoom = () => {
                         </form>
 
                         <div className={ classes.chatRoot }>
-                            <Message senderUsername="TestUser1" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message senderUsername="TestUser2" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message senderUsername="TestUser2" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message senderUsername="TestUser1" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
                             <Message senderUsername="TestUser1" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
                             <Message senderUsername="TestUser2" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
                             { messages.map((message, index) => (

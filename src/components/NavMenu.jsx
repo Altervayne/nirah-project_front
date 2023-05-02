@@ -270,9 +270,10 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
+const NavMenuContent = ({ isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
     const { classes } = useStyles()
     const navigate = useNavigate()
+
     
     const [chosenRoomId, setChosenRoomId] = useState('')
     const handleChosenRoomIdChange = (event) => {
@@ -287,7 +288,6 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
         socketDisconnectionHandler(isChatRoom)
         await logOutHelper()
 
-
         navigate('/')
     }
 
@@ -295,10 +295,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
     const handleRoomJoin = async (event) => {
         event.preventDefault()
 
-
         socketConnectionHandler(chosenRoomId)
-
-
         navigate(`/room/${chosenRoomId}`)
     }
 
@@ -306,10 +303,7 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
     const handleRoomLeave = async (event) => {
         event.preventDefault()
 
-
         socketDisconnectionHandler(isChatRoom)
-
-
         navigate('/dashboard')
     }
     
@@ -377,13 +371,13 @@ const NavMenuContent = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
                     }
                 </div>
 
-                { isChatRoom ? <UsersList listType="members" /> : <UsersList listType="friends" /> }
+                { isChatRoom ? <UsersList listType="members" usersArray={ usersArray } /> : <UsersList listType="friends" /> }
             </>
 }
 
 
 
-const NavMenu = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
+const NavMenu = ({ isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
 	const { classes } = useStyles()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -453,12 +447,12 @@ const NavMenu = ({ isChatRoom, chatRoomId, currentUserInfo }) => {
                             delay: !isOpen ? .5 : 0
                         }
                     }}>
-                        <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } currentUserInfo={ currentUserInfo } />
+                        <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } usersArray={ usersArray } currentUserInfo={ currentUserInfo } />
                     </motion.nav>
                 </>
             : 
                 <nav className={ classes.root }>
-                    <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } currentUserInfo={ currentUserInfo } />
+                    <NavMenuContent isChatRoom={ isChatRoom } chatRoomId={ chatRoomId } usersArray={ usersArray } currentUserInfo={ currentUserInfo } />
                 </nav>  
 
     )
