@@ -24,10 +24,10 @@ I'm a junior full-stack developer (React-js / NodeJS / MongoDB) working on perso
 
 ## Installation
 
-Install nirah-front with npm
+Install nirah-front with npm and run with node
 
 ```bash
-  npm install nirah-front
-  cd nirah-front
+  npm install
+  node serve
 ```
     
