@@ -5,23 +5,24 @@ const apiUrl = 'http://localhost:4200/api'
 
 
 const sortChatRoomMembers = (currentUser, members) => {
-    const friendMembers = members.filter(member => {
+    const otherMembers = members.filter(user => user.username !== currentUser.username)
+
+    const friendMembers = otherMembers.filter(member => {
         return currentUser.friendsList.some(target => target.userID === member.userID)
     })
     
-    const requestsReceivedMembers = members.filter(member => {
+    const requestsReceivedMembers = otherMembers.filter(member => {
         return currentUser.requestsReceived.some(target => target.userID === member.userID);
     })
     
-    const requestsSentMembers = members.filter(member => {
+    const requestsSentMembers = otherMembers.filter(member => {
         return currentUser.requestsSent.some(target => target.userID === member.userID);
     })
     
-    const normalMembers = members.filter(member => {
+    const normalMembers = otherMembers.filter(member => {
         return  !friendMembers.includes(member) &&
                 !requestsReceivedMembers.includes(member) &&
-                !requestsSentMembers.includes(member) &&
-                member.username !== currentUser.username
+                !requestsSentMembers.includes(member)
     })
 
     const sortedMembers = {

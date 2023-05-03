@@ -123,7 +123,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const UserEntry = ({ setUsersState, username, userId, friendState, isFriendsList, isOnline }) => {
+const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, isFriendsList, isOnline }) => {
     const { classes } = useStyles()
 
 
@@ -131,7 +131,25 @@ const UserEntry = ({ setUsersState, username, userId, friendState, isFriendsList
     const addFriendHandler = async (event) => {
         event.preventDefault()
 
-        await sendFriendRequest(userId)
+        console.log("Attempting to send request")
+        const requestWasSent = await sendFriendRequest(userId)
+
+        if(requestWasSent) {
+            console.log("Request was successfully sent")
+
+            const newNormalUsers = usersArray.normalUsers.filter(user => user.userId !== userId)
+            const userRequested = { userId: userId, username: username }
+            const newRequestsSent = usersArray.requestsSent
+            newRequestsSent.push(userRequested)
+
+            setUsersState({
+                ...usersArray,
+                requestsSent: newRequestsSent,
+                normalUsers: newNormalUsers
+            })
+        } else {
+            console.log("You done fucked up")
+        }
     }
 
 
@@ -146,7 +164,7 @@ const UserEntry = ({ setUsersState, username, userId, friendState, isFriendsList
                                 initial={{ color: "#F2F4F8", scale: 1 }}
                                 whileHover={{ color: "#ED872D", scale: 1.15 }}
                             >
-                                <BsPersonFillAdd className={ classes.userStateIconActive } onClick={() => window.location.href = "/room/ID_HERE"} />
+                                <BsPersonFillAdd className={ classes.userStateIconActive } onClick={ addFriendHandler } />
                             </motion.button> }
 
 
@@ -179,7 +197,24 @@ const UserEntry = ({ setUsersState, username, userId, friendState, isFriendsList
                             </> }
 
 
-                    { isOnline && isFriendsList && 
+                    { friendState === "requestReceived" && isFriendsList && 
+                            <>
+                            <motion.button className={ classes.userStateIconContainerButton }
+                                initial={{ color: "#F2F4F8", scale: 1 }}
+                                whileHover={{ color: "#ED872D", scale: 1.15 }}
+                            >
+                                <FaCheck className={ classes.requestReceivedIcons } onClick={() => window.location.href = "/room/ID_HERE"} />
+                            </motion.button>
+                            <motion.button className={ classes.userStateIconContainerButton }
+                                initial={{ color: "#F2F4F8", scale: 1 }}
+                                whileHover={{ color: "#ED872D", scale: 1.15 }}
+                            >
+                                <FaTimes className={ classes.requestReceivedIcons } onClick={() => window.location.href = "/room/ID_HERE"} />
+                            </motion.button> 
+                    </> }
+
+
+                    { friendState !== "requestReceived" && isOnline && isFriendsList && 
                         <motion.button className={ classes.userStateIconContainerButton }
                             initial={{ color: "#F2F4F8", scale: 1 }}
                             whileHover={{ color: "#ED872D", scale: 1.15 }}
@@ -188,7 +223,7 @@ const UserEntry = ({ setUsersState, username, userId, friendState, isFriendsList
                         </motion.button> }
 
 
-                    { !isOnline && isFriendsList &&
+                    { friendState !== "requestReceived" && !isOnline && isFriendsList &&
                         <div className={ classes.userStateIconContainerPassive }>
                             <RiChatOffLine className={ classes.userStateIconPassive }/>
                         </div> }

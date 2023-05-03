@@ -241,6 +241,13 @@ const ChatRoom = () => {
 		requestsReceived: [],
 		requestsSent: []
 	})
+
+
+    useEffect(() => {
+        console.log("Current members state is:")
+		console.log(members)
+	}, [ members ])
+
     
     useEffect(() => {
 		const connectUserToChat = async () => {
@@ -265,7 +272,7 @@ const ChatRoom = () => {
         
 	  
 		connectUserToChat()
-	}, [ navigate ])
+	}, [ navigate, id ])
 
 
 

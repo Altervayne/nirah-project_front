@@ -116,6 +116,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                             {/* This part of the list displays the received friends requests */}
                             { usersArray["requestsReceived"].length !== 0 && <Divider title="Demandes reçues" /> }
                             { usersArray["requestsReceived"].map(memberData => <UserEntry   setUsersState={ setUsersState }
+                                                                                            usersArray={ usersArray }
                                                                                             username={ memberData.username }
                                                                                             userId={ memberData.userId }
                                                                                             friendState="requestReceived"
@@ -126,6 +127,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                             {/* This part of the list displays the online friends */}
                             { usersArray["requestsReceived"].length !== 0 && <Divider title="Membres en ligne" /> }
                             { usersArray["friends"].map(memberData => <UserEntry    setUsersState={ setUsersState }
+                                                                                    usersArray={ usersArray }
                                                                                     username={ memberData.username }
                                                                                     userId={ memberData.userId }
                                                                                     friendState="isFriend"
@@ -135,6 +137,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
 
                             {/* And then displays the online non-friend users */}
                             { usersArray["normalUsers"].map(memberData => <UserEntry    setUsersState={ setUsersState }
+                                                                                        usersArray={ usersArray }
                                                                                         username={ memberData.username }
                                                                                         userId={ memberData.userId }
                                                                                         friendState="notFriend"
@@ -145,6 +148,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                             {/* This part of the list displays the users to whom our current user has sent requests */}
                             { usersArray["requestsSent"].length !== 0 && <Divider title="Demande envoyée" /> }
                             { usersArray["requestsSent"].map(memberData => <UserEntry   setUsersState={ setUsersState }
+                                                                                        usersArray={ usersArray }
                                                                                         username={ memberData.username }
                                                                                         userId={ memberData.userId }
                                                                                         friendState="requestSent"
@@ -159,6 +163,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                             {/* This part of the list displays the received friends requests */}
                             { usersArray["requestsReceived"].length !== 0 && <Divider title="Demandes reçues" /> }
                             { usersArray["requestsReceived"].map(memberData => <UserEntry   setUsersState={ setUsersState }
+                                                                                            usersArray={ usersArray }
                                                                                             username={ memberData.username }
                                                                                             userId={ memberData.userId }
                                                                                             friendState="requestReceived"
@@ -167,18 +172,21 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                             key={ memberData.username } />) }
 
                             {/* This part of the friends list displays the online friends */}
-                            { usersArray["requestsReceived"].length !== 0 && <Divider title="Amis en ligne" /> }
-                            { usersArray["friendsList"].map(memberData => <UserEntry    setUsersState={ setUsersState }
-                                                                                        username={ memberData.username }
-                                                                                        userId={ memberData.userId }
-                                                                                        friendState="isFriend"
-                                                                                        isFriendsList={ true }
-                                                                                        isOnline={ true }
-                                                                                        key={ memberData.username } />) }
+                            { usersArray["requestsReceived"].length !== 0 && 
+                              usersArray["friends"].length !== 0 && <Divider title="Amis en ligne" /> }
+                            { usersArray["friends"].map(memberData => <UserEntry    setUsersState={ setUsersState }
+                                                                                    usersArray={ usersArray }
+                                                                                    username={ memberData.username }
+                                                                                    userId={ memberData.userId }
+                                                                                    friendState="isFriend"
+                                                                                    isFriendsList={ true }
+                                                                                    isOnline={ true }
+                                                                                    key={ memberData.username } />) }
 
                             {/* This part of the friends list displays the users to whom our current user has sent a request */}
                             { usersArray["requestsSent"].length !== 0 && <Divider title="Demande envoyée" /> }
                             { usersArray["requestsSent"].map(memberData => <UserEntry   setUsersState={ setUsersState }
+                                                                                        usersArray={ usersArray }
                                                                                         username={ memberData.username }
                                                                                         userId={ memberData.userId }
                                                                                         friendState="requestSent"

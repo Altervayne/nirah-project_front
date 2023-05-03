@@ -30,7 +30,7 @@ const getCurrentUserInfo = () => {
 
 
 const sendFriendRequest = (id) => {
-    return axios.post(`${apiUrl}/sendRequest/${id}`, { withCredentials: true })
+    return axios.post(`${apiUrl}/sendRequest/${id}`, { null: null }, { withCredentials: true })
                 .then((response) => {
                     console.log(response)
                     return true
