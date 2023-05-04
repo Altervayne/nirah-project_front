@@ -11,15 +11,19 @@ const socket = io(SOCKET_SERVER_URL, {
     withCredentials: true
 })
 
-const socketConnectionHandler = (roomId) => {
+const socketJoinHandler = (roomId) => {
     socket.connect()
     socket.emit('joinRoom', { roomId: roomId })
 }
 
-const socketDisconnectionHandler = (isChatRoom) => {
+const socketLeaveHandler = () => {
+    socket.emit('leaveRoom')
+}
+
+const socketDisconnectHandler = () => {
     socket.disconnect()
 }
 
 
 
-export { socketConnectionHandler, socketDisconnectionHandler }
+export { socketJoinHandler, socketLeaveHandler, socketDisconnectHandler }

@@ -11,7 +11,7 @@ import { FaTimes } from "react-icons/fa"
 import { RxEnter } from "react-icons/rx"
 import { RiChatOffLine } from "react-icons/ri"
 /* Helper functions imports */
-import { handleFriendRequest } from "../helpers/userRequestHelper"
+import { handleFriendRequest } from "../helpers/friendRequestHelper"
 
 
 
