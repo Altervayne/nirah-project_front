@@ -11,7 +11,8 @@ import { FaTimes } from "react-icons/fa"
 import { RxEnter } from "react-icons/rx"
 import { RiChatOffLine } from "react-icons/ri"
 /* Helper functions imports */
-import { handleFriendRequest } from "../helpers/friendRequestHelper"
+import { handleFriendRequest, handleUsersUpdate } from "../helpers/friendRequestHelper"
+import { socketFriendRequestHandler } from "../helpers/socketHandler"
 
 
 
@@ -127,25 +128,6 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
     const { classes } = useStyles()
 
 
-
-    const handleUsersUpdate = (previousCategory, newCategory) => {
-        const newPreviousCategory = usersArray[previousCategory].filter(user => user.userId !== userId)
-        const newNewCategory = usersArray[newCategory]
-        const swappedUser = { userId: userId, username: username }
-        
-        console.log(`newCategory parameter is: ${newCategory}`)
-        console.log(`newNewCategory array is:`)
-        console.log(newNewCategory)
-
-        newNewCategory.push(swappedUser)
-
-        setUsersState({
-            ...usersArray,
-            [newCategory]: newNewCategory,
-            [previousCategory]: newPreviousCategory
-        })
-    }
-
     const addFriendHandler = async (event) => {
         event.preventDefault()
 
@@ -155,7 +137,8 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         if(requestWasSent) {
             console.log("Request was successfully sent")
 
-            handleUsersUpdate("normalUsers", "requestsSent")
+            socketFriendRequestHandler(userId, "send")
+            handleUsersUpdate(userId, username, "normalUsers", "requestsSent", usersArray, setUsersState)
         } else {
             console.log("You done fucked up")
         }
@@ -176,11 +159,13 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         if(requestWasSent && requestWasAccepted) {
             console.log("Request was successfully accepted")
 
-            handleUsersUpdate("requestsReceived", "friends")
+            socketFriendRequestHandler(userId, "accept")
+            handleUsersUpdate(userId, username, "requestsReceived", "friends", usersArray, setUsersState)
         } else if(requestWasSent && !requestWasAccepted) {
             console.log("Request was successfully rejected")
 
-            handleUsersUpdate("requestsReceived", "normalUsers")
+            socketFriendRequestHandler(userId, "reject")
+            handleUsersUpdate(userId, username, "requestsReceived", "normalUsers", usersArray, setUsersState)
         } else {
             console.log("You done fucked up")
         }

@@ -17,6 +17,34 @@ const apiUrl = 'http://localhost:4200/api/friends'
 
 
 
+const handleUsersUpdate = (userId, username, previousCategory, newCategory, usersArray, setUsersState) => {
+    const newPreviousCategory = usersArray[previousCategory].filter(user => user.userId !== userId)
+    const newNewCategory = usersArray[newCategory]
+    const swappedUser = { userId: userId, username: username }
+    
+    console.log(`newCategory parameter is: ${newCategory}`)
+    console.log(`newNewCategory array is:`)
+    console.log(newNewCategory)
+
+    if(newNewCategory.includes(swappedUser)) {
+        setUsersState({
+            ...usersArray,
+            [newCategory]: newNewCategory,
+            [previousCategory]: newPreviousCategory
+        })
+    } else {
+        newNewCategory.push(swappedUser)
+
+        setUsersState({
+            ...usersArray,
+            [newCategory]: newNewCategory,
+            [previousCategory]: newPreviousCategory
+        })
+    }
+}
+
+
+
 const handleFriendRequest = (id, requestNature) => {
     return axios.post(`${apiUrl}/${requestNature}/${id}`, { null: null }, { withCredentials: true })
                 .then((response) => {
@@ -31,4 +59,4 @@ const handleFriendRequest = (id, requestNature) => {
 
 
 
-export { handleFriendRequest /* getFriendsInfo */ }
+export { handleFriendRequest, handleUsersUpdate /* getFriendsInfo */ }

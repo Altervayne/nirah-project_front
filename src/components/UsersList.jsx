@@ -1,7 +1,12 @@
-import React from "react"
+/* Libraries imports */
+import React, { useEffect } from "react"
 import { makeStyles } from "tss-react/mui"
+/* Component imports */
 import UserEntry from "./UserEntry"
 import Divider from "./Divider"
+/* Helper functions imports */
+import { handleUsersUpdate } from "../helpers/friendRequestHelper"
+import { socket } from "../helpers/socketHandler"
 
 
 
@@ -101,6 +106,31 @@ const useStyles = makeStyles()((theme) => {
 
 const UsersList = ({ setUsersState, listType, usersArray }) => {
     const { classes } = useStyles()
+
+
+    useEffect(() => {
+            const handleSendRequest = (data) => {
+                handleUsersUpdate(data.userId, data.username, "normalUsers", "requestsReceived", usersArray, setUsersState)
+            }
+            
+            const handleAcceptRequest = (data) => {
+                handleUsersUpdate(data.userId, data.username, "requestsSent", "friends", usersArray, setUsersState)
+            }
+            
+            const handleRejectRequest = (data) => {
+                handleUsersUpdate(data.userId, data.username, "requestsSent", "normalUsers", usersArray, setUsersState)
+            }
+        
+            socket.on("sendRequest", handleSendRequest)
+            socket.on("acceptRequest", handleAcceptRequest)
+            socket.on("rejectRequest", handleRejectRequest)
+        
+            return () => {
+                socket.off("sendRequest", handleSendRequest)
+                socket.off("acceptRequest", handleAcceptRequest)
+                socket.off("rejectRequest", handleRejectRequest)
+            }
+      }, [usersArray, setUsersState])
 
 
     return  <div className={ classes.root }>

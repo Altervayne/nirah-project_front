@@ -24,6 +24,10 @@ const socketDisconnectHandler = () => {
     socket.disconnect()
 }
 
+const socketFriendRequestHandler = (userId, requestType) => {
+    socket.emit('friendRequest', { userId: userId, requestType: requestType })
+}
 
 
-export { socketJoinHandler, socketLeaveHandler, socketDisconnectHandler }
+
+export { socket, socketJoinHandler, socketLeaveHandler, socketDisconnectHandler, socketFriendRequestHandler }
