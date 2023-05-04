@@ -11,7 +11,7 @@ import { FaTimes } from "react-icons/fa"
 import { RxEnter } from "react-icons/rx"
 import { RiChatOffLine } from "react-icons/ri"
 /* Helper functions imports */
-import { sendFriendRequest } from "../helpers/userRequestHelper"
+import { handleFriendRequest } from "../helpers/userRequestHelper"
 
 
 
@@ -128,29 +128,61 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
 
 
 
+    const handleUsersUpdate = (previousCategory, newCategory) => {
+        const newPreviousCategory = usersArray[previousCategory].filter(user => user.userId !== userId)
+        const newNewCategory = usersArray[newCategory]
+        const swappedUser = { userId: userId, username: username }
+        
+        newNewCategory.push(swappedUser)
+
+        setUsersState({
+            ...usersArray,
+            [newCategory]: newNewCategory,
+            [previousCategory]: newPreviousCategory
+        })
+    }
+
     const addFriendHandler = async (event) => {
         event.preventDefault()
 
         console.log("Attempting to send request")
-        const requestWasSent = await sendFriendRequest(userId)
+        const requestWasSent = await handleFriendRequest(userId, "sendRequest")
 
         if(requestWasSent) {
             console.log("Request was successfully sent")
 
-            const newNormalUsers = usersArray.normalUsers.filter(user => user.userId !== userId)
-            const userRequested = { userId: userId, username: username }
-            const newRequestsSent = usersArray.requestsSent
-            newRequestsSent.push(userRequested)
-
-            setUsersState({
-                ...usersArray,
-                requestsSent: newRequestsSent,
-                normalUsers: newNormalUsers
-            })
+            handleUsersUpdate("normalUsers", "requestsSent")
         } else {
             console.log("You done fucked up")
         }
     }
+
+    const requestResponseHandler = async (event, response) => {
+        event.preventDefault()
+
+        const requestWasAccepted = response
+        let requestResponse = ""
+
+        requestWasAccepted ? requestResponse = "acceptRequest" : requestResponse = "rejectRequest"
+        console.log("Attempting to update request")
+        const requestWasSent = await handleFriendRequest(userId, requestResponse)
+
+
+
+        if(requestWasSent && requestWasAccepted) {
+            console.log("Request was successfully accepted")
+
+            handleUsersUpdate("requestsReceived", "friends")
+        } else if(requestWasSent && !requestWasAccepted) {
+            console.log("Request was successfully rejected")
+
+            handleUsersUpdate("requestsReceived", "normalUsers")
+        } else {
+            console.log("You done fucked up")
+        }
+    }
+
+    
 
 
 
@@ -158,7 +190,8 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
                 <div className={ classes.userStateContainer }>
 
-                    
+                    {/* Room Members List block */}
+
                     { friendState === "notFriend" && !isFriendsList && 
                             <motion.button className={ classes.userStateIconContainerButton }
                                 initial={{ color: "#F2F4F8", scale: 1 }}
@@ -196,6 +229,9 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                             </motion.button> 
                             </> }
 
+                    
+                    {/* Friends List block */}
+
 
                     { friendState === "requestReceived" && isFriendsList && 
                             <>
@@ -213,8 +249,12 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                             </motion.button> 
                     </> }
 
+                    { friendState === "requestSent" && isFriendsList && 
+                            <div className={ classes.userStateIconContainerPassive }>
+                                <BsPersonFillUp className={ classes.userStateIconPassive } />
+                            </div> }
 
-                    { friendState !== "requestReceived" && isOnline && isFriendsList && 
+                    { friendState !== "requestReceived" && friendState !== "requestSent" && isOnline && isFriendsList && 
                         <motion.button className={ classes.userStateIconContainerButton }
                             initial={{ color: "#F2F4F8", scale: 1 }}
                             whileHover={{ color: "#ED872D", scale: 1.15 }}
@@ -223,7 +263,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                         </motion.button> }
 
 
-                    { friendState !== "requestReceived" && !isOnline && isFriendsList &&
+                    { friendState !== "requestReceived" && friendState !== "requestSent" && !isOnline && isFriendsList &&
                         <div className={ classes.userStateIconContainerPassive }>
                             <RiChatOffLine className={ classes.userStateIconPassive }/>
                         </div> }

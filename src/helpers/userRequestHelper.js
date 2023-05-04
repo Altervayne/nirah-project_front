@@ -29,8 +29,8 @@ const getCurrentUserInfo = () => {
 
 
 
-const sendFriendRequest = (id) => {
-    return axios.post(`${apiUrl}/sendRequest/${id}`, { null: null }, { withCredentials: true })
+const handleFriendRequest = (id, requestNature) => {
+    return axios.post(`${apiUrl}/${requestNature}/${id}`, { null: null }, { withCredentials: true })
                 .then((response) => {
                     console.log(response)
                     return true
@@ -43,4 +43,4 @@ const sendFriendRequest = (id) => {
 
 
 
-export { getCurrentUserInfo, sendFriendRequest /* getFriendsInfo */ }
+export { getCurrentUserInfo, handleFriendRequest /* getFriendsInfo */ }
