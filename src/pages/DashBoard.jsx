@@ -100,6 +100,7 @@ const DashBoard = () => {
         friends: [],
         requestsReceived: [],
         requestsSent: [],
+		normalUsers: []
     })	
 	const [isLoading, setIsLoading] = useState(true)
 	const [currentUser, setCurrentUser] = useState({
@@ -122,7 +123,8 @@ const DashBoard = () => {
 				setFriends({
 					friends: receivedUser.friendsList,
 					requestsReceived: receivedUser.requestsReceived,
-					requestsSent: receivedUser.requestsSent
+					requestsSent: receivedUser.requestsSent,
+					normalUsers: [],
 				})
 				setIsLoading(false)
 			}

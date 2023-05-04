@@ -125,7 +125,9 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                             key={ memberData.username } />) }
 
                             {/* This part of the list displays the online friends */}
-                            { usersArray["requestsReceived"].length !== 0 && <Divider title="Membres en ligne" /> }
+                            { usersArray["requestsReceived"].length !== 0 && 
+                              usersArray["friends"].length !== 0 && 
+                              usersArray["normalUsers"].length !== 0 && <Divider title="Membres en ligne" /> }
                             { usersArray["friends"].map(memberData => <UserEntry    setUsersState={ setUsersState }
                                                                                     usersArray={ usersArray }
                                                                                     username={ memberData.username }

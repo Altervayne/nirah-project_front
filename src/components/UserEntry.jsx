@@ -133,6 +133,10 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         const newNewCategory = usersArray[newCategory]
         const swappedUser = { userId: userId, username: username }
         
+        console.log(`newCategory parameter is: ${newCategory}`)
+        console.log(`newNewCategory array is:`)
+        console.log(newNewCategory)
+
         newNewCategory.push(swappedUser)
 
         setUsersState({
