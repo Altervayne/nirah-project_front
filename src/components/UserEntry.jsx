@@ -190,6 +190,8 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
                 <div className={ classes.userStateContainer }>
 
+
+
                     {/* Room Members List block */}
 
                     { friendState === "notFriend" && !isFriendsList && 
@@ -207,52 +209,8 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                             </div> }
 
 
-                    { friendState === "requestSent" && !isFriendsList && 
-                            <div className={ classes.userStateIconContainerPassive }>
-                                <BsPersonFillUp className={ classes.userStateIconPassive } onClick={() => window.location.href = "/room/ID_HERE"} />
-                            </div> }
-
-
-                    { friendState === "requestReceived" && !isFriendsList && 
-                            <>
-                            <motion.button className={ classes.userStateIconContainerButton }
-                                initial={{ color: "#F2F4F8", scale: 1 }}
-                                whileHover={{ color: "#ED872D", scale: 1.15 }}
-                            >
-                                <FaCheck className={ classes.requestReceivedIcons } onClick={() => window.location.href = "/room/ID_HERE"} />
-                            </motion.button>
-                            <motion.button className={ classes.userStateIconContainerButton }
-                                initial={{ color: "#F2F4F8", scale: 1 }}
-                                whileHover={{ color: "#ED872D", scale: 1.15 }}
-                            >
-                                <FaTimes className={ classes.requestReceivedIcons } onClick={() => window.location.href = "/room/ID_HERE"} />
-                            </motion.button> 
-                            </> }
-
                     
-                    {/* Friends List block */}
-
-
-                    { friendState === "requestReceived" && isFriendsList && 
-                            <>
-                            <motion.button className={ classes.userStateIconContainerButton }
-                                initial={{ color: "#F2F4F8", scale: 1 }}
-                                whileHover={{ color: "#ED872D", scale: 1.15 }}
-                            >
-                                <FaCheck className={ classes.requestReceivedIcons } onClick={() => window.location.href = "/room/ID_HERE"} />
-                            </motion.button>
-                            <motion.button className={ classes.userStateIconContainerButton }
-                                initial={{ color: "#F2F4F8", scale: 1 }}
-                                whileHover={{ color: "#ED872D", scale: 1.15 }}
-                            >
-                                <FaTimes className={ classes.requestReceivedIcons } onClick={() => window.location.href = "/room/ID_HERE"} />
-                            </motion.button> 
-                    </> }
-
-                    { friendState === "requestSent" && isFriendsList && 
-                            <div className={ classes.userStateIconContainerPassive }>
-                                <BsPersonFillUp className={ classes.userStateIconPassive } />
-                            </div> }
+                    {/* Friends List block */}                    
 
                     { friendState !== "requestReceived" && friendState !== "requestSent" && isOnline && isFriendsList && 
                         <motion.button className={ classes.userStateIconContainerButton }
@@ -267,6 +225,31 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                         <div className={ classes.userStateIconContainerPassive }>
                             <RiChatOffLine className={ classes.userStateIconPassive }/>
                         </div> }
+
+
+
+                    {/* General Block */}
+
+                    { friendState === "requestReceived" && 
+                            <>
+                            <motion.button className={ classes.userStateIconContainerButton }
+                                initial={{ color: "#F2F4F8", scale: 1 }}
+                                whileHover={{ color: "#ED872D", scale: 1.15 }}
+                            >
+                                <FaCheck className={ classes.requestReceivedIcons } onClick={(event) => requestResponseHandler(event, true)} />
+                            </motion.button>
+                            <motion.button className={ classes.userStateIconContainerButton }
+                                initial={{ color: "#F2F4F8", scale: 1 }}
+                                whileHover={{ color: "#ED872D", scale: 1.15 }}
+                            >
+                                <FaTimes className={ classes.requestReceivedIcons } onClick={(event) => requestResponseHandler(event, false)} />
+                            </motion.button> 
+                            </> }
+
+                    { friendState === "requestSent" && 
+                            <div className={ classes.userStateIconContainerPassive }>
+                                <BsPersonFillUp className={ classes.userStateIconPassive } />
+                            </div> }
                     
                 </div>
             </div>
