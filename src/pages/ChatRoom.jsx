@@ -275,14 +275,7 @@ const ChatRoom = () => {
 		requestsReceived: [],
 		requestsSent: []
 	})
-
-
-    useEffect(() => {
-        console.log("Current members state is:")
-		console.log(members)
-	}, [ members ])
-
-    
+  
     useEffect(() => {
 		const connectUserToChat = async () => {
 			const authenticatedUser = await getCurrentUserInfo()
@@ -306,8 +299,14 @@ const ChatRoom = () => {
 			}
 		}
         
-	  
-		connectUserToChat()
+        const roomIdRegex = /^\d{1,6}$/
+
+        if(roomIdRegex.test(id)) {
+            connectUserToChat()
+        } else {
+            navigate('/dashboard')
+        }
+		
 	}, [ navigate, id ])
 
 

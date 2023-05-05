@@ -156,6 +156,7 @@ const useStyles = makeStyles()((theme) => {
         },
         roomIdAndFormContainer: {
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
 
             boxSizing: "border-box",
@@ -211,6 +212,17 @@ const useStyles = makeStyles()((theme) => {
 
             width: "75%",
             height: "70px",
+        },
+        invalidInput: {
+            color: "#DF4661",
+
+            width: "100%",
+
+            boxSizing: "border-box",
+
+            fontSize: theme.typography.pxToRem(13),
+            padding: "0 10px",
+            marginTop: theme.spacing(.5),
         },
         formButton: {
             display: "flex",
@@ -275,9 +287,18 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
     const navigate = useNavigate()
 
     
-    const [chosenRoomId, setChosenRoomId] = useState('')
+    const [chosenRoomId, setChosenRoomId] = useState({ valid: false, value: '', changed: false, error: '' })
     const handleChosenRoomIdChange = (event) => {
-        setChosenRoomId(event.target.value)
+        const newValue = event.target.value
+        const roomIdRegex = /^\d{1,6}$/
+
+        if(newValue === '0') {
+            setChosenRoomId({ valid: false, value: newValue, changed: true, error: "L'identifiant ne peut être 0" })
+        } else if(roomIdRegex.test(newValue)) {
+            setChosenRoomId({ valid: true, value: newValue, changed: true, error: '' })
+        } else {
+            setChosenRoomId({ valid: false, value: newValue, changed: true, error: "L'identifiant doit être un nombre d'entre 1 et 6 chiffres" })
+        }
     }
     
 
@@ -294,7 +315,9 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
     const handleRoomJoin = async (event) => {
         event.preventDefault()
 
-        navigate(`/room/${chosenRoomId}`)
+        if(chosenRoomId.valid){
+            navigate(`/room/${chosenRoomId}`)
+        }       
     }
     const handleRoomLeave = async (event) => {
         event.preventDefault()
@@ -319,30 +342,43 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
 
                 <div className={ classes.roomIdAndFormContainer }>
                     { !isChatRoom ? 
-                        <form className={ classes.roomJoinForm } onSubmit={ handleRoomJoin }>
-                            <div className={ classes.inputContainer }>
-                                <label className={ classes.formLabel } htmlFor="join-field">Rejoindre ou Créer un Salon</label>
-                                <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text" value={ chosenRoomId }
-                                    onChange={ handleChosenRoomIdChange }
-                                    initial={{ backgroundColor: "#F2F4F8" }}
-                                    whileFocus={{ backgroundColor: "#C2D4EB" }}
-                                />
-                            </div>
-                            
-                            <motion.button className={ classes.formButton }
-                                    onClick={ handleRoomJoin }
-                                    whileHover={{
-                                        color: "#ED872D",
-                                        scale: 1.05,
-                                    }}
-                                    whileTap={{
-                                        color: "#ED872D",
-                                        scale: .97,
-                                    }}
-                                >
-                                    Valider
-                            </motion.button>
-                        </form>
+                        <>
+                            <form className={ classes.roomJoinForm } onSubmit={ handleRoomJoin }>
+                                <div className={ classes.inputContainer }>
+                                    <label className={ classes.formLabel } htmlFor="join-field">Rejoindre ou Créer un salon</label>
+                                    <motion.input className={ classes.formInput } placeholder="Entrez l'ID..." id="join-field" type="text" value={ chosenRoomId.value }
+                                        onChange={ handleChosenRoomIdChange }
+                                        initial={{ backgroundColor: "#F2F4F8" }}
+                                        whileFocus={{ backgroundColor: "#C2D4EB" }}
+                                    />
+                                </div>
+                                
+                                <motion.button className={ classes.formButton }
+                                        onClick={ handleRoomJoin }
+                                        whileHover={{
+                                            color: "#ED872D",
+                                            scale: 1.05,
+                                        }}
+                                        whileTap={{
+                                            color: "#ED872D",
+                                            scale: .97,
+                                        }}
+                                    >
+                                        Valider
+                                </motion.button>
+                            </form>
+                            <motion.p className={ classes.invalidInput }
+                            initial={{ visibility: "hidden", display: "none", opacity: 0 }}
+                            animate={ !chosenRoomId.valid && chosenRoomId.changed
+                                ? { visibility: "visible", display: "block", opacity: 1 }
+                                : { visibility: "hidden", display: "none", opacity: 0 }}
+                            transition={{
+                                duration: .2,
+                                opacity: { delay: !chosenRoomId.valid ? .2 : 0},
+                                visibility: { delay: chosenRoomId.valid ? .2 : 0},
+                                display: { delay: .2 }
+                                }}>{ chosenRoomId.error }</motion.p>
+                        </>
                     : 
                         <div className={ classes.roomIdContainer }>
                             <div className={ classes.inputContainer }>
