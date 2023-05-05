@@ -51,6 +51,20 @@ const handleUsersUpdate = async (userId, username, previousCategory, newCategory
 
 
 
+const handleFriendStatusUpdate = async (userId, usersArray, setUsersState) => {
+    const newFriends = usersArray.friends.filter(user => user.userId !== userId)
+    const updatedFriend = await getFriendsInfo(userId)
+    
+    newFriends.push(updatedFriend)
+
+    setUsersState({
+        ...usersArray,
+        friends: newFriends
+    })
+}
+
+
+
 const handleFriendRequest = (id, requestNature) => {
     return axios.post(`${apiUrl}/${requestNature}/${id}`, { null: null }, { withCredentials: true })
                 .then((response) => {
@@ -64,4 +78,4 @@ const handleFriendRequest = (id, requestNature) => {
 
 
 
-export { handleFriendRequest, handleUsersUpdate /* getFriendsInfo */ }
+export { handleFriendRequest, handleUsersUpdate, handleFriendStatusUpdate /* getFriendsInfo */ }

@@ -5,7 +5,7 @@ import { makeStyles } from "tss-react/mui"
 import UserEntry from "./UserEntry"
 import Divider from "./Divider"
 /* Helper functions imports */
-import { handleUsersUpdate } from "../helpers/friendRequestHelper"
+import { handleUsersUpdate, handleFriendStatusUpdate } from "../helpers/friendRequestHelper"
 import { socket } from "../helpers/socketHandler"
 
 
@@ -109,6 +109,13 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
 
 
     useEffect(() => {
+        const statusUpdateEvents = ["connection", "disconnection", "joinRoom", "leaveRoom"]
+
+
+        const handleFriendStatus = (data) => {
+            handleFriendStatusUpdate(data.userId, usersArray, setUsersState)
+        }
+
         const handleSendRequest = (data) => {
             handleUsersUpdate(data.userId, data.username, "normalUsers", "requestsReceived", usersArray, setUsersState)
         }
@@ -124,13 +131,25 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
         socket.on("sendRequest", handleSendRequest)
         socket.on("acceptRequest", handleAcceptRequest)
         socket.on("rejectRequest", handleRejectRequest)
+
+        if(listType === "friends") {
+            statusUpdateEvents.forEach((event) => {
+                socket.on(event, handleFriendStatus);
+            })
+        }
     
         return () => {
             socket.off("sendRequest", handleSendRequest)
             socket.off("acceptRequest", handleAcceptRequest)
             socket.off("rejectRequest", handleRejectRequest)
+
+            if(listType === "friends") {
+                statusUpdateEvents.forEach((event) => {
+                    socket.off(event, handleFriendStatus);
+                })
+            }
         }
-    }, [usersArray, setUsersState])
+    }, [usersArray, setUsersState, listType])
 
 
     const onlineFriends = usersArray.friends.filter((user) => user.isOnline)
