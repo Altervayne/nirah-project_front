@@ -156,6 +156,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                             friendState="requestReceived"
                                                                                             isFriendsList={ false }
                                                                                             isOnline={ true }
+                                                                                            currentRoom={ '0' }
                                                                                             key={ memberData.username } />) }
 
                             {/* This part of the list displays the online friends */}
@@ -169,6 +170,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                     friendState="isFriend"
                                                                                     isFriendsList={ false }
                                                                                     isOnline={ true }
+                                                                                    currentRoom={ '0' }
                                                                                     key={ memberData.username } />) }
 
                             {/* And then displays the online non-friend users */}
@@ -179,6 +181,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                         friendState="notFriend"
                                                                                         isFriendsList={ false }
                                                                                         isOnline={ true }
+                                                                                        currentRoom={ '0' }
                                                                                         key={ memberData.username } />) }
 
                             {/* This part of the list displays the users to whom our current user has sent requests */}
@@ -190,6 +193,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                         friendState="requestSent"
                                                                                         isFriendsList={ false }
                                                                                         isOnline={ true }
+                                                                                        currentRoom={ '0' }
                                                                                         key={ memberData.username } />) }
                         </> }
 
@@ -205,6 +209,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                             friendState="requestReceived"
                                                                                             isFriendsList={ true }
                                                                                             isOnline={ true }
+                                                                                            currentRoom={ '0' }
                                                                                             key={ memberData.username } />) }
 
                             {/* This part of the friends list displays the online friends */}
@@ -217,6 +222,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                             friendState="isFriend"
                                                                             isFriendsList={ true }
                                                                             isOnline={ memberData.isOnline }
+                                                                            currentRoom={ memberData.currentRoom }
                                                                             key={ memberData.username } />) }
 
                             {/* This part of the friends list displays the offline friends */}
@@ -230,6 +236,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                             friendState="isFriend"
                                                                             isFriendsList={ true }
                                                                             isOnline={ memberData.isOnline }
+                                                                            currentRoom={ memberData.currentRoom }
                                                                             key={ memberData.username } />) }
 
                             {/* This part of the friends list displays the users to whom our current user has sent a request */}
@@ -241,6 +248,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                         friendState="requestSent"
                                                                                         isFriendsList={ true }
                                                                                         isOnline={ true }
+                                                                                        currentRoom={ '0' }
                                                                                         key={ memberData.username } />) } 
                         </> }
                 </div>

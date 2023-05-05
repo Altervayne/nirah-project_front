@@ -1,5 +1,6 @@
 /* Libraries imports */
 import React from "react"
+import { useNavigate } from "react-router"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 /* React-icons imports */
@@ -124,8 +125,9 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, isFriendsList, isOnline }) => {
+const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, isFriendsList, isOnline, currentRoom }) => {
     const { classes } = useStyles()
+    const navigate = useNavigate()
 
 
     const addFriendHandler = async (event) => {
@@ -162,9 +164,6 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         }
     }
 
-    
-
-
 
     return  <div className={ classes.root }>
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
@@ -185,7 +184,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
 
                     { friendState === "isFriend" && !isFriendsList && 
                             <div className={ classes.userStateIconContainerPassive }>
-                                <BsPersonFillCheck className={ classes.userStateIconPassive } onClick={() => window.location.href = "/room/ID_HERE"} />
+                                <BsPersonFillCheck className={ classes.userStateIconPassive } />
                             </div> }
 
 
@@ -197,7 +196,8 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                             initial={{ color: "#F2F4F8", scale: 1 }}
                             whileHover={{ color: "#ED872D", scale: 1.15 }}
                         >
-                            <RxEnter className={ classes.userStateIconActive } onClick={() => window.location.href = "/room/ID_HERE"} />
+                            { currentRoom === '0'   ? <RxEnter className={ classes.userStateIconPassive } />
+                                                    : <RxEnter className={ classes.userStateIconActive } onClick={ navigate(`/room/${currentRoom}`) } /> }
                         </motion.button> }
 
 

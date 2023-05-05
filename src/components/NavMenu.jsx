@@ -316,7 +316,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
         event.preventDefault()
 
         if(chosenRoomId.valid){
-            navigate(`/room/${chosenRoomId}`)
+            navigate(`/room/${chosenRoomId.value}`)
         }       
     }
     const handleRoomLeave = async (event) => {

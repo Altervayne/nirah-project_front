@@ -298,7 +298,7 @@ const ChatRoom = () => {
         
         const roomIdRegex = /^\d{1,6}$/
 
-        if(roomIdRegex.test(id)) {
+        if(roomIdRegex.test(`${id}`)) {
             connectUserToChat()
         } else {
             navigate('/dashboard')
