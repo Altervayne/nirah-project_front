@@ -131,16 +131,11 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
     const addFriendHandler = async (event) => {
         event.preventDefault()
 
-        console.log("Attempting to send request")
         const requestWasSent = await handleFriendRequest(userId, "sendRequest")
 
         if(requestWasSent) {
-            console.log("Request was successfully sent")
-
             socketFriendRequestHandler(userId, "send")
             handleUsersUpdate(userId, username, "normalUsers", "requestsSent", usersArray, setUsersState)
-        } else {
-            console.log("You done fucked up")
         }
     }
 
@@ -151,23 +146,19 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         let requestResponse = ""
 
         requestWasAccepted ? requestResponse = "acceptRequest" : requestResponse = "rejectRequest"
-        console.log("Attempting to update request")
+
         const requestWasSent = await handleFriendRequest(userId, requestResponse)
 
 
 
         if(requestWasSent && requestWasAccepted) {
-            console.log("Request was successfully accepted")
-
             socketFriendRequestHandler(userId, "accept")
             handleUsersUpdate(userId, username, "requestsReceived", "friends", usersArray, setUsersState)
         } else if(requestWasSent && !requestWasAccepted) {
-            console.log("Request was successfully rejected")
-
             socketFriendRequestHandler(userId, "reject")
             handleUsersUpdate(userId, username, "requestsReceived", "normalUsers", usersArray, setUsersState)
         } else {
-            console.log("You done fucked up")
+            console.log("The request could not be sent or the requestWasAccepted value is invalid.")
         }
     }
 

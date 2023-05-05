@@ -284,9 +284,6 @@ const ChatRoom = () => {
 			if(!authenticatedUser) {
 				navigate('/')	
 			} else {
-                console.log("chatRoomData is:")
-                console.log(chatRoomData)
-
                 const members = sortChatRoomMembers(authenticatedUser, chatRoomData.members)
 
 				await setCurrentUser(authenticatedUser)

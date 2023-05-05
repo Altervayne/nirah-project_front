@@ -21,10 +21,6 @@ const handleUsersUpdate = (userId, username, previousCategory, newCategory, user
     const newPreviousCategory = usersArray[previousCategory].filter(user => user.userId !== userId)
     const newNewCategory = usersArray[newCategory]
     const swappedUser = { userId: userId, username: username }
-    
-    console.log(`newCategory parameter is: ${newCategory}`)
-    console.log(`newNewCategory array is:`)
-    console.log(newNewCategory)
 
     if(newNewCategory.includes(swappedUser)) {
         setUsersState({
@@ -48,11 +44,10 @@ const handleUsersUpdate = (userId, username, previousCategory, newCategory, user
 const handleFriendRequest = (id, requestNature) => {
     return axios.post(`${apiUrl}/${requestNature}/${id}`, { null: null }, { withCredentials: true })
                 .then((response) => {
-                    console.log(response)
                     return true
                 })
                 .catch((error) => {
-                    console.log(error)
+                    console.error(error)
                     return false
                 })
 }

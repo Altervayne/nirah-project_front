@@ -40,7 +40,6 @@ const sortChatRoomMembers = (currentUser, members) => {
 const getCurrentChatRoomInfo = (name) => {
     return axios.get(`${apiUrl}/chatroom/${name}`, { withCredentials: true })
                 .then((response) => {
-                    console.log(response)
                     return response.data
                 })
                 .catch((error) => {
