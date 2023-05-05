@@ -109,28 +109,32 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
 
 
     useEffect(() => {
-            const handleSendRequest = (data) => {
-                handleUsersUpdate(data.userId, data.username, "normalUsers", "requestsReceived", usersArray, setUsersState)
-            }
-            
-            const handleAcceptRequest = (data) => {
-                handleUsersUpdate(data.userId, data.username, "requestsSent", "friends", usersArray, setUsersState)
-            }
-            
-            const handleRejectRequest = (data) => {
-                handleUsersUpdate(data.userId, data.username, "requestsSent", "normalUsers", usersArray, setUsersState)
-            }
+        const handleSendRequest = (data) => {
+            handleUsersUpdate(data.userId, data.username, "normalUsers", "requestsReceived", usersArray, setUsersState)
+        }
         
-            socket.on("sendRequest", handleSendRequest)
-            socket.on("acceptRequest", handleAcceptRequest)
-            socket.on("rejectRequest", handleRejectRequest)
+        const handleAcceptRequest = (data) => {
+            handleUsersUpdate(data.userId, data.username, "requestsSent", "friends", usersArray, setUsersState)
+        }
         
-            return () => {
-                socket.off("sendRequest", handleSendRequest)
-                socket.off("acceptRequest", handleAcceptRequest)
-                socket.off("rejectRequest", handleRejectRequest)
-            }
-      }, [usersArray, setUsersState])
+        const handleRejectRequest = (data) => {
+            handleUsersUpdate(data.userId, data.username, "requestsSent", "normalUsers", usersArray, setUsersState)
+        }
+    
+        socket.on("sendRequest", handleSendRequest)
+        socket.on("acceptRequest", handleAcceptRequest)
+        socket.on("rejectRequest", handleRejectRequest)
+    
+        return () => {
+            socket.off("sendRequest", handleSendRequest)
+            socket.off("acceptRequest", handleAcceptRequest)
+            socket.off("rejectRequest", handleRejectRequest)
+        }
+    }, [usersArray, setUsersState])
+
+
+    const onlineFriends = usersArray.friends.filter((user) => user.isOnline)
+    const offlineFriends = usersArray.friends.filter((user) => !user.isOnline)
 
 
     return  <div className={ classes.root }>
@@ -178,7 +182,7 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
                                                                                         key={ memberData.username } />) }
 
                             {/* This part of the list displays the users to whom our current user has sent requests */}
-                            { usersArray["requestsSent"].length !== 0 && <Divider title="Demande envoyée" /> }
+                            { usersArray["requestsSent"].length !== 0 && <Divider title="Demandes envoyées" /> }
                             { usersArray["requestsSent"].map(memberData => <UserEntry   setUsersState={ setUsersState }
                                                                                         usersArray={ usersArray }
                                                                                         username={ memberData.username }
@@ -205,18 +209,31 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
 
                             {/* This part of the friends list displays the online friends */}
                             { usersArray["requestsReceived"].length !== 0 && 
-                              usersArray["friends"].length !== 0 && <Divider title="Amis en ligne" /> }
-                            { usersArray["friends"].map(memberData => <UserEntry    setUsersState={ setUsersState }
-                                                                                    usersArray={ usersArray }
-                                                                                    username={ memberData.username }
-                                                                                    userId={ memberData.userId }
-                                                                                    friendState="isFriend"
-                                                                                    isFriendsList={ true }
-                                                                                    isOnline={ true }
-                                                                                    key={ memberData.username } />) }
+                              onlineFriends.length !== 0 && <Divider title="Amis en ligne" /> }
+                            { onlineFriends.map(memberData => <UserEntry    setUsersState={ setUsersState }
+                                                                            usersArray={ usersArray }
+                                                                            username={ memberData.username }
+                                                                            userId={ memberData.userId }
+                                                                            friendState="isFriend"
+                                                                            isFriendsList={ true }
+                                                                            isOnline={ memberData.isOnline }
+                                                                            key={ memberData.username } />) }
+
+                            {/* This part of the friends list displays the offline friends */}
+                            { usersArray["requestsReceived"].length !== 0 && 
+                              onlineFriends.length !== 0 &&
+                              offlineFriends.length !== 0 && <Divider title="Amis hors-ligne" /> }
+                            { offlineFriends.map(memberData => <UserEntry   setUsersState={ setUsersState }
+                                                                            usersArray={ usersArray }
+                                                                            username={ memberData.username }
+                                                                            userId={ memberData.userId }
+                                                                            friendState="isFriend"
+                                                                            isFriendsList={ true }
+                                                                            isOnline={ memberData.isOnline }
+                                                                            key={ memberData.username } />) }
 
                             {/* This part of the friends list displays the users to whom our current user has sent a request */}
-                            { usersArray["requestsSent"].length !== 0 && <Divider title="Demande envoyée" /> }
+                            { usersArray["requestsSent"].length !== 0 && <Divider title="Demandes envoyées" /> }
                             { usersArray["requestsSent"].map(memberData => <UserEntry   setUsersState={ setUsersState }
                                                                                         usersArray={ usersArray }
                                                                                         username={ memberData.username }
