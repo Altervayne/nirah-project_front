@@ -1,13 +1,19 @@
+/* Libraries imports */
 import React, { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { makeStyles } from "tss-react/mui"
 import { useParams, useNavigate } from "react-router-dom"
-import { getCurrentUserInfo } from "../helpers/userRequestHelper"
-import { sortChatRoomMembers, getCurrentChatRoomInfo } from "../helpers/chatRoomHelper"
+/* React-icons imports */
+import { FaPaperPlane } from "react-icons/fa"
+/* Components imports */
 import LoadingScreen from "../components/LoadingScreen"
 import NavMenu from "../components/NavMenu"
 import Message from "../components/Message"
-import { FaPaperPlane } from "react-icons/fa"
+/* Helper functions imports */
+import { socket, socketJoinHandler } from "../helpers/socketHandler"
+import { getCurrentUserInfo } from "../helpers/userRequestHelper"
+import { sortChatRoomMembers, getCurrentChatRoomInfo } from "../helpers/chatRoomHelper"
+
 
 
 
@@ -100,6 +106,16 @@ const useStyles = makeStyles()((theme) => {
                 borderRadius: theme.spacing(2),
             },
         },
+        introMessage: {
+            textAlign: "center",
+            
+            width: "100%",
+
+            color: "#C2D4EB",
+            opacity: .5,
+            fontWeight: 600,
+            fontSize: theme.typography.pxToRem(26),
+        },
         chatBarContainer: {
             display: "flex",
             justifyContent: "center",
@@ -186,9 +202,9 @@ const useStyles = makeStyles()((theme) => {
 
 
 const AlwaysScrollToBottom = () => {
-    const elementRef= useRef()
+    const elementRef = useRef()
     useEffect(() => elementRef.current.scrollIntoView())
-    return <div ref={elementRef} />
+    return <div ref={ elementRef } />
 }
 
 
@@ -229,8 +245,26 @@ const ChatRoom = () => {
         }
 
         newMessageHandler(message)
+        socket.emit("sendMessage", { message: message.body })
+
         setCurrentMessage("")
     }
+
+
+    /* This block handles listening for and receiving messages */
+    useEffect(() => {
+        const handleReceivingMessage = (data) => {
+            const newMessagesArray = [...messages, data]
+            setMessages(newMessagesArray)
+        }
+
+    
+        socket.on("message", handleReceivingMessage)
+    
+        return () => {
+            socket.on("message", handleReceivingMessage)
+        }
+  }, [ messages, setMessages ])
 
 
     /* This block handles fetching the user's info and loading in the chatroom */
@@ -265,6 +299,8 @@ const ChatRoom = () => {
 				await setCurrentUser(authenticatedUser)
                 await setMessages(chatRoomData.messages)
                 await setMembers(members)
+
+                socketJoinHandler(id)
                 
 				setIsLoading(false)
 			}
@@ -315,8 +351,7 @@ const ChatRoom = () => {
                         </form>
 
                         <div className={ classes.chatRoot }>
-                            <Message senderUsername="TestUser1" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
-                            <Message senderUsername="TestUser2" createdAt={ new Date() } body="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam donec adipiscing tristique risus nec feugiat in. Sit amet tellus cras adipiscing enim eu turpis. Quam quisque id diam vel quam." />
+                            <p className={ classes.introMessage }>Votre légende commence ici...</p>
                             { messages.map((message, index) => (
                                 <Message
                                     key={ index }

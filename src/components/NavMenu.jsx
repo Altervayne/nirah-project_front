@@ -11,7 +11,7 @@ import { BiMenu } from "react-icons/bi"
 import UsersList from "./UsersList"
 /* Helper functions imports */
 import { logOutHelper } from "../helpers/authFormHelper"
-import { socketJoinHandler, socketLeaveHandler, socketDisconnectHandler } from "../helpers/socketHandler"
+import { socketLeaveHandler, socketDisconnectHandler } from "../helpers/socketHandler"
 
 
 
@@ -281,6 +281,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
     }
     
 
+    /* This block handles basic connection logic */
     const handleDisconnect = async (event) => {
         event.preventDefault()
 
@@ -290,16 +291,11 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
 
         navigate('/')
     }
-
-
     const handleRoomJoin = async (event) => {
         event.preventDefault()
 
-        socketJoinHandler(chosenRoomId)
         navigate(`/room/${chosenRoomId}`)
     }
-
-
     const handleRoomLeave = async (event) => {
         event.preventDefault()
 
