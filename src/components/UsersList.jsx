@@ -1,5 +1,5 @@
 /* Libraries imports */
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { useParams } from "react-router"
 /* Component imports */
@@ -111,6 +111,15 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
     const { id } = useParams()
 
 
+    const [onlineFriends, setOnlineFriends] = useState([])
+    const [offlineFriends, setOfflineFriends] = useState([])
+
+    useEffect(() => {
+        setOnlineFriends(usersArray.friends.filter((user) => user.isOnline))
+        setOfflineFriends(usersArray.friends.filter((user) => !user.isOnline))
+    }, [usersArray.friends])
+
+
     useEffect(() => {
         const friendsUpdateEvents = ["connected", "disconnected", "joinRoom", "leaveRoom"]
         const userLeaveEvents = ["disconnected", "userLeft"]
@@ -174,10 +183,6 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
             }
         }
     }, [usersArray, setUsersState, listType, currentUserInfo, id])
-
-
-    const onlineFriends = usersArray.friends.filter((user) => user.isOnline)
-    const offlineFriends = usersArray.friends.filter((user) => !user.isOnline)
 
 
     return  <div className={ classes.root }>

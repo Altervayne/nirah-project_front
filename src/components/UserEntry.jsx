@@ -191,14 +191,18 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                     
                     {/* Friends List block */}                    
 
-                    { friendState !== "requestReceived" && friendState !== "requestSent" && isOnline && isFriendsList && 
-                        <motion.button className={ classes.userStateIconContainerButton }
-                            initial={{ color: "#F2F4F8", scale: 1 }}
-                            whileHover={{ color: "#ED872D", scale: 1.15 }}
-                        >
-                            { currentRoom === '0'   ? <RxEnter className={ classes.userStateIconPassive } />
-                                                    : <RxEnter className={ classes.userStateIconActive } onClick={ navigate(`/room/${currentRoom}`) } /> }
-                        </motion.button> }
+                    { friendState !== "requestReceived" && friendState !== "requestSent" && isOnline && isFriendsList &&
+                        <>{ currentRoom === 0   ?   <div className={ classes.userStateIconContainerPassive }>
+                                                        <RxEnter className={ classes.userStateIconPassive } />
+                                                    </div>
+
+                                                :   <motion.button className={ classes.userStateIconContainerButton }
+                                                        initial={{ color: "#F2F4F8", scale: 1 }}
+                                                        whileHover={{ color: "#ED872D", scale: 1.15 }}
+                                                    >
+                                                        <RxEnter className={ classes.userStateIconActive } onClick={ navigate(`/room/${currentRoom}`) } />
+                                                    </motion.button> }
+                        </> }
 
 
                     { friendState !== "requestReceived" && friendState !== "requestSent" && !isOnline && isFriendsList &&

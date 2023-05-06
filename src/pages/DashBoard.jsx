@@ -1,10 +1,14 @@
+/* Libraries imports */
 import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+/* Components imports */
 import NavMenu from "../components/NavMenu"
 import LoadingScreen from "../components/LoadingScreen"
+/* Helper functions imports */
+import { getFriendsInfo } from "../helpers/friendRequestHelper"
 import { getCurrentUserInfo } from "../helpers/userRequestHelper"
-import { useNavigate } from "react-router"
 import { socket } from "../helpers/socketHandler"
 
 
@@ -116,13 +120,17 @@ const DashBoard = () => {
 	useEffect(() => {
 		const verifyCurrentUser = async () => {
 			const receivedUser = await getCurrentUserInfo()
+			const friendsInfo = await getFriendsInfo('')
+
+			console.log("friendsInfo is:")
+			console.log(friendsInfo)
 	
 			if(!receivedUser) {
 				navigate('/')	
 			} else {
 				setCurrentUser(receivedUser)
 				setFriends({
-					friends: receivedUser.friendsList,
+					friends: friendsInfo,
 					requestsReceived: receivedUser.requestsReceived,
 					requestsSent: receivedUser.requestsSent,
 					normalUsers: [],

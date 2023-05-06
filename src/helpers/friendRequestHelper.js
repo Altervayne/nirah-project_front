@@ -23,7 +23,8 @@ const handleFriendsUpdate = async (userId, username, previousCategory, newCatego
     const swappedUser = { userId: userId, username: username }
 
     if(newCategory === 'friends') {
-        const newFriend = await getFriendsInfo(userId)
+        const getFriend = await getFriendsInfo(userId)
+        const newFriend = getFriend.friendData
 
         console.log("newFriend object is:")
         console.log(newFriend)
@@ -81,4 +82,4 @@ const handleFriendRequest = (id, requestNature) => {
 
 
 
-export { handleFriendRequest, handleFriendsUpdate, handleFriendStatusUpdate /* getFriendsInfo */ }
+export { handleFriendRequest, handleFriendsUpdate, handleFriendStatusUpdate, getFriendsInfo }
