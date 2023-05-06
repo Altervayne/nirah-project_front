@@ -164,6 +164,12 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         }
     }
 
+    const handleJoinFriend = (event, roomId) => {
+        event.preventDefault()
+
+        navigate(`/room/${roomId}`)
+    }
+
 
     return  <div className={ classes.root }>
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
@@ -200,7 +206,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                                                         initial={{ color: "#F2F4F8", scale: 1 }}
                                                         whileHover={{ color: "#ED872D", scale: 1.15 }}
                                                     >
-                                                        <RxEnter className={ classes.userStateIconActive } onClick={ navigate(`/room/${currentRoom}`) } />
+                                                        <RxEnter className={ classes.userStateIconActive } onClick={(event) => handleJoinFriend(event, currentRoom)} />
                                                     </motion.button> }
                         </> }
 
