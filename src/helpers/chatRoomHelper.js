@@ -49,15 +49,15 @@ const getCurrentChatRoomInfo = (name) => {
 
 
 
-const handleUserLeaveUpdate = (userId, username, currentUserInfo, usersArray, setUsersState) => {
-    const friendsList = currentUserInfo.friendsList
-    const requestsReceived = currentUserInfo.requestsReceived
-    const requestsSent = currentUserInfo.requestsSent
+const handleUserLeaveUpdate = (userId, username, usersArray, setUsersState) => {
+    console.log("userLeft event detected...")
+    console.log("leftUser userId is:")
+    console.log(userId)
 
 
 
-    if( usersArray.friends.some((user) => user.userId === userId)
-        && friendsList.some((user) => user.userId === userId)) {
+
+    if(usersArray.friends.some((user) => user.userId === userId)) {
 
                         const newRoomFriends = usersArray.friends.filter(user => user.userId !== userId)
 
@@ -66,8 +66,7 @@ const handleUserLeaveUpdate = (userId, username, currentUserInfo, usersArray, se
                             friends: newRoomFriends
                         })
 
-    } else if(  usersArray.requestsReceived.some((user) => user.userId === userId)
-                && requestsReceived.some((user) => user.userId === userId)) {
+    } else if(usersArray.requestsReceived.some((user) => user.userId === userId)) {
 
                         const newRoomRequestsReceived = usersArray.requestsReceived.filter(user => user.userId !== userId)
 
@@ -76,8 +75,7 @@ const handleUserLeaveUpdate = (userId, username, currentUserInfo, usersArray, se
                             requestsReceived: newRoomRequestsReceived
                         })
 
-    } else if(  usersArray.requestsSent.some((user) => user.userId === userId)
-                && requestsSent.some((user) => user.userId === userId)) {
+    } else if(usersArray.requestsSent.some((user) => user.userId === userId)) {
 
                         const newRoomRequestsSent = usersArray.requestsSent.filter(user => user.userId !== userId)
 
@@ -86,13 +84,13 @@ const handleUserLeaveUpdate = (userId, username, currentUserInfo, usersArray, se
                             requestsSent: newRoomRequestsSent
                         })
 
-    } else if(  usersArray.normalUsers.some((user) => user.userId === userId)) {
+    } else if(usersArray.normalUsers.some((user) => user.userId === userId)) {
 
-                        const newRoomRequestsSent = usersArray.requestsSent.filter(user => user.userId !== userId)
+                        const newRoomNormalUsers = usersArray.normalUsers.filter(user => user.userId !== userId)
 
                         setUsersState({
                             ...usersArray,
-                            requestsSent: newRoomRequestsSent
+                            normalUsers: newRoomNormalUsers
                         })
     }
 }
@@ -104,12 +102,6 @@ const handleUserJoinUpdate = (userId, username, roomId, currentUserInfo, usersAr
     const friendsList = currentUserInfo.friendsList
     const requestsReceived = currentUserInfo.requestsReceived
     const requestsSent = currentUserInfo.requestsSent
-
-
-
-    console.log("userJoin event detected...")
-    console.log("joinedUser object is:")
-    console.log(joinedUser)
 
     
 

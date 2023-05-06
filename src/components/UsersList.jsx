@@ -121,12 +121,10 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
         }
 
         const handleUserLeave = (data) => {
-            handleUserLeaveUpdate(data.userId, data.username, currentUserInfo, usersArray, setUsersState)
+            handleUserLeaveUpdate(data.userId, data.username, usersArray, setUsersState)
         }
 
         const handleUserJoin = (data) => {
-            console.log("data object is:")
-            console.log(data)
             handleUserJoinUpdate(data.userId, data.username, id, currentUserInfo, usersArray, setUsersState)
         }
 
