@@ -49,4 +49,122 @@ const getCurrentChatRoomInfo = (name) => {
 
 
 
-export { sortChatRoomMembers, getCurrentChatRoomInfo }
+const handleUserLeaveUpdate = (userId, username, currentUserInfo, usersArray, setUsersState) => {
+    const friendsList = currentUserInfo.friendsList
+    const requestsReceived = currentUserInfo.requestsReceived
+    const requestsSent = currentUserInfo.requestsSent
+
+
+
+    if( usersArray.friends.some((user) => user.userId === userId)
+        && friendsList.some((user) => user.userId === userId)) {
+
+                        const newRoomFriends = usersArray.friends.filter(user => user.userId !== userId)
+
+                        setUsersState({
+                            ...usersArray,
+                            friends: newRoomFriends
+                        })
+
+    } else if(  usersArray.requestsReceived.some((user) => user.userId === userId)
+                && requestsReceived.some((user) => user.userId === userId)) {
+
+                        const newRoomRequestsReceived = usersArray.requestsReceived.filter(user => user.userId !== userId)
+
+                        setUsersState({
+                            ...usersArray,
+                            requestsReceived: newRoomRequestsReceived
+                        })
+
+    } else if(  usersArray.requestsSent.some((user) => user.userId === userId)
+                && requestsSent.some((user) => user.userId === userId)) {
+
+                        const newRoomRequestsSent = usersArray.requestsSent.filter(user => user.userId !== userId)
+
+                        setUsersState({
+                            ...usersArray,
+                            requestsSent: newRoomRequestsSent
+                        })
+
+    } else if(  usersArray.normalUsers.some((user) => user.userId === userId)) {
+
+                        const newRoomRequestsSent = usersArray.requestsSent.filter(user => user.userId !== userId)
+
+                        setUsersState({
+                            ...usersArray,
+                            requestsSent: newRoomRequestsSent
+                        })
+    }
+}
+
+
+
+const handleUserJoinUpdate = (userId, username, roomId, currentUserInfo, usersArray, setUsersState) => {
+    const joinedUser = { userId: userId, username: username }
+    const friendsList = currentUserInfo.friendsList
+    const requestsReceived = currentUserInfo.requestsReceived
+    const requestsSent = currentUserInfo.requestsSent
+
+
+
+    console.log("userJoin event detected...")
+    console.log("joinedUser object is:")
+    console.log(joinedUser)
+
+    
+
+    if( !usersArray.friends.some((user) => user.userId === userId)
+        && friendsList.some((user) => user.userId === userId)) {
+
+                        const roomFriends = usersArray.friends
+                        const joinedFriend = {
+                            userId: userId,
+                            username: username,
+                            isOnline: true,
+                            currentRoom: roomId
+                        }
+
+                        roomFriends.push(joinedFriend)
+
+                        setUsersState({
+                            ...usersArray,
+                            friends: roomFriends
+                        })
+
+    } else if(  !usersArray.requestsReceived.some((user) => user.userId === userId)
+                && requestsReceived.some((user) => user.userId === userId)) {
+
+                        const roomRequestsReceived = usersArray.requestsReceived
+                        roomRequestsReceived.push(joinedUser)
+
+                        setUsersState({
+                            ...usersArray,
+                            requestsReceived: roomRequestsReceived
+                        })
+
+    } else if(  !usersArray.requestsSent.some((user) => user.userId === userId)
+                && requestsSent.some((user) => user.userId === userId)) {
+
+                        const roomRequestsSent = usersArray.requestsSent
+                        roomRequestsSent.push(joinedUser)
+
+                        setUsersState({
+                            ...usersArray,
+                            requestsSent: roomRequestsSent
+                        })
+
+    } else if(  !usersArray.normalUsers.some((user) => user.userId === userId)) {
+
+                        const roomNormalUsers = usersArray.normalUsers
+                        roomNormalUsers.push(joinedUser)
+
+                        setUsersState({
+                            ...usersArray,
+                            normalUsers: roomNormalUsers
+                        })
+    }
+}
+
+
+
+export { sortChatRoomMembers, getCurrentChatRoomInfo, handleUserLeaveUpdate, handleUserJoinUpdate }

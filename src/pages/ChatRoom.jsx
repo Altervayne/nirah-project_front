@@ -262,9 +262,9 @@ const ChatRoom = () => {
         socket.on("message", handleReceivingMessage)
     
         return () => {
-            socket.on("message", handleReceivingMessage)
+            socket.off("message", handleReceivingMessage)
         }
-  }, [ messages, setMessages ])
+    }, [ messages, setMessages ])
 
 
     /* This block handles fetching the user's info and loading in the chatroom */
@@ -295,15 +295,24 @@ const ChatRoom = () => {
 				setIsLoading(false)
 			}
 		}
+
+        const listenForSameRoomName = (data) => {
+            console.log(data.message)
+            navigate(`/room/${id}`)
+        }
         
         const roomIdRegex = /^\d{1,6}$/
 
         if(roomIdRegex.test(`${id}`)) {
+            socket.on("sameRoomName", listenForSameRoomName)
             connectUserToChat()
         } else {
             navigate('/dashboard')
         }
 		
+        return () => {
+            socket.off("sameRoomName", listenForSameRoomName)
+        }
 	}, [ navigate, id ])
 
 

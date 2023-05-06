@@ -1,11 +1,13 @@
 /* Libraries imports */
 import React, { useEffect } from "react"
 import { makeStyles } from "tss-react/mui"
+import { useParams } from "react-router"
 /* Component imports */
 import UserEntry from "./UserEntry"
 import Divider from "./Divider"
 /* Helper functions imports */
-import { handleUsersUpdate, handleFriendStatusUpdate } from "../helpers/friendRequestHelper"
+import { handleFriendsUpdate, handleFriendStatusUpdate } from "../helpers/friendRequestHelper"
+import { handleUserLeaveUpdate, handleUserJoinUpdate } from "../helpers/chatRoomHelper"
 import { socket } from "../helpers/socketHandler"
 
 
@@ -104,28 +106,40 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const UsersList = ({ setUsersState, listType, usersArray }) => {
+const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => {
     const { classes } = useStyles()
+    const { id } = useParams()
 
 
     useEffect(() => {
-        const statusUpdateEvents = ["connection", "disconnection", "joinRoom", "leaveRoom"]
+        const friendsUpdateEvents = ["connected", "disconnected", "joinRoom", "leaveRoom"]
+        const userLeaveEvents = ["disconnected", "userLeft"]
 
 
         const handleFriendStatus = (data) => {
             handleFriendStatusUpdate(data.userId, usersArray, setUsersState)
         }
 
+        const handleUserLeave = (data) => {
+            handleUserLeaveUpdate(data.userId, data.username, currentUserInfo, usersArray, setUsersState)
+        }
+
+        const handleUserJoin = (data) => {
+            console.log("data object is:")
+            console.log(data)
+            handleUserJoinUpdate(data.userId, data.username, id, currentUserInfo, usersArray, setUsersState)
+        }
+
         const handleSendRequest = (data) => {
-            handleUsersUpdate(data.userId, data.username, "normalUsers", "requestsReceived", usersArray, setUsersState)
+            handleFriendsUpdate(data.userId, data.username, "normalUsers", "requestsReceived", usersArray, setUsersState)
         }
         
         const handleAcceptRequest = (data) => {
-            handleUsersUpdate(data.userId, data.username, "requestsSent", "friends", usersArray, setUsersState)
+            handleFriendsUpdate(data.userId, data.username, "requestsSent", "friends", usersArray, setUsersState)
         }
         
         const handleRejectRequest = (data) => {
-            handleUsersUpdate(data.userId, data.username, "requestsSent", "normalUsers", usersArray, setUsersState)
+            handleFriendsUpdate(data.userId, data.username, "requestsSent", "normalUsers", usersArray, setUsersState)
         }
     
         socket.on("sendRequest", handleSendRequest)
@@ -133,9 +147,15 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
         socket.on("rejectRequest", handleRejectRequest)
 
         if(listType === "friends") {
-            statusUpdateEvents.forEach((event) => {
+            friendsUpdateEvents.forEach((event) => {
                 socket.on(event, handleFriendStatus);
             })
+        } else if(listType === "members") {
+            userLeaveEvents.forEach((event) => {
+                socket.on(event, handleUserLeave);
+            })
+
+            socket.on("userJoined", handleUserJoin)
         }
     
         return () => {
@@ -144,12 +164,18 @@ const UsersList = ({ setUsersState, listType, usersArray }) => {
             socket.off("rejectRequest", handleRejectRequest)
 
             if(listType === "friends") {
-                statusUpdateEvents.forEach((event) => {
+                friendsUpdateEvents.forEach((event) => {
                     socket.off(event, handleFriendStatus);
                 })
+            } else if(listType === "members") {
+                userLeaveEvents.forEach((event) => {
+                    socket.off(event, handleUserLeave);
+                })
+
+                socket.off("userJoined", handleUserJoin)
             }
         }
-    }, [usersArray, setUsersState, listType])
+    }, [usersArray, setUsersState, listType, currentUserInfo, id])
 
 
     const onlineFriends = usersArray.friends.filter((user) => user.isOnline)

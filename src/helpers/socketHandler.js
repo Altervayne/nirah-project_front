@@ -12,7 +12,6 @@ const socket = io(SOCKET_SERVER_URL, {
 })
 
 const socketJoinHandler = (roomId) => {
-    socket.connect()
     socket.emit('joinRoom', { roomId: roomId })
 }
 

@@ -403,8 +403,8 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
                     }
                 </div>
 
-                { isChatRoom    ? <UsersList setUsersState={ setUsersState } listType="members" usersArray={ usersArray } />
-                                : <UsersList setUsersState={ setUsersState } listType="friends" usersArray={ usersArray } /> }
+                { isChatRoom    ? <UsersList setUsersState={ setUsersState } listType="members" usersArray={ usersArray } currentUserInfo={ currentUserInfo } />
+                                : <UsersList setUsersState={ setUsersState } listType="friends" usersArray={ usersArray } currentUserInfo={ currentUserInfo } /> }
             </>
 }
 

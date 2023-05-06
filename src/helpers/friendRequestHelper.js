@@ -17,13 +17,16 @@ const getFriendsInfo = (id) => {
 
 
 
-const handleUsersUpdate = async (userId, username, previousCategory, newCategory, usersArray, setUsersState) => {
+const handleFriendsUpdate = async (userId, username, previousCategory, newCategory, usersArray, setUsersState) => {
     const newPreviousCategory = usersArray[previousCategory].filter(user => user.userId !== userId)
     const newNewCategory = usersArray[newCategory]
     const swappedUser = { userId: userId, username: username }
 
     if(newCategory === 'friends') {
         const newFriend = await getFriendsInfo(userId)
+
+        console.log("newFriend object is:")
+        console.log(newFriend)
         
         if(!newNewCategory.includes(newFriend)) {
             newNewCategory.push(newFriend)
@@ -78,4 +81,4 @@ const handleFriendRequest = (id, requestNature) => {
 
 
 
-export { handleFriendRequest, handleUsersUpdate, handleFriendStatusUpdate /* getFriendsInfo */ }
+export { handleFriendRequest, handleFriendsUpdate, handleFriendStatusUpdate /* getFriendsInfo */ }

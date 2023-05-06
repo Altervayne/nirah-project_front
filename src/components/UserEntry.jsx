@@ -12,7 +12,7 @@ import { FaTimes } from "react-icons/fa"
 import { RxEnter } from "react-icons/rx"
 import { RiChatOffLine } from "react-icons/ri"
 /* Helper functions imports */
-import { handleFriendRequest, handleUsersUpdate } from "../helpers/friendRequestHelper"
+import { handleFriendRequest, handleFriendsUpdate } from "../helpers/friendRequestHelper"
 import { socketFriendRequestHandler } from "../helpers/socketHandler"
 
 
@@ -137,7 +137,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
 
         if(requestWasSent) {
             socketFriendRequestHandler(userId, "send")
-            handleUsersUpdate(userId, username, "normalUsers", "requestsSent", usersArray, setUsersState)
+            handleFriendsUpdate(userId, username, "normalUsers", "requestsSent", usersArray, setUsersState)
         }
     }
 
@@ -155,10 +155,10 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
 
         if(requestWasSent && requestWasAccepted) {
             socketFriendRequestHandler(userId, "accept")
-            handleUsersUpdate(userId, username, "requestsReceived", "friends", usersArray, setUsersState)
+            handleFriendsUpdate(userId, username, "requestsReceived", "friends", usersArray, setUsersState)
         } else if(requestWasSent && !requestWasAccepted) {
             socketFriendRequestHandler(userId, "reject")
-            handleUsersUpdate(userId, username, "requestsReceived", "normalUsers", usersArray, setUsersState)
+            handleFriendsUpdate(userId, username, "requestsReceived", "normalUsers", usersArray, setUsersState)
         } else {
             console.log("The request could not be sent or the requestWasAccepted value is invalid.")
         }

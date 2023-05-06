@@ -5,6 +5,7 @@ import NavMenu from "../components/NavMenu"
 import LoadingScreen from "../components/LoadingScreen"
 import { getCurrentUserInfo } from "../helpers/userRequestHelper"
 import { useNavigate } from "react-router"
+import { socket } from "../helpers/socketHandler"
 
 
 
@@ -126,6 +127,8 @@ const DashBoard = () => {
 					requestsSent: receivedUser.requestsSent,
 					normalUsers: [],
 				})
+				socket.connect()
+
 				setIsLoading(false)
 			}
 		}
