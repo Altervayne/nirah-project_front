@@ -50,13 +50,6 @@ const getCurrentChatRoomInfo = (name) => {
 
 
 const handleUserLeaveUpdate = (userId, username, usersArray, setUsersState) => {
-    console.log("userLeft event detected...")
-    console.log("leftUser userId is:")
-    console.log(userId)
-
-
-
-
     if(usersArray.friends.some((user) => user.userId === userId)) {
 
                         const newRoomFriends = usersArray.friends.filter(user => user.userId !== userId)
