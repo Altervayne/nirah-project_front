@@ -15,8 +15,14 @@ const socketJoinHandler = (roomId) => {
     socket.emit('joinRoom', { roomId: roomId })
 }
 
-const socketLeaveHandler = () => {
-    socket.emit('leaveRoom')
+const socketLeaveHandler = async () => {
+    const userLeft = await new Promise((resolve) => {
+        socket.emit('leaveRoom', {}, (response) => {
+            resolve(response)
+        })
+    })
+
+    return userLeft
 }
 
 const socketDisconnectHandler = () => {
