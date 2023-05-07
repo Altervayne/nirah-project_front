@@ -236,7 +236,6 @@ const ChatRoom = () => {
     const handleCurrentMessageChange = (event) => {
         setCurrentMessage(event.target.value)
     }
-
     const handleSendingMessage = (event) => {
         event.preventDefault()
         const message = {
@@ -250,22 +249,6 @@ const ChatRoom = () => {
 
         setCurrentMessage("")
     }
-
-
-    /* This block handles listening for and receiving messages */
-    useEffect(() => {
-        const handleReceivingMessage = (data) => {
-            const newMessagesArray = [...messages, data]
-            setMessages(newMessagesArray)
-        }
-
-    
-        socket.on("message", handleReceivingMessage)
-    
-        return () => {
-            socket.off("message", handleReceivingMessage)
-        }
-    }, [ messages, setMessages ])
 
 
     /* This block handles fetching the user's info and loading in the chatroom */
@@ -315,6 +298,26 @@ const ChatRoom = () => {
             socket.off("sameRoomName", listenForSameRoomName)
         }
 	}, [ navigate, id ])
+
+
+    /* This block handles listening for and receiving messages */
+    useEffect(() => {
+        const handleReceivingMessage = (data) => {
+            if(data.sender.username === currentUser.username) {
+                return
+            }
+
+            const newMessagesArray = [...messages, data]
+            setMessages(newMessagesArray)
+        }
+
+    
+        socket.on("message", handleReceivingMessage)
+    
+        return () => {
+            socket.off("message", handleReceivingMessage)
+        }
+    }, [ currentUser.username, messages, setMessages ])
 
 
 
