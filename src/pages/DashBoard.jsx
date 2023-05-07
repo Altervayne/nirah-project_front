@@ -120,6 +120,11 @@ const DashBoard = () => {
 	useEffect(() => {
 		const verifyCurrentUser = async () => {
 			const receivedUser = await getCurrentUserInfo()
+
+			if(receivedUser.currentRoom !== 0){
+				navigate(`/room/${receivedUser.currentRoom}`)
+			}
+
 			const friendsInfo = await getFriendsInfo('')
 
 			console.log("friendsInfo is:")
