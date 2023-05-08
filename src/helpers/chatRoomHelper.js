@@ -95,7 +95,6 @@ const handleUserJoinUpdate = (userId, username, roomId, currentUserInfo, usersAr
     const friendsList = currentUserInfo.friendsList
     const requestsReceived = currentUserInfo.requestsReceived
     const requestsSent = currentUserInfo.requestsSent
-
     
 
     if( !usersArray.friends.some((user) => user.userId === userId)

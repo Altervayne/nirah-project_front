@@ -241,7 +241,8 @@ const ChatRoom = () => {
         const message = {
             body: currentMessage,
             sender: { username: currentUser.username },
-            createdAt: new Date()
+            createdAt: new Date(),
+            fromServer: false
         }
 
         newMessageHandler(message)
@@ -303,7 +304,7 @@ const ChatRoom = () => {
     /* This block handles listening for and receiving messages */
     useEffect(() => {
         const handleReceivingMessage = (data) => {
-            if(data.sender.username === currentUser.username) {
+            if(data.sender.username === currentUser.username && !data.fromServer) {
                 return
             }
 
@@ -319,6 +320,37 @@ const ChatRoom = () => {
         }
     }, [ currentUser.username, messages, setMessages ])
 
+
+    /* This block handles displaying server messages when a user joins or leaves */
+    /* useEffect(() => {
+        const handleDisplayingServerMessage = (data, messageType) => {
+            const serverMessage = {
+                body: null,
+                sender: "server",
+                createdAt: new Date(),
+                fromServer: true
+            }
+
+            switch(messageType) {
+                default:
+                    return
+
+                case "userJoined":
+                    message.body = `${data.username} a rejoint le salon`                    
+                    break
+                
+                case "userLeft":
+                    message.body = `${data.username} a quitté le salon`
+                    break
+            }
+
+            if(message.body) {
+                const newMessagesArray = [...messages, message]
+
+                setMessages(newMessagesArray)
+            }
+        }
+    }, []) */
 
 
     return  <>
@@ -367,6 +399,7 @@ const ChatRoom = () => {
                                     senderUsername={ message.sender.username }
                                     createdAt={ message.createdAt }
                                     body={ message.body }
+                                    fromServer={ message.fromServer }
                                 />
                             )) }
                             <AlwaysScrollToBottom />
