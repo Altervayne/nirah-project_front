@@ -56,7 +56,7 @@ const handleFriendsUpdate = async (userId, username, previousCategory, newCatego
 
 
 const handleFriendStatusUpdate = async (userId, usersArray, setUsersState) => {
-    const newFriends = usersArray.friends.filter(user => user.userId !== userId)
+    const newFriends = usersArray.friends.filter(user => user._id !== userId)
     const updatedFriend = await getFriendsInfo(userId)
     
     newFriends.push(updatedFriend)
