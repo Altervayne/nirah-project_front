@@ -66,12 +66,13 @@ const useStyles = makeStyles()((theme) => {
             overflowX: "hidden",
             scrollbarWidth: "thin",
 
+            paddingBottom: theme.spacing(1), 
+
             "&::-webkit-scrollbar": {
                 boxSizing: "border-box",
 
                 backgroundColor: "rgba(194, 212, 235, 0.03)",
 
-                borderRadius: theme.spacing(2),
                 width: "10px",
             },
             "&::-webkit-scrollbar-thumb": {
@@ -79,27 +80,6 @@ const useStyles = makeStyles()((theme) => {
                 maxWidth: "10px",
                 borderRadius: theme.spacing(2),
             },
-
-            [theme.breakpoints.down('sm')]: {
-                padding: theme.spacing(2),
-                paddingTop: theme.spacing(1),
-                paddingBottom: theme.spacing(1), 
-            },
-            [theme.breakpoints.up('sm')]: {
-                padding: theme.spacing(2),
-                paddingTop: theme.spacing(1),
-                paddingBottom: theme.spacing(1),        
-            },
-            [theme.breakpoints.up('md')]: {
-                padding: theme.spacing(2),
-                paddingTop: theme.spacing(1),
-                paddingBottom: theme.spacing(1),
-            },
-            [theme.breakpoints.up('lg')]: {
-                padding: theme.spacing(3),
-                paddingTop: theme.spacing(1),
-                paddingBottom: theme.spacing(1),
-            }
         },
     }
 })

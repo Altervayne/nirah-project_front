@@ -23,6 +23,22 @@ const useStyles = makeStyles()((theme) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+
+            boxSizing: "border-box",
+            width: "100%",
+
+            [theme.breakpoints.down('sm')]: {
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),
+            },
+            [theme.breakpoints.up('sm')]: {
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),       
+            },
+            [theme.breakpoints.up('lg')]: {
+                paddingLeft: theme.spacing(3),
+                paddingRight: theme.spacing(3),
+            }
         },
         userUsername: {
             margin: "10px 0",
@@ -112,8 +128,13 @@ const useStyles = makeStyles()((theme) => {
             }
         },
         userStateIconActive: {
+            display: "flex",
+            alignItems: "center",
         },
         userStateIconPassive: {
+            display: "flex",
+            alignItems: "center",
+
             color: "#C2D4EB",
             opacity: .5,
         },
@@ -171,7 +192,12 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
     }
 
 
-    return  <div className={ classes.root }>
+    return  <motion.div className={ classes.root }
+                    initial={{ backgroundColor: "rgba(192, 212, 235, 0)" }}
+                    animate={{ backgroundColor: "rgba(192, 212, 235, 0)" }}
+                    whileHover={{ backgroundColor: "rgba(192, 212, 235, .04)" }}
+                    transition={{ duration: 0.1 }}
+            >
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
                 <div className={ classes.userStateContainer }>
 
@@ -242,7 +268,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                             </div> }
                     
                 </div>
-            </div>
+            </motion.div>
 }
 
 
