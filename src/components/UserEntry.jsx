@@ -27,8 +27,6 @@ const useStyles = makeStyles()((theme) => {
             boxSizing: "border-box",
             width: "100%",
 
-            zIndex: 99,
-
             [theme.breakpoints.down('sm')]: {
                 paddingLeft: theme.spacing(2),
                 paddingRight: theme.spacing(2),
