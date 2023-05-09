@@ -10,8 +10,22 @@ const useStyles = makeStyles()((theme) => {
 
             color: "#C2D4EB",
 
+            boxSizing: "border-box",
             marginTop: theme.spacing(3),
             marginBottom: theme.spacing(1),
+
+            [theme.breakpoints.down('sm')]: {
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),
+            },
+            [theme.breakpoints.up('sm')]: {
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),       
+            },
+            [theme.breakpoints.up('lg')]: {
+                paddingLeft: theme.spacing(3),
+                paddingRight: theme.spacing(3),
+            },
 
             "&::after": {
                 content: "''",
