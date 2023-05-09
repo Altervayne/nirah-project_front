@@ -24,13 +24,12 @@ const handleFriendsUpdate = async (userId, username, previousCategory, newCatego
 
     if(newCategory === 'friends') {
         const getFriend = await getFriendsInfo(userId)
-        const newFriend = getFriend.friendData
 
-        console.log("newFriend object is:")
-        console.log(newFriend)
+        console.log("getFriend object is:")
+        console.log(getFriend)
         
-        if(!newNewCategory.includes(newFriend)) {
-            newNewCategory.push(newFriend)
+        if(!newNewCategory.includes(getFriend)) {
+            newNewCategory.push(getFriend)
         }
 
         setUsersState({
