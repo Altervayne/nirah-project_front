@@ -50,7 +50,7 @@ const useStyles = makeStyles()((theme) => {
 
             paddingLeft: theme.spacing(2),
             paddingRight: theme.spacing(2),
-            marginTop: theme.spacing(1),
+            marginTop: theme.spacing(2),
 
             minHeight: theme.spacing(6),
             borderRadius: theme.spacing(3),
