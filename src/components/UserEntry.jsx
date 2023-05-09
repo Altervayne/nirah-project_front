@@ -24,6 +24,8 @@ const useStyles = makeStyles()((theme) => {
             alignItems: "center",
             justifyContent: "space-between",
 
+            backgroundColor: "rgba(27, 36, 50, 1)",
+
             boxSizing: "border-box",
             width: "100%",
 
@@ -38,6 +40,10 @@ const useStyles = makeStyles()((theme) => {
             [theme.breakpoints.up('lg')]: {
                 paddingLeft: theme.spacing(3),
                 paddingRight: theme.spacing(3),
+            },
+
+            "&:hover": {
+                backgroundColor: "rgba(36, 47, 66, 1)",
             }
         },
         userUsername: {
@@ -192,12 +198,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
     }
 
 
-    return  <motion.div className={ classes.root }
-                    initial={{ backgroundColor: "rgba(27, 36, 50, 1)" }}
-                    animate={{ backgroundColor: "rgba(27, 36, 50, 1)" }}
-                    whileHover={{ backgroundColor: "rgba(36, 47, 66, 1)" }}
-                    transition={{ duration: 0.3 }}
-            >
+    return  <div className={ classes.root } >
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
                 <div className={ classes.userStateContainer }>
 
@@ -268,7 +269,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                             </div> }
                     
                 </div>
-            </motion.div>
+            </div>
 }
 
 
