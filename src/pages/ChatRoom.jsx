@@ -275,9 +275,9 @@ const ChatRoom = () => {
                 await setMessages(chatRoomData.messages)
                 await setMembers(members)
 
-                socketJoinHandler(id)
+                const userJoined = await socketJoinHandler(id)
                 
-				setIsLoading(false)
+                userJoined ? setIsLoading(false) : navigate('/dashboard')
 			}
 		}
 

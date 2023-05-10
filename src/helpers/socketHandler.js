@@ -13,8 +13,14 @@ const socket = io(SOCKET_SERVER_URL, {
 
 
 
-const socketJoinHandler = (roomId) => {
-    socket.emit('joinRoom', { roomId: roomId })
+const socketJoinHandler = async (roomId) => {
+    const userJoined = await new Promise((resolve) => {
+        socket.emit('joinRoom', { roomId: roomId }, (response) => {
+            resolve(response)   
+        })
+    })
+
+    return userJoined
 }
 
 
