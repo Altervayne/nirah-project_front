@@ -128,10 +128,15 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
         const handleRejectRequest = (data) => {
             handleFriendsUpdate(data.userId, data.username, "requestsSent", "normalUsers", usersArray, setUsersState)
         }
+
+        const handleFriendRemoved = (data) => {
+            handleFriendsUpdate(data.userId, data.username, "friends", "normalUsers", usersArray, setUsersState)
+        }
     
         socket.on("sendRequest", handleSendRequest)
         socket.on("acceptRequest", handleAcceptRequest)
         socket.on("rejectRequest", handleRejectRequest)
+        socket.on("remove", handleFriendRemoved)
 
         if(listType === "friends") {
             friendsUpdateEvents.forEach((event) => {
@@ -149,6 +154,7 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
             socket.off("sendRequest", handleSendRequest)
             socket.off("acceptRequest", handleAcceptRequest)
             socket.off("rejectRequest", handleRejectRequest)
+            socket.off("remove", handleFriendRemoved)
 
             if(listType === "friends") {
                 friendsUpdateEvents.forEach((event) => {

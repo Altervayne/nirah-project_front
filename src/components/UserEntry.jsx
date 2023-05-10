@@ -11,6 +11,7 @@ import { FaCheck } from "react-icons/fa"
 import { FaTimes } from "react-icons/fa"
 import { RxEnter } from "react-icons/rx"
 import { RiChatOffLine } from "react-icons/ri"
+import { TiDelete } from "react-icons/ti"
 /* Helper functions imports */
 import { handleFriendRequest, handleFriendsUpdate } from "../helpers/friendRequestHelper"
 import { socketFriendRequestHandler } from "../helpers/socketHandler"
@@ -111,6 +112,10 @@ const useStyles = makeStyles()((theme) => {
             }
         },
         userStateIconContainerButton: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+
             cursor: "pointer",
 
             backgroundColor: "none",
@@ -119,6 +124,7 @@ const useStyles = makeStyles()((theme) => {
             border: "none",
 
             padding: "0",
+            marginLeft: theme.spacing(1),
 
             [theme.breakpoints.down('sm')]: {
                 fontSize: theme.typography.pxToRem(22),
@@ -156,6 +162,20 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
     const { classes } = useStyles()
     const navigate = useNavigate()
 
+    console.log("userId is:" + userId)
+
+    const removeFriendHandler = async (event) => {
+        event.preventDefault()
+
+        const friendWasRemoved = await handleFriendRequest(userId, "remove")
+
+        console.log(`friend was removed: ${friendWasRemoved}`)
+
+        if(friendWasRemoved) {
+            socketFriendRequestHandler(userId, "remove")
+            handleFriendsUpdate(userId, username, "friends", "normalUsers", usersArray, setUsersState)
+        }
+    }
 
     const addFriendHandler = async (event) => {
         event.preventDefault()
@@ -163,7 +183,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         const requestWasSent = await handleFriendRequest(userId, "sendRequest")
 
         if(requestWasSent) {
-            socketFriendRequestHandler(userId, "send")
+            socketFriendRequestHandler(userId, "sendRequest")
             handleFriendsUpdate(userId, username, "normalUsers", "requestsSent", usersArray, setUsersState)
         }
     }
@@ -181,10 +201,10 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
 
 
         if(requestWasSent && requestWasAccepted) {
-            socketFriendRequestHandler(userId, "accept")
+            socketFriendRequestHandler(userId, requestResponse)
             handleFriendsUpdate(userId, username, "requestsReceived", "friends", usersArray, setUsersState)
         } else if(requestWasSent && !requestWasAccepted) {
-            socketFriendRequestHandler(userId, "reject")
+            socketFriendRequestHandler(userId, requestResponse)
             handleFriendsUpdate(userId, username, "requestsReceived", "normalUsers", usersArray, setUsersState)
         } else {
             console.log("The request could not be sent or the requestWasAccepted value is invalid.")
@@ -216,9 +236,17 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
 
 
                     { friendState === "isFriend" && !isFriendsList && 
-                            <div className={ classes.userStateIconContainerPassive }>
-                                <BsPersonFillCheck className={ classes.userStateIconPassive } />
-                            </div> }
+                            <>
+                                <div className={ classes.userStateIconContainerPassive }>
+                                    <BsPersonFillCheck className={ classes.userStateIconPassive } />
+                                </div>
+                                <motion.button className={ classes.userStateIconContainerButton }
+                                    initial={{ color: "#F2F4F8", scale: 1 }}
+                                    whileHover={{ color: "#ED872D", scale: 1.15 }}
+                                >
+                                    <TiDelete className={ classes.userStateIconActive } onClick={ removeFriendHandler } />
+                                </motion.button>
+                            </> }
 
 
                     
@@ -235,13 +263,29 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                                                     >
                                                         <RxEnter className={ classes.userStateIconActive } onClick={(event) => handleJoinFriend(event, currentRoom)} />
                                                     </motion.button> }
+
+                                                    <motion.button className={ classes.userStateIconContainerButton }
+                                                        initial={{ color: "#F2F4F8", scale: 1 }}
+                                                        whileHover={{ color: "#ED872D", scale: 1.15 }}
+                                                    >
+                                                        <TiDelete className={ classes.userStateIconActive } onClick={ removeFriendHandler } />
+                                                    </motion.button>
                         </> }
 
 
                     { friendState !== "requestReceived" && friendState !== "requestSent" && !isOnline && isFriendsList &&
-                        <div className={ classes.userStateIconContainerPassive }>
-                            <RiChatOffLine className={ classes.userStateIconPassive }/>
-                        </div> }
+                        <>
+                            <div className={ classes.userStateIconContainerPassive }>
+                                <RiChatOffLine className={ classes.userStateIconPassive }/>
+                            </div>
+
+                            <motion.button className={ classes.userStateIconContainerButton }
+                                initial={{ color: "#F2F4F8", scale: 1 }}
+                                whileHover={{ color: "#ED872D", scale: 1.15 }}
+                            >
+                                <TiDelete className={ classes.userStateIconActive } onClick={ removeFriendHandler } />
+                            </motion.button>
+                        </> }
 
 
 
