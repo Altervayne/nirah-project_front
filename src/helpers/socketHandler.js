@@ -11,23 +11,31 @@ const socket = io(SOCKET_SERVER_URL, {
     withCredentials: true
 })
 
+
+
 const socketJoinHandler = (roomId) => {
     socket.emit('joinRoom', { roomId: roomId })
 }
 
+
+
 const socketLeaveHandler = async () => {
     const userLeft = await new Promise((resolve) => {
         socket.emit('leaveRoom', {}, (response) => {
-            resolve(response)
+            resolve(response)   
         })
     })
 
     return userLeft
 }
 
+
+
 const socketDisconnectHandler = () => {
     socket.disconnect()
 }
+
+
 
 const socketFriendRequestHandler = (userId, requestType) => {
     socket.emit('friendRequest', { userId: userId, requestType: requestType })
