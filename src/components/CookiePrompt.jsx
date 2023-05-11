@@ -117,14 +117,27 @@ const useStyles = makeStyles()((theme) => {
 const CookiePrompt = () => {
     const { classes } = useStyles()  
 
+    const [isOpen, setIsOpen] = useState(false)
 
-    const [isOpen, setIsOpen] = useState(true)
 
+    
     const handleCookieUnderstand = (event) => {
         event.preventDefault()
 
+        window.localStorage.setItem("cookiesAccepted", true)
         setIsOpen(false)
     }
+
+
+
+    useEffect(() => {
+        const areCookiesAccepted = window.localStorage.getItem("cookiesAccepted")
+
+        if(!areCookiesAccepted) {
+            setIsOpen(true)
+        }
+    }, [setIsOpen])
+
 
 
     return  <motion.div className={ classes.root }
