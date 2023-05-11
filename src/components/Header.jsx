@@ -35,16 +35,15 @@ const useStyles = makeStyles()((theme) => {
 			alignSelf: "center",
 			zIndex: 3,
 
+			width: "auto",
+
 			[theme.breakpoints.down('sm')]: {
-				width: theme.spacing(6),
 				height: theme.spacing(6),	
 			},
 			[theme.breakpoints.up('sm')]: {
-				width: theme.spacing(4.5),
 				height: theme.spacing(4.5),	
 			},
 			[theme.breakpoints.up('md')]: {
-				width: theme.spacing(6),
 				height: theme.spacing(6),	
 			}
 		},
