@@ -2,7 +2,6 @@ import React from "react"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
-import LogInForm from "./LogInForm"
 import CloseButton from "./CloseButton"
 
 
@@ -10,11 +9,11 @@ import CloseButton from "./CloseButton"
 const useStyles = makeStyles()((theme) => {
 	return {
 		root: {
-			position: "relative",
-			zIndex: 2,
+/* 			position: "relative",
+			zIndex: 2, */
 		},
-		launchButton: {
-			display: "flex",
+		openButton: {
+/* 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
 			justifyContent: "center",
@@ -31,10 +30,10 @@ const useStyles = makeStyles()((theme) => {
 			fontWeight: 600,
 			fontSize: theme.typography.pxToRem(20),
 
-			cursor: "pointer",
+			cursor: "pointer", */
 		},
 		modalContainer: {
-			display: "flex",
+/* 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
 
@@ -44,10 +43,10 @@ const useStyles = makeStyles()((theme) => {
 
 			width: "100vw",
 			height: "100vh",
-			backgroundColor: "rgba(0, 0, 0, .5)",
+			backgroundColor: "rgba(0, 0, 0, .5)", */
 		},
 		modalWindow: {
-			display: "flex",
+/* 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
 			position: "relative",
@@ -67,24 +66,22 @@ const useStyles = makeStyles()((theme) => {
 				height: "600px",
 
 				borderRadius: "20px",
-			},
+			}, */
 		},
 	}
 })
 
 
 
-const LogInButton = () => {
+const OptionsMenu = () => {
 	const { classes } = useStyles()
 
 	const [isOpen, setIsOpen] = useState(false)
-	const [hasAccount, setHasAccount] = useState(false)
 	const handleWindowClick = (event) => { event.stopPropagation() }
-	const setParentHasAccount = (value) => { setHasAccount(value) }
 	const setParentIsOpen = (value) => { setIsOpen(value) }
 
 	return  <div className={ classes.root }>
-				<motion.div className={ classes.launchButton }
+				<motion.button className={ classes.openButton }
 					onClick={() => setIsOpen(true)}
 					whileHover={{
 						scale: 1.05,
@@ -94,8 +91,8 @@ const LogInButton = () => {
 						}
 					}}		
 				>
-					Lancer Nirah
-				</motion.div>
+					{/* Lancer Nirah */}
+				</motion.button>
 
 
 				<motion.div className={ classes.modalContainer }
@@ -115,28 +112,22 @@ const LogInButton = () => {
 				> {/* The Modal Container takes up the entire screen (except for the header) with a slightly transparent black background */}
 
 					<motion.div className={ classes.modalWindow }
-						onClick={handleWindowClick}
-						initial={{ scale: 0, visibility: "hidden", height:"600px" }}
+						onClick={ handleWindowClick }
+						initial={{ scale: 0, visibility: "hidden" }}
 						animate={{
 							scale: isOpen ? 1 : 0,
 							visibility: isOpen ? "visible" : "hidden",
-							height: hasAccount ? "400px" : "600px" ,
 							transition: {
 								duration: .2,
 								ease: "easeInOut",
 								visibility: {
 									delay: isOpen ? 0 : .2,
 								},
-								height: {
-									delay: hasAccount ? 0.4 : 0,
-								},
 							}
 						}}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
 
 						<CloseButton setIsOpen={ setParentIsOpen } />
-
-						<LogInForm setHasAccount={ setParentHasAccount } hasAccount={ hasAccount } />
 
 					</motion.div>
 				</motion.div>
@@ -145,4 +136,4 @@ const LogInButton = () => {
 
 
 
-export default LogInButton
+export default OptionsMenu
