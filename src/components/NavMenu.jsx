@@ -5,8 +5,7 @@ import { motion } from "framer-motion"
 import { useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "tss-react/mui"
 /* Icons imports */
-import { RxExit } from "react-icons/rx"
-import { BiMenu } from "react-icons/bi"
+import { BiMenu, BiPowerOff } from "react-icons/bi"
 /* Components imports */
 import UsersList from "./UsersList"
 /* Helper functions imports */
@@ -339,7 +338,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
                         initial={{ color: "#F2F4F8", scale: 1 }}
                         whileHover={{ color: "#ED872D", scale: 1.15 }}
                     >
-                        <RxExit className={ classes.currentUserDisconnect } />
+                        <BiPowerOff className={ classes.currentUserDisconnect } />
                     </motion.button>
                 </div>
                 
