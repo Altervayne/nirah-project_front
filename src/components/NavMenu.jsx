@@ -125,11 +125,11 @@ const useStyles = makeStyles()((theme) => {
 
             boxSizing: "border-box",
 
-            marginBottom: theme.spacing(4),
+            marginTop: theme.spacing(4),
 
             width: "75%",
             height: "12%",
-            maxHeight: "12%",
+            maxHeight: "6%",
         },
         currentUserName: {
             color: "#F2F4F8",
@@ -137,6 +137,8 @@ const useStyles = makeStyles()((theme) => {
 
             textOverflow: "ellipsis",
             overflow: "hidden",
+
+            margin: 0,
         },
         currentUserDisconnectRoot: {
             display: "flex",
@@ -160,7 +162,7 @@ const useStyles = makeStyles()((theme) => {
 
             boxSizing: "border-box",
 
-            marginBottom: theme.spacing(4),
+            marginTop: theme.spacing(4),
 
             width: "75%",
             height: "20%",
@@ -330,19 +332,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
     }
     
 
-    return  <>
-                <div className={ classes.currentUserRoot }>
-                    <p className={ classes.currentUserName }>{ currentUserInfo.username }</p>
-                    <motion.button className={ classes.currentUserDisconnectRoot }
-                        onClick={ handleDisconnect }
-                        initial={{ color: "#F2F4F8", scale: 1 }}
-                        whileHover={{ color: "#ED872D", scale: 1.15 }}
-                    >
-                        <BiPowerOff className={ classes.currentUserDisconnect } />
-                    </motion.button>
-                </div>
-                
-
+    return  <>         
                 <div className={ classes.roomIdAndFormContainer }>
                     { !isChatRoom ? 
                         <>
@@ -408,6 +398,17 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
 
                 { isChatRoom    ? <UsersList setUsersState={ setUsersState } listType="members" usersArray={ usersArray } currentUserInfo={ currentUserInfo } />
                                 : <UsersList setUsersState={ setUsersState } listType="friends" usersArray={ usersArray } currentUserInfo={ currentUserInfo } /> }
+
+                <div className={ classes.currentUserRoot }>
+                    <p className={ classes.currentUserName }>{ currentUserInfo.username }</p>
+                    <motion.button className={ classes.currentUserDisconnectRoot }
+                        onClick={ handleDisconnect }
+                        initial={{ color: "#F2F4F8", scale: 1 }}
+                        whileHover={{ color: "#ED872D", scale: 1.15 }}
+                    >
+                        <BiPowerOff className={ classes.currentUserDisconnect } />
+                    </motion.button>
+                </div>
             </>
 }
 
