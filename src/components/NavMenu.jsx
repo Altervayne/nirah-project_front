@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "tss-react/mui"
 /* Icons imports */
+import { HiCog } from "react-icons/hi"
 import { BiMenu, BiPowerOff } from "react-icons/bi"
 /* Components imports */
 import UsersList from "./UsersList"
@@ -140,7 +141,11 @@ const useStyles = makeStyles()((theme) => {
 
             margin: 0,
         },
-        currentUserDisconnectRoot: {
+        currentUserButtonsRoot: {
+            display: "flex",
+            alignItems: "center",
+        },
+        currentUserButton: {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -152,7 +157,7 @@ const useStyles = makeStyles()((theme) => {
             border: "none",
             outline: "none",
         },
-        currentUserDisconnect: {
+        currentUserButtonIcon: {
             fontSize: theme.typography.pxToRem(30),
         },
         roomIdAndFormContainer: {
@@ -401,13 +406,22 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
 
                 <div className={ classes.currentUserRoot }>
                     <p className={ classes.currentUserName }>{ currentUserInfo.username }</p>
-                    <motion.button className={ classes.currentUserDisconnectRoot }
-                        onClick={ handleDisconnect }
-                        initial={{ color: "#F2F4F8", scale: 1 }}
-                        whileHover={{ color: "#ED872D", scale: 1.15 }}
-                    >
-                        <BiPowerOff className={ classes.currentUserDisconnect } />
-                    </motion.button>
+                    <div className={ classes.currentUserButtonsRoot }>
+                        <motion.button className={ classes.currentUserButton }
+                            onClick={ handleDisconnect }
+                            initial={{ color: "#F2F4F8", scale: 1 }}
+                            whileHover={{ color: "#ED872D", scale: 1.15 }}
+                        >
+                            <BiPowerOff className={ classes.currentUserButtonIcon } />
+                        </motion.button>
+                        <motion.button className={ classes.currentUserButton }
+                            onClick={() => console.log("clicked settings")}
+                            initial={{ color: "#F2F4F8", scale: 1 }}
+                            whileHover={{ color: "#ED872D", scale: 1.15 }}
+                        >
+                            <HiCog className={ classes.currentUserButtonIcon } />
+                        </motion.button>
+                    </div>
                 </div>
             </>
 }
