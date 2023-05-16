@@ -24,6 +24,9 @@ const useStyles = makeStyles()((theme) => {
             border: "none",
             outline: "none",
         },
+		currentUserButtonIcon: {
+            fontSize: theme.typography.pxToRem(30),
+        },
 		onHeaderOpenButton: {
 			position: "fixed",
             top: 0,
@@ -104,14 +107,13 @@ const OptionsMenu = ({ optionsType }) => {
 
 	const [isOpen, setIsOpen] = useState(false)
 	const handleWindowClick = (event) => { event.stopPropagation() }
-	const setParentIsOpen = (event, value) => {
-		event.preventDefault()
+	const setParentIsOpen = (value) => {
 		setIsOpen(value)
 	}
 
 	return  <div className={ classes.root }>
 				{ optionsType === "userOptions" ? 	<motion.button className={ classes.currentUserButton }
-														onClick={(event) => setIsOpen(event, true)}
+														onClick={() => setIsOpen(true)}
 														initial={{ color: "#F2F4F8", scale: 1 }}
 														whileHover={{ color: "#ED872D", scale: 1.15 }}
 													>
@@ -119,7 +121,7 @@ const OptionsMenu = ({ optionsType }) => {
 													</motion.button>
 
 												:	<motion.button className={ classes.onHeaderOpenButton }
-														onClick={(event) => setIsOpen(event, !isOpen)}
+														onClick={() => setIsOpen(!isOpen)}
 														initial={{ color: "#F2F4F8", scale: 1 }}
 														animate={{ color: isOpen ? "#ED872D" : "#F2F4F8" }}
 														whileHover={{ color: "#ED872D", scale: 1.1 }}

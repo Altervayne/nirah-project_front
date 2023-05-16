@@ -7,6 +7,7 @@ import { makeStyles } from "tss-react/mui"
 /* Icons imports */
 import { BiMenu, BiPowerOff } from "react-icons/bi"
 /* Components imports */
+import OptionsMenu from "./OptionsMenu"
 import UsersList from "./UsersList"
 /* Helper functions imports */
 import { logOutHelper } from "../helpers/authFormHelper"
@@ -413,6 +414,8 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
                         >
                             <BiPowerOff className={ classes.currentUserButtonIcon } />
                         </motion.button>
+
+                        <OptionsMenu optionsType={ "userOptions" }/>
                     </div>
                 </div>
             </>
