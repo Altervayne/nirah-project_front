@@ -3,37 +3,63 @@ import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import CloseButton from "./CloseButton"
+import { HiCog } from "react-icons/hi"
 
 
 
 const useStyles = makeStyles()((theme) => {
 	return {
 		root: {
-/* 			position: "relative",
-			zIndex: 2, */
+			zIndex: 2,
 		},
-		openButton: {
-/* 			display: "flex",
-			flexDirection: "column",
-			alignItems: "center",
-			justifyContent: "center",
+		currentUserButton: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
 
-			width: theme.spacing(32),
-			height: theme.spacing(8),
-			borderRadius: theme.spacing(4),
+            cursor: "pointer",
 
-			backgroundColor: "#121420",
-			color: "#F2F4F8",
-			boxShadow: "5px 5px 10px rgba(0, 0, 0, .5)",
+            backgroundColor: "none",
+            background: "none",
+            border: "none",
+            outline: "none",
+        },
+		onHeaderOpenButton: {
+			position: "fixed",
+            top: 0,
+            right: 0,
+            zIndex: 5,
+            
+            borderRadius: theme.spacing(1),
+            outline: "none",
+            border: "none",
 
-			fontFamily: "Helvetica",
-			fontWeight: 600,
-			fontSize: theme.typography.pxToRem(20),
+            margin: theme.spacing(1),
 
-			cursor: "pointer", */
+            backgroundColor: "#1B2432",
+            color: "#F2F4F8",
+
+            cursor: "pointer",
+
+            [theme.breakpoints.down('sm')]: {
+                height: theme.spacing(6),
+                width: theme.spacing(6),	
+			},
+			[theme.breakpoints.up('sm')]: {
+                height: theme.spacing(5),
+                width: theme.spacing(5),	
+			},
 		},
+		onHeaderOpenButtonIcon: { 
+            [theme.breakpoints.down('sm')]: {
+                fontSize: theme.typography.pxToRem(32),	
+			},
+			[theme.breakpoints.up('sm')]: {
+                fontSize: theme.typography.pxToRem(24),	
+			},
+        },
 		modalContainer: {
-/* 			display: "flex",
+			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
 
@@ -43,10 +69,10 @@ const useStyles = makeStyles()((theme) => {
 
 			width: "100vw",
 			height: "100vh",
-			backgroundColor: "rgba(0, 0, 0, .5)", */
+			backgroundColor: "rgba(0, 0, 0, .5)",
 		},
 		modalWindow: {
-/* 			display: "flex",
+			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
 			position: "relative",
@@ -66,33 +92,42 @@ const useStyles = makeStyles()((theme) => {
 				height: "600px",
 
 				borderRadius: "20px",
-			}, */
+			},
 		},
 	}
 })
 
 
 
-const OptionsMenu = () => {
+const OptionsMenu = ({ optionsType }) => {
 	const { classes } = useStyles()
 
 	const [isOpen, setIsOpen] = useState(false)
 	const handleWindowClick = (event) => { event.stopPropagation() }
-	const setParentIsOpen = (value) => { setIsOpen(value) }
+	const setParentIsOpen = (event, value) => {
+		event.preventDefault()
+		setIsOpen(value)
+	}
 
 	return  <div className={ classes.root }>
-				<motion.button className={ classes.openButton }
-					onClick={() => setIsOpen(true)}
-					whileHover={{
-						scale: 1.05,
-						color: "#ED872D",
-						transition: {
-							duration: 0.1
-						}
-					}}		
-				>
-					{/* Lancer Nirah */}
-				</motion.button>
+				{ optionsType === "userOptions" ? 	<motion.button className={ classes.currentUserButton }
+														onClick={(event) => setIsOpen(event, true)}
+														initial={{ color: "#F2F4F8", scale: 1 }}
+														whileHover={{ color: "#ED872D", scale: 1.15 }}
+													>
+														<HiCog className={ classes.currentUserButtonIcon } />
+													</motion.button>
+
+												:	<motion.button className={ classes.onHeaderOpenButton }
+														onClick={(event) => setIsOpen(event, !isOpen)}
+														initial={{ color: "#F2F4F8", scale: 1 }}
+														animate={{ color: isOpen ? "#ED872D" : "#F2F4F8" }}
+														whileHover={{ color: "#ED872D", scale: 1.1 }}
+														whileTap={{ color: "#F2F4F8", scale: .95 }}
+													>
+														<HiCog className={ classes.navMenuButtonIcon } />
+													</motion.button> }
+
 
 
 				<motion.div className={ classes.modalContainer }
@@ -111,6 +146,7 @@ const OptionsMenu = () => {
 					}}					
 				> {/* The Modal Container takes up the entire screen (except for the header) with a slightly transparent black background */}
 
+
 					<motion.div className={ classes.modalWindow }
 						onClick={ handleWindowClick }
 						initial={{ scale: 0, visibility: "hidden" }}
@@ -127,10 +163,14 @@ const OptionsMenu = () => {
 						}}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
 
-						<CloseButton setIsOpen={ setParentIsOpen } />
-
+						{ optionsType === "userOptions" && <CloseButton setIsOpen={ setParentIsOpen } /> }						
 					</motion.div>
+
+
 				</motion.div>
+
+
+
 			</div>
 }
 
