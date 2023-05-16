@@ -127,7 +127,7 @@ const OptionsMenu = ({ optionsType }) => {
 														whileHover={{ color: "#ED872D", scale: 1.1 }}
 														whileTap={{ color: "#F2F4F8", scale: .95 }}
 													>
-														<HiCog className={ classes.navMenuButtonIcon } />
+														<HiCog className={ classes.onHeaderOpenButtonIcon } />
 													</motion.button> }
 
 
