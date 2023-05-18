@@ -203,6 +203,11 @@ const OptionsMenu = ({ optionsType, setIsLoading }) => {
 
 		setFormPassword({ ...formPassword, value: password })
 	}
+	const handleFormSend = (event) => {
+		event.preventDefault()
+
+		deleteAccountHelper(formPassword.value)
+	}
 
 	const handleWindowClick = (event) => { event.stopPropagation() }
 	const setParentIsOpen = (value) => {
@@ -284,7 +289,7 @@ const OptionsMenu = ({ optionsType, setIsLoading }) => {
 
 																	</div>
 																	<motion.button className={ classes.deleteAccountButton }
-																		/* onClick={ handleFormSend } */
+																		onClick={ handleFormSend }
 																		whileHover={{
 																			scale: 1.05,
 																		}}
