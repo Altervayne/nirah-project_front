@@ -288,7 +288,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
+const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUserInfo, setIsLoading }) => {
     const { classes } = useStyles()
     const navigate = useNavigate()
 
@@ -415,7 +415,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
                             <BiPowerOff className={ classes.currentUserButtonIcon } />
                         </motion.button>
 
-                        <OptionsMenu optionsType={ "userOptions" }/>
+                        <OptionsMenu optionsType={ "userOptions" } setIsLoading={ setIsLoading }/>
                     </div>
                 </div>
             </>
@@ -423,7 +423,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
 
 
 
-const NavMenu = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUserInfo }) => {
+const NavMenu = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUserInfo, setIsLoading }) => {
 	const { classes } = useStyles()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -497,7 +497,8 @@ const NavMenu = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUse
                                         isChatRoom={ isChatRoom }
                                         chatRoomId={ chatRoomId }
                                         usersArray={ usersArray }
-                                        currentUserInfo={ currentUserInfo } />
+                                        currentUserInfo={ currentUserInfo }
+                                        setIsLoading={ setIsLoading } />
                     </motion.nav>
                 </>
             : 
@@ -506,7 +507,8 @@ const NavMenu = ({ setUsersState, isChatRoom, chatRoomId, usersArray, currentUse
                                     isChatRoom={ isChatRoom }
                                     chatRoomId={ chatRoomId }
                                     usersArray={ usersArray }
-                                    currentUserInfo={ currentUserInfo } />
+                                    currentUserInfo={ currentUserInfo }
+                                    setIsLoading={ setIsLoading } />
                 </nav>  
 
     )

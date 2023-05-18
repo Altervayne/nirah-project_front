@@ -1,9 +1,13 @@
-import React from "react"
-import { useState } from "react"
+/* Libraries imports */
+import React, { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+/* Components imports */
 import CloseButton from "./CloseButton"
+/* React Icons imports */
 import { HiCog } from "react-icons/hi"
+/* Helper functions imports */
+import { deleteAccountHelper } from "../helpers/authFormHelper"
 
 
 
@@ -181,15 +185,19 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const OptionsMenu = ({ optionsType }) => {
+const OptionsMenu = ({ optionsType, setIsLoading }) => {
 	const { classes } = useStyles()
 
+
+
+	/* We declare state variables */
 	const [isOpen, setIsOpen] = useState(false)
 	const [formPassword, setFormPassword] = useState({
 		value: '',
 		valid: true
 	})
 	
+	/* We declare handler functions */
 	const handleFormChange = (event) => {
 		const password = event.target.value
 
@@ -200,6 +208,8 @@ const OptionsMenu = ({ optionsType }) => {
 	const setParentIsOpen = (value) => {
 		setIsOpen(value)
 	}
+
+
 
 	return  <div className={ classes.root }>
 				{ optionsType === "userOptions" ? 	<motion.button className={ classes.currentUserButton }

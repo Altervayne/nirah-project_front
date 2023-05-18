@@ -167,7 +167,8 @@ const DashBoard = () => {
 								isChatRoom={ false }
 								chatRoomId={ null }
 								usersArray={ friends }
-								currentUserInfo={ currentUser } />
+								currentUserInfo={ currentUser }
+								setIsLoading={ setIsLoading } />
 
 					<div className={ classes.mainContainer }>
 						<img src="/images/logos/nirah_logo.png" alt="Nirah, Serpent mascotte de l'application" className={ classes.largeLogo }/>
