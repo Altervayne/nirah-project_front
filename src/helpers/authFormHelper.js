@@ -17,6 +17,7 @@ const logInHelper = (email, password) => {
 }
 
 
+
 const signUpHelper = (username, email, password) => {
     const userData = { username: username, email: email, password: password }
 
@@ -28,6 +29,7 @@ const signUpHelper = (username, email, password) => {
                 return { success: false, message: error.response.data.message }
             })
 }
+
 
 
 const logOutHelper = async () => {
@@ -43,4 +45,20 @@ const logOutHelper = async () => {
 
 
 
-export { logInHelper, signUpHelper, logOutHelper }
+const deleteAccountHelper = async (password) => {
+    const userData = { password: password }
+
+    return axios.post(`${apiUrl}/auth/delete`, userData, { withCredentials: true })
+            .then((response) => {
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+                return { success: true }
+            })
+            .catch((error) => {
+                return { success: false, message: error.response.data.message }
+            })
+}
+
+
+
+export { logInHelper, signUpHelper, logOutHelper, deleteAccountHelper }
