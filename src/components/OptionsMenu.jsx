@@ -92,11 +92,90 @@ const useStyles = makeStyles()((theme) => {
 			},
 			[theme.breakpoints.up('md')]: {
 				width: "375px",
-				height: "600px",
+				height: "auto",
 
 				borderRadius: "20px",
 			},
 		},
+		optionsContainer: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			justifyContent: "space-between",
+
+			width: "100%",
+			marginTop: theme.spacing(4),
+			marginBottom: theme.spacing(4),
+		},
+		formContainer: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+
+			width: "100%",
+		},
+		formTitle: {
+			fontSize: theme.typography.pxToRem(24),
+			fontWeight: 600,
+
+			color: "#F2F4F8"
+		},
+		inputContainer: {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+
+            position: "relative",
+            boxSizing: "border-box",
+
+            width: "75%",
+            height: "70px",
+        },
+		formInput: {
+            width: "100%",
+            height: "33px",
+            minHeight: "33px",
+
+            border: "none",
+            borderRadius: "10px",
+            padding: "0 10px",
+
+            boxSizing: "border-box",
+
+            fontSize: theme.typography.pxToRem(16),
+
+            "&:focus": {
+                outline: "none",
+            },
+        },
+		inputLabel: {
+            color: "#C2D4EB",
+            margin: "2px 10px",
+
+            boxSizing: "border-box",
+        },
+		deleteAccountButton: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+
+            fontSize: theme.typography.pxToRem(15),
+            fontWeight: 600,
+
+            height: "40px",
+            padding: "0 10px",
+			marginTop: theme.spacing(4),
+			marginBottom: theme.spacing(2),
+            borderRadius: "10px",
+
+            outline: "none",
+            border: "none",
+
+            color: "#F2F4F8",
+            backgroundColor: "#d02b48",
+
+            cursor: "pointer",
+        },
 	}
 })
 
@@ -165,7 +244,39 @@ const OptionsMenu = ({ optionsType }) => {
 						}}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
 
-						{ optionsType === "userOptions" && <CloseButton setIsOpen={ setParentIsOpen } /> }						
+						{ optionsType === "userOptions" && <CloseButton setIsOpen={ setParentIsOpen } /> }
+
+						{ optionsType === "userOptions" ? 	<div className={ classes.optionsContainer }>
+																<form className={ classes.formContainer }>
+																	<h2 className={ classes.formTitle }>Supprimer mon compte</h2>
+
+																	<div className={ classes.inputContainer }>
+
+																		<label className={ classes.inputLabel } htmlFor="password-field">Entrez votre mot de passe</label>
+																		<input className={ classes.formInput }
+																			id="password-field"
+																			name="password"
+																			type="password"
+																			autoComplete="off"
+																			/* value={ formData.password.value } */
+																			/* onChange={ handleFormChange } *//>
+
+																	</div>
+																	<motion.button className={ classes.deleteAccountButton }
+																		/* onClick={ handleFormSend } */
+																		whileHover={{
+																			scale: 1.05,
+																		}}
+																		whileTap={{
+																			scale: .97,
+																		}}
+																	>
+																		Supprimer
+																	</motion.button>
+																</form>
+															</div> 
+														: <></> }
+
 					</motion.div>
 
 
