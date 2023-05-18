@@ -185,6 +185,17 @@ const OptionsMenu = ({ optionsType }) => {
 	const { classes } = useStyles()
 
 	const [isOpen, setIsOpen] = useState(false)
+	const [formPassword, setFormPassword] = useState({
+		value: '',
+		valid: true
+	})
+	
+	const handleFormChange = (event) => {
+		const password = event.target.value
+
+		setFormPassword({ ...formPassword, value: password })
+	}
+
 	const handleWindowClick = (event) => { event.stopPropagation() }
 	const setParentIsOpen = (value) => {
 		setIsOpen(value)
@@ -258,8 +269,8 @@ const OptionsMenu = ({ optionsType }) => {
 																			name="password"
 																			type="password"
 																			autoComplete="off"
-																			/* value={ formData.password.value } */
-																			/* onChange={ handleFormChange } *//>
+																			value={ formPassword.value }
+																			onChange={ handleFormChange }/>
 
 																	</div>
 																	<motion.button className={ classes.deleteAccountButton }
