@@ -2,12 +2,14 @@
 import React, { useState } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
+import { useNavigate } from "react-router"
 /* Components imports */
 import CloseButton from "./CloseButton"
 /* React Icons imports */
 import { HiCog } from "react-icons/hi"
 /* Helper functions imports */
 import { deleteAccountHelper } from "../helpers/authFormHelper"
+import { socketLeaveHandler } from "../helpers/socketHandler"
 
 
 
@@ -185,8 +187,9 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const OptionsMenu = ({ optionsType, setIsLoading }) => {
+const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
 	const { classes } = useStyles()
+	const navigate = useNavigate()
 
 
 
@@ -194,7 +197,8 @@ const OptionsMenu = ({ optionsType, setIsLoading }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [formPassword, setFormPassword] = useState({
 		value: '',
-		valid: true
+		valid: true,
+		error: ''
 	})
 	
 	/* We declare handler functions */
@@ -203,10 +207,42 @@ const OptionsMenu = ({ optionsType, setIsLoading }) => {
 
 		setFormPassword({ ...formPassword, value: password })
 	}
-	const handleFormSend = (event) => {
+	const handleFormSend = async (event) => {
 		event.preventDefault()
+		await setIsLoading(true)
 
-		deleteAccountHelper(formPassword.value)
+
+		if(isChatRoom) {
+			const userLeft = await socketLeaveHandler()
+
+			if(!userLeft) {
+				setFormPassword({
+					...formPassword,
+					valid: false,
+					error: 'Une erreur est survenue en quittant le salon'
+				})
+
+				return
+			}
+		}
+
+
+		const accountDeletionState = await deleteAccountHelper(formPassword.value)
+		const accountWasDeleted = accountDeletionState.success
+		const serverErrorMessage = accountDeletionState.message
+
+
+		if(accountWasDeleted) {
+			navigate('/')
+		} else {
+			setFormPassword({
+				...formPassword,
+				valid: false,
+				error: serverErrorMessage
+			})
+		}
+
+		setIsLoading(false)
 	}
 
 	const handleWindowClick = (event) => { event.stopPropagation() }
