@@ -49,4 +49,10 @@ const socketFriendRequestHandler = (userId, requestType) => {
 
 
 
-export { socket, socketJoinHandler, socketLeaveHandler, socketDisconnectHandler, socketFriendRequestHandler }
+const socketAccountDeleteHandler = () => {
+    socket.emit('deleteAccount', {})
+}
+
+
+
+export { socket, socketJoinHandler, socketLeaveHandler, socketDisconnectHandler, socketFriendRequestHandler, socketAccountDeleteHandler }

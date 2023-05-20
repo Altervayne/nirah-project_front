@@ -9,7 +9,7 @@ import CloseButton from "./CloseButton"
 import { HiCog } from "react-icons/hi"
 /* Helper functions imports */
 import { deleteAccountHelper } from "../helpers/authFormHelper"
-import { socketLeaveHandler } from "../helpers/socketHandler"
+import { socketLeaveHandler, socketAccountDeleteHandler } from "../helpers/socketHandler"
 
 
 
@@ -233,6 +233,8 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
 
 
 		if(accountWasDeleted) {
+			socketAccountDeleteHandler()
+
 			navigate('/')
 		} else {
 			setFormPassword({
