@@ -134,7 +134,7 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
         }
 
         const handleUserDeleted = (data) => {
-
+            /* TO DO */
         }
     
         socket.on("sendRequest", handleSendRequest)
