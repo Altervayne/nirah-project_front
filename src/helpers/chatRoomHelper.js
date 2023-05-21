@@ -8,15 +8,15 @@ const sortChatRoomMembers = (currentUser, members) => {
     const otherMembers = members.filter(user => user.username !== currentUser.username)
 
     const friendMembers = otherMembers.filter(member => {
-        return currentUser.friendsList.some(target => target.userID === member.userID)
+        return currentUser.friendsList.some(target => target.userId === member.userId)
     })
     
     const requestsReceivedMembers = otherMembers.filter(member => {
-        return currentUser.requestsReceived.some(target => target.userID === member.userID);
+        return currentUser.requestsReceived.some(target => target.userId === member.userId);
     })
     
     const requestsSentMembers = otherMembers.filter(member => {
-        return currentUser.requestsSent.some(target => target.userID === member.userID);
+        return currentUser.requestsSent.some(target => target.userId === member.userId);
     })
     
     const normalMembers = otherMembers.filter(member => {

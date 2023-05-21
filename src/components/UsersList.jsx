@@ -141,12 +141,14 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
         socket.on("acceptRequest", handleAcceptRequest)
         socket.on("rejectRequest", handleRejectRequest)
         socket.on("remove", handleFriendRemoved)
-        socket.on("delete", handleUserDeleted)
+        
 
         if(listType === "friends") {
             friendsUpdateEvents.forEach((event) => {
                 socket.on(event, handleFriendStatus);
             })
+            socket.on("delete", handleUserDeleted)
+
         } else if(listType === "members") {
             userLeaveEvents.forEach((event) => {
                 socket.on(event, handleUserLeave);
@@ -160,12 +162,14 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
             socket.off("acceptRequest", handleAcceptRequest)
             socket.off("rejectRequest", handleRejectRequest)
             socket.off("remove", handleFriendRemoved)
-            socket.on("delete", handleUserDeleted)
+            
 
             if(listType === "friends") {
                 friendsUpdateEvents.forEach((event) => {
                     socket.off(event, handleFriendStatus);
                 })
+                socket.off("delete", handleUserDeleted)
+
             } else if(listType === "members") {
                 userLeaveEvents.forEach((event) => {
                     socket.off(event, handleUserLeave);

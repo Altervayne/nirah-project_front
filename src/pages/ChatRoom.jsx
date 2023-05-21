@@ -269,6 +269,9 @@ const ChatRoom = () => {
 			if(!authenticatedUser) {
 				navigate('/')	
 			} else {
+                console.log("received chatRoomData.members is:")
+                console.log(chatRoomData.members)
+
                 const members = sortChatRoomMembers(authenticatedUser, chatRoomData.members)
 
 				await setCurrentUser(authenticatedUser)
@@ -282,7 +285,6 @@ const ChatRoom = () => {
 		}
 
         const listenForSameRoomName = (data) => {
-            console.log(data.message)
             navigate(`/room/${id}`)
         }
         
