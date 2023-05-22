@@ -152,7 +152,7 @@ const handleUserJoinUpdate = (userId, username, roomId, currentUserInfo, usersAr
 
 
 const handleLeaveRoom = () => {
-    return axios.update(`${apiUrl}/chatroom/leave`, { withCredentials: true })
+    return axios.post(`${apiUrl}/chatroom/leave`, { withCredentials: true })
                 .then((response) => {
                     return response.data
                 })
