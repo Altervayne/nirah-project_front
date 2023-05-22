@@ -12,6 +12,7 @@ import UsersList from "./UsersList"
 /* Helper functions imports */
 import { logOutHelper } from "../helpers/authFormHelper"
 import { socketLeaveHandler, socketDisconnectHandler } from "../helpers/socketHandler"
+import { handleLeaveRoom } from "../helpers/chatRoomHelper"
 
 
 
@@ -327,6 +328,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
     const handleRoomLeave = async (event) => {
         event.preventDefault()
 
+        await handleLeaveRoom()
         const userLeft = await socketLeaveHandler()
 
         if(userLeft) {

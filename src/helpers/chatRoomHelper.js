@@ -151,4 +151,16 @@ const handleUserJoinUpdate = (userId, username, roomId, currentUserInfo, usersAr
 
 
 
-export { sortChatRoomMembers, getCurrentChatRoomInfo, handleUserLeaveUpdate, handleUserJoinUpdate }
+const handleLeaveRoom = () => {
+    return axios.update(`${apiUrl}/chatroom/leave`, { withCredentials: true })
+                .then((response) => {
+                    return response.data
+                })
+                .catch((error) => {
+                    return false
+                })
+}
+
+
+
+export { sortChatRoomMembers, getCurrentChatRoomInfo, handleUserLeaveUpdate, handleUserJoinUpdate, handleLeaveRoom }
