@@ -329,13 +329,9 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
         event.preventDefault()
 
         await handleLeaveRoom()
-        /* const userLeft =  */await socketLeaveHandler()
+        await socketLeaveHandler()
 
-        /* if(userLeft) { */
-            navigate('/dashboard')
-        /* } else {
-            console.log("There was an issue with leaving the room, please wait and try again.")
-        } */
+        navigate('/dashboard')
     }
     
 
