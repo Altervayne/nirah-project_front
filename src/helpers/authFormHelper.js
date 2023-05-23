@@ -48,14 +48,16 @@ const logOutHelper = async () => {
 const deleteAccountHelper = async (password) => {
     const userData = { password: password }
 
-    return axios.post(`${apiUrl}/auth/delete`, userData, { withCredentials: true })
+    return axios.delete(`${apiUrl}/auth/delete`, userData, { withCredentials: true })
             .then((response) => {
                 document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
                 return { success: true }
             })
             .catch((error) => {
-                return { success: false, message: error.response.data.message }
+                console.log(error)
+
+                return { success: false, message: error.response.data.error }
             })
 }
 

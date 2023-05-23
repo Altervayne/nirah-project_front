@@ -107,11 +107,11 @@ const useStyles = makeStyles()((theme) => {
 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
-			justifyContent: "space-between",
+			justifyContent: "space-evenly",
 
 			width: "100%",
-			marginTop: theme.spacing(4),
-			marginBottom: theme.spacing(4),
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(2),
 		},
 		formContainer: {
 			display: "flex",
@@ -160,6 +160,18 @@ const useStyles = makeStyles()((theme) => {
 
             boxSizing: "border-box",
         },
+		invalidForm: {
+            color: "#DF4661",
+
+            width: "100%",
+
+            fontSize: theme.typography.pxToRem(13),
+            textAlign: "center",
+
+            margin: "0",
+            padding: "0",
+            marginTop: theme.spacing(1),
+        },
 		deleteAccountButton: {
             display: "flex",
             alignItems: "center",
@@ -170,7 +182,7 @@ const useStyles = makeStyles()((theme) => {
 
             height: "40px",
             padding: "0 10px",
-			marginTop: theme.spacing(4),
+			marginTop: theme.spacing(2),
 			marginBottom: theme.spacing(2),
             borderRadius: "10px",
 
@@ -197,8 +209,8 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [formPassword, setFormPassword] = useState({
 		value: '',
-		valid: true,
-		error: ''
+		valid: false,
+		error: ' '
 	})
 	
 	/* We declare handler functions */
@@ -213,17 +225,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
 
 
 		if(isChatRoom) {
-			const userLeft = await socketLeaveHandler()
-
-			if(!userLeft) {
-				setFormPassword({
-					...formPassword,
-					valid: false,
-					error: 'Une erreur est survenue en quittant le salon'
-				})
-
-				return
-			}
+			await socketLeaveHandler()
 		}
 
 
@@ -326,6 +328,21 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
 																			onChange={ handleFormChange }/>
 
 																	</div>
+
+
+																	<motion.p className={ classes.invalidForm }
+																		initial={{ visibility: "hidden", opacity: 0 }}
+																		animate={ !formPassword.valid
+																			? { visibility: "visible", opacity: 1 }
+																			: { visibility: "hidden", opacity: 0 }}
+																		transition={{
+																			duration: .4,
+																			opacity: { delay: 0 },
+																			visibility: { delay: formPassword.valid ? .4 : 0}}}
+
+																	>{ formPassword.error }</motion.p>
+
+
 																	<motion.button className={ classes.deleteAccountButton }
 																		onClick={ handleFormSend }
 																		whileHover={{
