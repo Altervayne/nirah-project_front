@@ -147,7 +147,7 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
             friendsUpdateEvents.forEach((event) => {
                 socket.on(event, handleFriendStatus);
             })
-            socket.on("delete", handleUserDeleted)
+            socket.on("deleteAccount", handleUserDeleted)
 
         } else if(listType === "members") {
             userLeaveEvents.forEach((event) => {
@@ -168,7 +168,7 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
                 friendsUpdateEvents.forEach((event) => {
                     socket.off(event, handleFriendStatus);
                 })
-                socket.off("delete", handleUserDeleted)
+                socket.off("deleteAccount", handleUserDeleted)
 
             } else if(listType === "members") {
                 userLeaveEvents.forEach((event) => {
