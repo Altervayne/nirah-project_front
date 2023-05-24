@@ -83,5 +83,20 @@ const handleFriendRequest = (id, requestNature) => {
 
 
 
+const handleFriendAccountDeleted = (userId, usersArray, setUsersState) => {
+    const newFriendsList = usersArray.friends.filter(user => user.userId !== userId)
+    const newRequestsSent = usersArray.requestsSent.filter(user => user.userId !== userId)
+    const newRequestsReceived = usersArray.requestsReceived.filter(user => user.userId !== userId)
 
-export { handleFriendRequest, handleFriendsUpdate, handleFriendStatusUpdate, getFriendsInfo }
+    setUsersState({
+        ...usersArray,
+        friends: newFriendsList,
+        requestsSent: newRequestsSent,
+        requestsReceived: newRequestsReceived
+    })
+}
+
+
+
+
+export { handleFriendRequest, handleFriendsUpdate, handleFriendStatusUpdate, getFriendsInfo, handleFriendAccountDeleted }

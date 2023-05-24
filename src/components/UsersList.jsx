@@ -6,7 +6,7 @@ import { useParams } from "react-router"
 import UserEntry from "./UserEntry"
 import Divider from "./Divider"
 /* Helper functions imports */
-import { handleFriendsUpdate, handleFriendStatusUpdate } from "../helpers/friendRequestHelper"
+import { handleFriendsUpdate, handleFriendStatusUpdate, handleFriendAccountDeleted } from "../helpers/friendRequestHelper"
 import { handleUserLeaveUpdate, handleUserJoinUpdate } from "../helpers/chatRoomHelper"
 import { socket } from "../helpers/socketHandler"
 
@@ -134,7 +134,7 @@ const UsersList = ({ setUsersState, listType, usersArray, currentUserInfo }) => 
         }
 
         const handleUserDeleted = (data) => {
-            /* TO DO */
+            handleFriendAccountDeleted(data.userId, usersArray, setUsersState)
         }
     
         socket.on("sendRequest", handleSendRequest)
