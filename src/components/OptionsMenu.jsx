@@ -113,6 +113,9 @@ const useStyles = makeStyles()((theme) => {
 			marginTop: theme.spacing(2),
 			marginBottom: theme.spacing(2),
 		},
+		userInfoRoot: {
+			display: "flex",
+		},
 		formContainer: {
 			display: "flex",
 			flexDirection: "column",
@@ -199,7 +202,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
+const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => {
 	const { classes } = useStyles()
 	const navigate = useNavigate()
 
@@ -313,6 +316,23 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
 						{ optionsType === "userOptions" && <CloseButton setIsOpen={ setParentIsOpen } /> }
 
 						{ optionsType === "userOptions" ? 	<div className={ classes.optionsContainer }>
+
+
+																<div className={ classes.userInfoRoot }>
+																	<h2 className={ classes.formTitle }>Mes Informations</h2>
+
+																	<div className={ classes.inputContainer }>
+																		<p className={ classes.inputLabel } htmlFor="password-field">Nom d'utilisateur</p>
+																		<p className={ classes.formInput }>{/* { currentUser.username } */}</p>
+																	</div>
+																	<div className={ classes.inputContainer }>
+																		<p className={ classes.inputLabel } htmlFor="password-field">Adresse Email</p>
+																		<p className={ classes.formInput }>{/* { currentUser.email } */}</p>
+																	</div>
+																</div>
+
+
+
 																<form className={ classes.formContainer }>
 																	<h2 className={ classes.formTitle }>Supprimer mon compte</h2>
 
@@ -355,6 +375,8 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom }) => {
 																		Supprimer
 																	</motion.button>
 																</form>
+
+
 															</div> 
 														: <></> }
 

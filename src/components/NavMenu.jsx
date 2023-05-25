@@ -413,7 +413,7 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
                             <BiPowerOff className={ classes.currentUserButtonIcon } />
                         </motion.button>
 
-                        <OptionsMenu optionsType={ "userOptions" } setIsLoading={ setIsLoading } isChatRoom={ isChatRoom } />
+                        <OptionsMenu optionsType={ "userOptions" } setIsLoading={ setIsLoading } isChatRoom={ isChatRoom } currentUser={ currentUserInfo } />
                     </div>
                 </div>
             </>
