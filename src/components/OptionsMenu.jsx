@@ -138,7 +138,7 @@ const useStyles = makeStyles()((theme) => {
             boxSizing: "border-box",
 
             width: "75%",
-            height: "70px",
+            height: "auto",
         },
 		formInput: {
             width: "100%",
@@ -318,18 +318,81 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 						{ optionsType === "userOptions" ? 	<div className={ classes.optionsContainer }>
 
 
-																<div className={ classes.userInfoRoot }>
+																<div className={ classes.formContainer }>
 																	<h2 className={ classes.formTitle }>Mes Informations</h2>
 
 																	<div className={ classes.inputContainer }>
 																		<p className={ classes.inputLabel } htmlFor="password-field">Nom d'utilisateur</p>
-																		<p className={ classes.formInput }>{/* { currentUser.username } */}</p>
+																		<p className={ classes.userInfoText }>Test</p>
 																	</div>
 																	<div className={ classes.inputContainer }>
 																		<p className={ classes.inputLabel } htmlFor="password-field">Adresse Email</p>
-																		<p className={ classes.formInput }>{/* { currentUser.email } */}</p>
+																		<p className={ classes.userInfoText }>Test</p>
 																	</div>
 																</div>
+
+
+
+																<form className={ classes.formContainer }>
+																	<h2 className={ classes.formTitle }>Changer mon Mot de Passe</h2>
+
+																	<div className={ classes.inputContainer }>
+
+																		<label className={ classes.inputLabel } htmlFor="password-field">Mot de passe actuel</label>
+																		<input className={ classes.formInput }
+																			id="password-field"
+																			name="old-password"
+																			type="password"
+																			autoComplete="off"
+																			/* value={ formPassword.value } */
+																			/* onChange={ handleFormChange } *//>
+
+																		<label className={ classes.inputLabel } htmlFor="password-field">Nouveau mot de passe</label>
+																		<input className={ classes.formInput }
+																			id="password-field"
+																			name="new-password"
+																			type="password"
+																			autoComplete="off"
+																			/* value={ formPassword.value } */
+																			/* onChange={ handleFormChange } *//>
+
+																		<label className={ classes.inputLabel } htmlFor="password-field">Vérifiez votre nouveau mot de passe</label>
+																		<input className={ classes.formInput }
+																			id="password-field"
+																			name="verify-password"
+																			type="password"
+																			autoComplete="off"
+																			/* value={ formPassword.value } */
+																			/* onChange={ handleFormChange } *//>
+
+																	</div>
+
+
+																	<motion.p className={ classes.invalidForm }
+																		initial={{ visibility: "hidden", opacity: 0 }}
+																		animate={ !formPassword.valid
+																			? { visibility: "visible", opacity: 1 }
+																			: { visibility: "hidden", opacity: 0 }}
+																		transition={{
+																			duration: .4,
+																			opacity: { delay: 0 },
+																			visibility: { delay: formPassword.valid ? .4 : 0}}}
+
+																	>{ formPassword.error }</motion.p>
+
+
+																	<motion.button className={ classes.deleteAccountButton }
+																		onClick={ handleFormSend }
+																		whileHover={{
+																			scale: 1.05,
+																		}}
+																		whileTap={{
+																			scale: .97,
+																		}}
+																	>
+																		Supprimer
+																	</motion.button>
+																</form>
 
 
 
