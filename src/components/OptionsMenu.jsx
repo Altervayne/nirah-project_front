@@ -16,7 +16,7 @@ import { socketLeaveHandler, socketAccountDeleteHandler } from "../helpers/socke
 const useStyles = makeStyles()((theme) => {
 	return {
 		root: {
-			zIndex: 2,
+			zIndex: 6,
 		},
 		currentUserButton: {
             display: "flex",
@@ -84,7 +84,7 @@ const useStyles = makeStyles()((theme) => {
 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
-			position: "relative",
+			position: "fixed",
 
 			boxSizing: "border-box",
 
@@ -97,6 +97,8 @@ const useStyles = makeStyles()((theme) => {
 				minHeight: "100%",	
 			},
 			[theme.breakpoints.up('md')]: {
+				marginTop: theme.spacing(8),
+
 				width: "375px",
 				height: "auto",
 
@@ -115,6 +117,13 @@ const useStyles = makeStyles()((theme) => {
 		},
 		userInfoRoot: {
 			display: "flex",
+		},
+		userInfoText: {
+			color: "#F2F4F8",
+			backgroundColor: "rgba(255, 255, 255, .05)",
+
+			padding: "10px",
+			borderRadius: "10px",
 		},
 		formContainer: {
 			display: "flex",
@@ -382,7 +391,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 
 
 																	<motion.button className={ classes.deleteAccountButton }
-																		onClick={ handleFormSend }
+																		/* onClick={ handleFormSend } */
 																		whileHover={{
 																			scale: 1.05,
 																		}}
@@ -390,7 +399,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																			scale: .97,
 																		}}
 																	>
-																		Supprimer
+																		Confirmer
 																	</motion.button>
 																</form>
 
