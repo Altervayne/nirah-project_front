@@ -323,11 +323,11 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 
 																	<div className={ classes.inputContainer }>
 																		<p className={ classes.inputLabel } htmlFor="password-field">Nom d'utilisateur</p>
-																		<p className={ classes.userInfoText }>Test</p>
+																		<p className={ classes.userInfoText }>{ currentUser.username }</p>
 																	</div>
 																	<div className={ classes.inputContainer }>
 																		<p className={ classes.inputLabel } htmlFor="password-field">Adresse Email</p>
-																		<p className={ classes.userInfoText }>Test</p>
+																		<p className={ classes.userInfoText }>{ currentUser.email }</p>
 																	</div>
 																</div>
 
