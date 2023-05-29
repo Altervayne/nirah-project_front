@@ -184,6 +184,18 @@ const useStyles = makeStyles()((theme) => {
             padding: "0",
             marginTop: theme.spacing(1),
         },
+		validForm: {
+			color: "#00ff80",
+
+            width: "100%",
+
+            fontSize: theme.typography.pxToRem(13),
+            textAlign: "center",
+
+            margin: "0",
+            padding: "0",
+            marginTop: theme.spacing(1),
+		},
 		deleteAccountButton: {
             display: "flex",
             alignItems: "center",
@@ -469,7 +481,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																	</div>
 
 
-																	<motion.p className={ classes.invalidForm }
+																	<motion.p className={ changePasswordForm.error ? classes.invalidForm : classes.validForm }
 																		initial={{ visibility: "hidden", opacity: 0 }}
 																		animate={ !formPassword.valid
 																			? { visibility: "visible", opacity: 1 }
