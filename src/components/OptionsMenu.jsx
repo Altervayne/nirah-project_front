@@ -219,6 +219,22 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 
 	/* We declare state variables */
 	const [isOpen, setIsOpen] = useState(false)
+	const [changePasswordForm, setChangePasswordForm] = useState({
+		oldPassword: {
+			value: ''
+		},
+		newPassword: {
+			value: '',
+			valid: false,
+			changed: false
+		},
+		newPasswordVerification: {
+			value: '',
+			valid: false,
+			changed: false
+		},
+		sent: false
+	})
 	const [formPassword, setFormPassword] = useState({
 		value: '',
 		valid: false,
@@ -226,12 +242,33 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 	})
 	
 	/* We declare handler functions */
-	const handleFormChange = (event) => {
+	const handleDeleteFormChange = (event) => {
 		const password = event.target.value
 
 		setFormPassword({ ...formPassword, value: password })
 	}
-	const handleFormSend = async (event) => {
+	const handleChangeFormChange = (event) => {
+		const { name, value } = event.target
+		let isValid = false
+
+
+		if (name === 'newPassword') {
+			isValid = /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{6,}$/g.test(value)
+		} else if ( name === 'newPasswordVerification') {
+			isValid = (value === changePasswordForm.newPassword.value)
+		}
+
+
+		setChangePasswordForm({
+			...changePasswordForm,
+			[name]: {
+				value: value,
+				valid: isValid,
+				changed: true
+			}
+		})
+	}
+	const handleDeleteFormSend = async (event) => {
 		event.preventDefault()
 		await setIsLoading(true)
 
@@ -259,6 +296,10 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 		}
 
 		setIsLoading(false)
+	}
+	const handleChangeFormSend = async (event) => {
+		event.preventDefault()
+		await setIsLoading(true)
 	}
 
 	const handleWindowClick = (event) => { event.stopPropagation() }
@@ -350,29 +391,29 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																		<label className={ classes.inputLabel } htmlFor="password-field">Mot de passe actuel</label>
 																		<input className={ classes.formInput }
 																			id="password-field"
-																			name="old-password"
+																			name="oldPassword"
 																			type="password"
 																			autoComplete="off"
-																			/* value={ formPassword.value } */
-																			/* onChange={ handleFormChange } *//>
+																			value={ changePasswordForm.oldPassword.value }
+																			onChange={ handleChangeFormChange }/>
 
 																		<label className={ classes.inputLabel } htmlFor="password-field">Nouveau mot de passe</label>
 																		<input className={ classes.formInput }
 																			id="password-field"
-																			name="new-password"
+																			name="newPassword"
 																			type="password"
 																			autoComplete="off"
-																			/* value={ formPassword.value } */
-																			/* onChange={ handleFormChange } *//>
+																			value={ changePasswordForm.newPassword.value }
+																			onChange={ handleChangeFormChange }/>
 
 																		<label className={ classes.inputLabel } htmlFor="password-field">Vérifiez votre nouveau mot de passe</label>
 																		<input className={ classes.formInput }
 																			id="password-field"
-																			name="verify-password"
+																			name="newPasswordVerification"
 																			type="password"
 																			autoComplete="off"
-																			/* value={ formPassword.value } */
-																			/* onChange={ handleFormChange } *//>
+																			value={ changePasswordForm.newPasswordVerification.value }
+																			onChange={ handleChangeFormChange }/>
 
 																	</div>
 
@@ -391,7 +432,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 
 
 																	<motion.button className={ classes.deleteAccountButton }
-																		/* onClick={ handleFormSend } */
+																		onClick={ handleChangeFormSend }
 																		whileHover={{
 																			scale: 1.05,
 																		}}
@@ -417,7 +458,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																			type="password"
 																			autoComplete="off"
 																			value={ formPassword.value }
-																			onChange={ handleFormChange }/>
+																			onChange={ handleDeleteFormChange }/>
 
 																	</div>
 
@@ -436,7 +477,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 
 
 																	<motion.button className={ classes.deleteAccountButton }
-																		onClick={ handleFormSend }
+																		onClick={ handleDeleteFormSend }
 																		whileHover={{
 																			scale: 1.05,
 																		}}
