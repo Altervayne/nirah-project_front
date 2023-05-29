@@ -8,7 +8,7 @@ import CloseButton from "./CloseButton"
 /* React Icons imports */
 import { HiCog } from "react-icons/hi"
 /* Helper functions imports */
-import { deleteAccountHelper } from "../helpers/authFormHelper"
+import { deleteAccountHelper, changePasswordHelper } from "../helpers/authFormHelper"
 import { socketLeaveHandler, socketAccountDeleteHandler } from "../helpers/socketHandler"
 
 

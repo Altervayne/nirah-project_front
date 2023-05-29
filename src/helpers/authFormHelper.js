@@ -63,4 +63,29 @@ const deleteAccountHelper = async (password) => {
 
 
 
-export { logInHelper, signUpHelper, logOutHelper, deleteAccountHelper }
+const changePasswordHelper = async (formData) => {
+    const requestData = {
+        oldPassword: formData.oldPassword.value,
+        newPassword: formData.newPassword.value
+    }
+
+    const formIsValid = (formData.newPassword.valid && formData.newPasswordVerification.valid)
+
+    if(!formIsValid) {
+        return 'Les données rentrées sont invalides'
+    } else {
+        return axios.post(`${apiUrl}/auth/changePassword`, requestData, { withCredentials: true })
+                    .then((response) => {
+                        return { success: true, message: 'Le mot de passe a été changé.' }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+
+                        return { success: false, message: error.response.data.error }
+                    })
+    }
+}
+
+
+
+export { logInHelper, signUpHelper, logOutHelper, deleteAccountHelper, changePasswordHelper }

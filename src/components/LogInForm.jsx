@@ -247,7 +247,7 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
         && formData.verification.valid) {
             setIsFormValid(true)
         } else {
-            setFormError({ message:'Les données rentrées sont invalides' })
+            setFormError({ message: 'Les données rentrées sont invalides' })
             setIsFormValid(false)
         }                                       
     }
