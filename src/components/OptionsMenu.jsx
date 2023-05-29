@@ -233,7 +233,8 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 			valid: false,
 			changed: false
 		},
-		error: '',
+		error: false,
+		message: '',
 		sent: false
 	})
 	const [formPassword, setFormPassword] = useState({
@@ -301,6 +302,28 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 	const handleChangeFormSend = async (event) => {
 		event.preventDefault()
 		await setIsLoading(true)
+
+
+
+		const passwordChange = await changePasswordHelper(changePasswordForm)
+
+		if (passwordChange.success) {
+			await setChangePasswordForm({
+				...changePasswordForm,
+				error: false,
+				message: passwordChange.message,
+				sent: true
+			})
+		} else {
+			await setChangePasswordForm({
+				...changePasswordForm,
+				error: true,
+				message: passwordChange.message,
+				sent: true
+			})
+		}
+
+		await setIsLoading(false)
 	}
 
 	/* We declare the modal's handler functions */
