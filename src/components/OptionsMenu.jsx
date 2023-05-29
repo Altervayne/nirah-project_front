@@ -233,6 +233,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 			valid: false,
 			changed: false
 		},
+		error: '',
 		sent: false
 	})
 	const [formPassword, setFormPassword] = useState({
@@ -241,7 +242,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 		error: ' '
 	})
 	
-	/* We declare handler functions */
+	/* We declare the forms' handler functions */
 	const handleDeleteFormChange = (event) => {
 		const password = event.target.value
 
@@ -302,6 +303,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 		await setIsLoading(true)
 	}
 
+	/* We declare the modal's handler functions */
 	const handleWindowClick = (event) => { event.stopPropagation() }
 	const setParentIsOpen = (value) => {
 		setIsOpen(value)
@@ -397,6 +399,8 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																			value={ changePasswordForm.oldPassword.value }
 																			onChange={ handleChangeFormChange }/>
 
+
+
 																		<label className={ classes.inputLabel } htmlFor="password-field">Nouveau mot de passe</label>
 																		<input className={ classes.formInput }
 																			id="password-field"
@@ -405,6 +409,19 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																			autoComplete="off"
 																			value={ changePasswordForm.newPassword.value }
 																			onChange={ handleChangeFormChange }/>
+																		<motion.p className={ classes.invalidInput }
+																			initial={{ visibility: "hidden", display: "none", opacity: 0 }}
+																			animate={ !changePasswordForm.newPassword.valid && changePasswordForm.newPassword.changed
+																				? { visibility: "visible", display: "block", opacity: 1 }
+																				: { visibility: "hidden", display: "none", opacity: 0 }}
+																			transition={{
+																				duration: .2,
+																				opacity: { delay: !changePasswordForm.newPassword.valid ? .2 : 0},
+																				visibility: { delay: changePasswordForm.newPassword.valid ? .2 : 0},
+																				display: { delay: .2 }
+																				}}>Votre mot de passe doit contenir au moins 6 caractères dont un chiffre et une lettre</motion.p>
+
+
 
 																		<label className={ classes.inputLabel } htmlFor="password-field">Vérifiez votre nouveau mot de passe</label>
 																		<input className={ classes.formInput }
@@ -414,6 +431,17 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																			autoComplete="off"
 																			value={ changePasswordForm.newPasswordVerification.value }
 																			onChange={ handleChangeFormChange }/>
+																		<motion.p className={ classes.invalidInput }
+																			initial={{ visibility: "hidden", display: "none", opacity: 0 }}
+																			animate={ !changePasswordForm.newPasswordVerification.valid && changePasswordForm.newPasswordVerification.changed
+																				? { visibility: "visible", display: "block", opacity: 1 }
+																				: { visibility: "hidden", display: "none", opacity: 0 }}
+																			transition={{
+																				duration: .2,
+																				opacity: { delay: !changePasswordForm.newPasswordVerification.valid ? .2 : 0},
+																				visibility: { delay: changePasswordForm.newPasswordVerification.valid ? .2 : 0},
+																				display: { delay: .2 }
+																				}}>Votre mot de passe et la vérification doivent être identiques.</motion.p>
 
 																	</div>
 
@@ -428,7 +456,7 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 																			opacity: { delay: 0 },
 																			visibility: { delay: formPassword.valid ? .4 : 0}}}
 
-																	>{ formPassword.error }</motion.p>
+																	>{ changePasswordForm.error }</motion.p>
 
 
 																	<motion.button className={ classes.deleteAccountButton }
