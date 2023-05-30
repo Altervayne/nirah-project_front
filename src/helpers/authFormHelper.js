@@ -48,7 +48,7 @@ const logOutHelper = async () => {
 const deleteAccountHelper = async (password) => {
     const userData = { password: password }
 
-    return axios.delete(`${apiUrl}/auth/delete`, userData, { withCredentials: true })
+    return axios.delete(`${apiUrl}/auth/delete`, { withCredentials: true, data: userData })
             .then((response) => {
                 document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
