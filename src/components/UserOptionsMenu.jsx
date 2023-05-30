@@ -9,7 +9,7 @@ import CloseButton from "./CloseButton"
 import { HiCog } from "react-icons/hi"
 /* Helper functions imports */
 import { deleteAccountHelper, changePasswordHelper } from "../helpers/authFormHelper"
-import { socketLeaveHandler, socketAccountDeleteHandler } from "../helpers/socketHandler"
+import { socket, socketLeaveHandler, socketAccountDeleteHandler } from "../helpers/socketHandler"
 
 
 
@@ -321,6 +321,8 @@ const UserOptionsMenu = ({ setIsLoading, isChatRoom, currentUser }) => {
 		if(isChatRoom) {
 			await socketLeaveHandler()
 		}
+
+		socket.disconnect()
 
 
 		const accountDeletionState = await deleteAccountHelper(formPassword.value)
