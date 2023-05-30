@@ -90,30 +90,57 @@ const useStyles = makeStyles()((theme) => {
 
 			backgroundColor: "#1B2432",
 
-			[theme.breakpoints.down('md')]: {
-				paddingTop: theme.spacing(8),
+			minHeight: "100%",
 
-				width: "100%",
-				minHeight: "100%",	
+			[theme.breakpoints.down('sm')]: {
+				paddingTop: theme.spacing(16),
+				width: "100%",	
+			},
+			[theme.breakpoints.up('sm')]: {
+				paddingTop: theme.spacing(12),
+				width: "400px",
 			},
 			[theme.breakpoints.up('md')]: {
-				marginTop: theme.spacing(8),
-
-				width: "375px",
-				height: "auto",
-
-				borderRadius: "20px",
+				paddingTop: theme.spacing(16),
 			},
 		},
 		optionsContainer: {
 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
-			justifyContent: "space-evenly",
+
+			boxSizing: "border-box",
 
 			width: "100%",
-			marginTop: theme.spacing(2),
-			marginBottom: theme.spacing(2),
+			height: "100%",
+			maxHeight: "100vh",
+			marginTop: theme.spacing(4),		
+
+			overflow: "scroll",
+            scrollbarWidth: "thin",
+
+
+            "&::-webkit-scrollbar": {
+
+                backgroundColor: "rgba(194, 212, 235, 0.03)",
+
+                width: "10px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "#C2D4EB",
+                maxWidth: "10px",
+                borderRadius: theme.spacing(2),
+            },
+
+			[theme.breakpoints.down('sm')]: {
+				paddingTop: theme.spacing(6),
+			},
+			[theme.breakpoints.up('sm')]: {
+				paddingTop: theme.spacing(4),
+			},
+			[theme.breakpoints.up('md')]: {
+				paddingTop: theme.spacing(6),
+			},
 		},
 		userInfoRoot: {
 			display: "flex",
@@ -130,6 +157,7 @@ const useStyles = makeStyles()((theme) => {
 			flexDirection: "column",
 			alignItems: "center",
 
+			height: "600px",
 			width: "100%",
 		},
 		formTitle: {
@@ -171,6 +199,8 @@ const useStyles = makeStyles()((theme) => {
             margin: "2px 10px",
 
             boxSizing: "border-box",
+
+			marginTop: theme.spacing(2),
         },
 		invalidForm: {
             color: "#DF4661",
@@ -400,9 +430,9 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 						}}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
 
-						{ optionsType === "userOptions" && <CloseButton setIsOpen={ setParentIsOpen } /> }
-
 						{ optionsType === "userOptions" ? 	<div className={ classes.optionsContainer }>
+
+																<CloseButton setIsOpen={ setParentIsOpen } />
 
 
 																<div className={ classes.formContainer }>
