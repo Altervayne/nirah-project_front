@@ -93,15 +93,15 @@ const useStyles = makeStyles()((theme) => {
 			minHeight: "100%",
 
 			[theme.breakpoints.down('sm')]: {
-				paddingTop: theme.spacing(16),
+				/* paddingTop: theme.spacing(16), */
 				width: "100%",	
 			},
 			[theme.breakpoints.up('sm')]: {
-				paddingTop: theme.spacing(12),
+				/* paddingTop: theme.spacing(12), */
 				width: "400px",
 			},
 			[theme.breakpoints.up('md')]: {
-				paddingTop: theme.spacing(16),
+				/* paddingTop: theme.spacing(16), */
 			},
 		},
 		optionsContainer: {
@@ -113,11 +113,12 @@ const useStyles = makeStyles()((theme) => {
 
 			width: "100%",
 			height: "100%",
-			maxHeight: "100vh",
-			marginTop: theme.spacing(4),		
+			maxHeight: "100vh",		
 
 			overflow: "scroll",
             scrollbarWidth: "thin",
+
+			marginTop: theme.spacing(4),
 
 
             "&::-webkit-scrollbar": {
