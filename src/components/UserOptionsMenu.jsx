@@ -253,7 +253,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => {
+const UserOptionsMenu = ({ setIsLoading, isChatRoom, currentUser }) => {
 	const { classes } = useStyles()
 	const navigate = useNavigate()
 
@@ -377,25 +377,13 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 
 
 	return  <div className={ classes.root }>
-				{ optionsType === "userOptions" ? 	<motion.button className={ classes.currentUserButton }
-														onClick={() => setIsOpen(true)}
-														initial={{ color: "#F2F4F8", scale: 1 }}
-														whileHover={{ color: "#ED872D", scale: 1.15 }}
-													>
-														<HiCog className={ classes.currentUserButtonIcon } />
-													</motion.button>
-
-												:	<motion.button className={ classes.onHeaderOpenButton }
-														onClick={() => setIsOpen(!isOpen)}
-														initial={{ color: "#F2F4F8", scale: 1 }}
-														animate={{ color: isOpen ? "#ED872D" : "#F2F4F8" }}
-														whileHover={{ color: "#ED872D", scale: 1.1 }}
-														whileTap={{ color: "#F2F4F8", scale: .95 }}
-													>
-														<HiCog className={ classes.onHeaderOpenButtonIcon } />
-													</motion.button> }
-
-
+				<motion.button className={ classes.currentUserButton }
+					onClick={() => setIsOpen(true)}
+					initial={{ color: "#F2F4F8", scale: 1 }}
+					whileHover={{ color: "#ED872D", scale: 1.15 }}
+				>
+					<HiCog className={ classes.currentUserButtonIcon } />
+				</motion.button>
 
 				<motion.div className={ classes.modalContainer }
 					onClick={() => setIsOpen(false)}
@@ -413,7 +401,6 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 					}}					
 				> {/* The Modal Container takes up the entire screen (except for the header) with a slightly transparent black background */}
 
-
 					<motion.div className={ classes.modalWindow }
 						onClick={ handleWindowClick }
 						initial={{ scale: 0, visibility: "hidden" }}
@@ -430,172 +417,165 @@ const OptionsMenu = ({ optionsType, setIsLoading, isChatRoom, currentUser }) => 
 						}}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
 
-						{ optionsType === "userOptions" ? 	<div className={ classes.optionsContainer }>
-
-																<CloseButton setIsOpen={ setParentIsOpen } />
 
 
-																<div className={ classes.formContainer }>
-																	<h2 className={ classes.formTitle }>Mes Informations</h2>
+						<div className={ classes.optionsContainer }>
 
-																	<div className={ classes.inputContainer }>
-																		<p className={ classes.inputLabel } htmlFor="password-field">Nom d'utilisateur</p>
-																		<p className={ classes.userInfoText }>{ currentUser.username }</p>
-																	</div>
-																	<div className={ classes.inputContainer }>
-																		<p className={ classes.inputLabel } htmlFor="password-field">Adresse Email</p>
-																		<p className={ classes.userInfoText }>{ currentUser.email }</p>
-																	</div>
-																</div>
+							<CloseButton setIsOpen={ setParentIsOpen } />
 
+							<div className={ classes.formContainer }>
+								<h2 className={ classes.formTitle }>Mes Informations</h2>
 
+								<div className={ classes.inputContainer }>
+									<p className={ classes.inputLabel } htmlFor="password-field">Nom d'utilisateur</p>
+									<p className={ classes.userInfoText }>{ currentUser.username }</p>
+								</div>
+								<div className={ classes.inputContainer }>
+									<p className={ classes.inputLabel } htmlFor="password-field">Adresse Email</p>
+									<p className={ classes.userInfoText }>{ currentUser.email }</p>
+								</div>
+							</div>
 
-																<form className={ classes.formContainer }>
-																	<h2 className={ classes.formTitle }>Changer mon Mot de Passe</h2>
+							<form className={ classes.formContainer }>
+								<h2 className={ classes.formTitle }>Changer mon Mot de Passe</h2>
 
-																	<div className={ classes.inputContainer }>
+								<div className={ classes.inputContainer }>
 
-																		<label className={ classes.inputLabel } htmlFor="password-field">Mot de passe actuel</label>
-																		<input className={ classes.formInput }
-																			id="password-field"
-																			name="oldPassword"
-																			type="password"
-																			autoComplete="off"
-																			value={ changePasswordForm.oldPassword.value }
-																			onChange={ handleChangeFormChange }/>
-
-
-
-																		<label className={ classes.inputLabel } htmlFor="password-field">Nouveau mot de passe</label>
-																		<input className={ classes.formInput }
-																			id="password-field"
-																			name="newPassword"
-																			type="password"
-																			autoComplete="off"
-																			value={ changePasswordForm.newPassword.value }
-																			onChange={ handleChangeFormChange }/>
-																		<motion.p className={ classes.invalidInput }
-																			initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-																			animate={ !changePasswordForm.newPassword.valid && changePasswordForm.newPassword.changed
-																				? { visibility: "visible", display: "block", opacity: 1 }
-																				: { visibility: "hidden", display: "none", opacity: 0 }}
-																			transition={{
-																				duration: .2,
-																				opacity: { delay: !changePasswordForm.newPassword.valid ? .2 : 0},
-																				visibility: { delay: changePasswordForm.newPassword.valid ? .2 : 0},
-																				display: { delay: .2 }
-																				}}>Votre mot de passe doit contenir au moins 6 caractères dont un chiffre et une lettre</motion.p>
+									<label className={ classes.inputLabel } htmlFor="password-field">Mot de passe actuel</label>
+									<input className={ classes.formInput }
+										id="password-field"
+										name="oldPassword"
+										type="password"
+										autoComplete="off"
+										value={ changePasswordForm.oldPassword.value }
+										onChange={ handleChangeFormChange }/>
 
 
 
-																		<label className={ classes.inputLabel } htmlFor="password-field">Vérifiez votre nouveau mot de passe</label>
-																		<input className={ classes.formInput }
-																			id="password-field"
-																			name="newPasswordVerification"
-																			type="password"
-																			autoComplete="off"
-																			value={ changePasswordForm.newPasswordVerification.value }
-																			onChange={ handleChangeFormChange }/>
-																		<motion.p className={ classes.invalidInput }
-																			initial={{ visibility: "hidden", display: "none", opacity: 0 }}
-																			animate={ !changePasswordForm.newPasswordVerification.valid && changePasswordForm.newPasswordVerification.changed
-																				? { visibility: "visible", display: "block", opacity: 1 }
-																				: { visibility: "hidden", display: "none", opacity: 0 }}
-																			transition={{
-																				duration: .2,
-																				opacity: { delay: !changePasswordForm.newPasswordVerification.valid ? .2 : 0},
-																				visibility: { delay: changePasswordForm.newPasswordVerification.valid ? .2 : 0},
-																				display: { delay: .2 }
-																				}}>Votre mot de passe et la vérification doivent être identiques.</motion.p>
-
-																	</div>
-
-
-																	<motion.p className={ changePasswordForm.error ? classes.invalidForm : classes.validForm }
-																		initial={{ visibility: "hidden", opacity: 0 }}
-																		animate={ !formPassword.valid
-																			? { visibility: "visible", opacity: 1 }
-																			: { visibility: "hidden", opacity: 0 }}
-																		transition={{
-																			duration: .4,
-																			opacity: { delay: 0 },
-																			visibility: { delay: formPassword.valid ? .4 : 0}}}
-
-																	>{ changePasswordForm.error }</motion.p>
-
-
-																	<motion.button className={ classes.deleteAccountButton }
-																		onClick={ handleChangeFormSend }
-																		whileHover={{
-																			scale: 1.05,
-																		}}
-																		whileTap={{
-																			scale: .97,
-																		}}
-																	>
-																		Confirmer
-																	</motion.button>
-																</form>
+									<label className={ classes.inputLabel } htmlFor="password-field">Nouveau mot de passe</label>
+									<input className={ classes.formInput }
+										id="password-field"
+										name="newPassword"
+										type="password"
+										autoComplete="off"
+										value={ changePasswordForm.newPassword.value }
+										onChange={ handleChangeFormChange }/>
+									<motion.p className={ classes.invalidInput }
+										initial={{ visibility: "hidden", display: "none", opacity: 0 }}
+										animate={ !changePasswordForm.newPassword.valid && changePasswordForm.newPassword.changed
+											? { visibility: "visible", display: "block", opacity: 1 }
+											: { visibility: "hidden", display: "none", opacity: 0 }}
+										transition={{
+											duration: .2,
+											opacity: { delay: !changePasswordForm.newPassword.valid ? .2 : 0},
+											visibility: { delay: changePasswordForm.newPassword.valid ? .2 : 0},
+											display: { delay: .2 }
+											}}>Votre mot de passe doit contenir au moins 6 caractères dont un chiffre et une lettre</motion.p>
 
 
 
-																<form className={ classes.formContainer }>
-																	<h2 className={ classes.formTitle }>Supprimer mon compte</h2>
+									<label className={ classes.inputLabel } htmlFor="password-field">Vérifiez votre nouveau mot de passe</label>
+									<input className={ classes.formInput }
+										id="password-field"
+										name="newPasswordVerification"
+										type="password"
+										autoComplete="off"
+										value={ changePasswordForm.newPasswordVerification.value }
+										onChange={ handleChangeFormChange }/>
+									<motion.p className={ classes.invalidInput }
+										initial={{ visibility: "hidden", display: "none", opacity: 0 }}
+										animate={ !changePasswordForm.newPasswordVerification.valid && changePasswordForm.newPasswordVerification.changed
+											? { visibility: "visible", display: "block", opacity: 1 }
+											: { visibility: "hidden", display: "none", opacity: 0 }}
+										transition={{
+											duration: .2,
+											opacity: { delay: !changePasswordForm.newPasswordVerification.valid ? .2 : 0},
+											visibility: { delay: changePasswordForm.newPasswordVerification.valid ? .2 : 0},
+											display: { delay: .2 }
+											}}>Votre mot de passe et la vérification doivent être identiques.</motion.p>
 
-																	<div className={ classes.inputContainer }>
-
-																		<label className={ classes.inputLabel } htmlFor="password-field">Entrez votre mot de passe</label>
-																		<input className={ classes.formInput }
-																			id="password-field"
-																			name="password"
-																			type="password"
-																			autoComplete="off"
-																			value={ formPassword.value }
-																			onChange={ handleDeleteFormChange }/>
-
-																	</div>
-
-
-																	<motion.p className={ classes.invalidForm }
-																		initial={{ visibility: "hidden", opacity: 0 }}
-																		animate={ !formPassword.valid
-																			? { visibility: "visible", opacity: 1 }
-																			: { visibility: "hidden", opacity: 0 }}
-																		transition={{
-																			duration: .4,
-																			opacity: { delay: 0 },
-																			visibility: { delay: formPassword.valid ? .4 : 0}}}
-
-																	>{ formPassword.error }</motion.p>
+								</div>
 
 
-																	<motion.button className={ classes.deleteAccountButton }
-																		onClick={ handleDeleteFormSend }
-																		whileHover={{
-																			scale: 1.05,
-																		}}
-																		whileTap={{
-																			scale: .97,
-																		}}
-																	>
-																		Supprimer
-																	</motion.button>
-																</form>
+								<motion.p className={ changePasswordForm.error ? classes.invalidForm : classes.validForm }
+									initial={{ visibility: "hidden", opacity: 0 }}
+									animate={ !formPassword.valid
+										? { visibility: "visible", opacity: 1 }
+										: { visibility: "hidden", opacity: 0 }}
+									transition={{
+										duration: .4,
+										opacity: { delay: 0 },
+										visibility: { delay: formPassword.valid ? .4 : 0}}}
+
+								>{ changePasswordForm.error }</motion.p>
 
 
-															</div> 
-														: <></> }
+								<motion.button className={ classes.deleteAccountButton }
+									onClick={ handleChangeFormSend }
+									whileHover={{
+										scale: 1.05,
+									}}
+									whileTap={{
+										scale: .97,
+									}}
+								>
+									Confirmer
+								</motion.button>
+							</form>
+
+							<form className={ classes.formContainer }>
+								<h2 className={ classes.formTitle }>Supprimer mon compte</h2>
+
+								<div className={ classes.inputContainer }>
+
+									<label className={ classes.inputLabel } htmlFor="password-field">Entrez votre mot de passe</label>
+									<input className={ classes.formInput }
+										id="password-field"
+										name="password"
+										type="password"
+										autoComplete="off"
+										value={ formPassword.value }
+										onChange={ handleDeleteFormChange }/>
+
+								</div>
+
+
+								<motion.p className={ classes.invalidForm }
+									initial={{ visibility: "hidden", opacity: 0 }}
+									animate={ !formPassword.valid
+										? { visibility: "visible", opacity: 1 }
+										: { visibility: "hidden", opacity: 0 }}
+									transition={{
+										duration: .4,
+										opacity: { delay: 0 },
+										visibility: { delay: formPassword.valid ? .4 : 0}}}
+
+								>{ formPassword.error }</motion.p>
+
+
+								<motion.button className={ classes.deleteAccountButton }
+									onClick={ handleDeleteFormSend }
+									whileHover={{
+										scale: 1.05,
+									}}
+									whileTap={{
+										scale: .97,
+									}}
+								>
+									Supprimer
+								</motion.button>
+							</form>
+
+						</div> 
+
+
 
 					</motion.div>
 
-
 				</motion.div>
-
-
-
 			</div>
 }
 
 
 
-export default OptionsMenu
+export default UserOptionsMenu
