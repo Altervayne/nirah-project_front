@@ -1,5 +1,5 @@
 /* Libraries imports */
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router"
@@ -368,6 +368,15 @@ const UserOptionsMenu = ({ setIsLoading, isChatRoom, currentUser }) => {
 
 		await setIsLoading(false)
 	}
+
+	/* We use useEffect hooks to make sure the forms' data are always up to date */
+	useEffect(() => {
+        setChangePasswordForm(changePasswordForm)
+    }, [changePasswordForm])
+
+	useEffect(() => {
+        setFormPassword(formPassword)
+    }, [formPassword])
 
 	/* We declare the modal's handler functions */
 	const handleWindowClick = (event) => { event.stopPropagation() }
