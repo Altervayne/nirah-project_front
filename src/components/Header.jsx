@@ -3,6 +3,7 @@ import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import { useTheme } from "@mui/material"
 import { useMediaQuery } from "@mui/material"
+import AppSettingsMenu from "./AppSettingsMenu"
 
 
 
@@ -142,6 +143,8 @@ const Header = () => {
 					I R A H
 				</motion.p>
 			</motion.a>
+
+			<AppSettingsMenu />
 		</header>
 	)
 }

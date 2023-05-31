@@ -22,7 +22,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 
-const AppSettingsMenu = ({ setIsLoading }) => {
+const AppSettingsMenu = () => {
 	const { classes } = useStyles()
 	const navigate = useNavigate()
 
