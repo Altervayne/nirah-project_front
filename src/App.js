@@ -3,6 +3,7 @@ import { makeStyles } from "tss-react/mui"
 import Header from "./components/Header"
 import ReactRoutes from "./Routes.jsx"
 import CookiePrompt from "./components/CookiePrompt"
+import Disclaimer from "./components/Disclaimer"
 
 
 
@@ -30,6 +31,7 @@ const App = () => {
 		<div className={classes.root}>
 			<Header />
 			<ReactRoutes />
+			<Disclaimer />
 			<CookiePrompt />
 		</div>
 	)
