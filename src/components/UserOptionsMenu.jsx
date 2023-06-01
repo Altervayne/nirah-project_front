@@ -526,7 +526,7 @@ const UserOptionsMenu = ({ setIsLoading, isChatRoom, currentUser }) => {
 										opacity: { delay: 0 },
 										visibility: { delay: formPassword.valid ? .4 : 0}}}
 
-								>{ changePasswordForm.error }</motion.p>
+								>{ changePasswordForm.message }</motion.p>
 
 
 								<motion.button className={ classes.deleteAccountButton }
