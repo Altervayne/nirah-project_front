@@ -203,6 +203,13 @@ const useStyles = makeStyles()((theme) => {
 
 			marginTop: theme.spacing(2),
         },
+		invalidInput: {
+            color: "#DF4661",
+
+            fontSize: theme.typography.pxToRem(13),
+            margin: "0",
+            marginTop: theme.spacing(.5),
+        },
 		invalidForm: {
             color: "#DF4661",
 

@@ -70,8 +70,7 @@ const useStyles = makeStyles()((theme) => {
 				fontSize: theme.typography.pxToRem(30),	
 			},
 			[theme.breakpoints.up('md')]: {
-				marginLeft: "
-				<AppSettingsMenu />-4px",
+				marginLeft: "4px",
 				fontSize: theme.typography.pxToRem(34),
 			}
 		},
