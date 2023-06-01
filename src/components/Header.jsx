@@ -3,7 +3,6 @@ import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
 import { useTheme } from "@mui/material"
 import { useMediaQuery } from "@mui/material"
-import AppSettingsMenu from "./AppSettingsMenu"
 
 
 
@@ -71,7 +70,8 @@ const useStyles = makeStyles()((theme) => {
 				fontSize: theme.typography.pxToRem(30),	
 			},
 			[theme.breakpoints.up('md')]: {
-				marginLeft: "-4px",
+				marginLeft: "
+				<AppSettingsMenu />-4px",
 				fontSize: theme.typography.pxToRem(34),
 			}
 		},
@@ -143,8 +143,6 @@ const Header = () => {
 					I R A H
 				</motion.p>
 			</motion.a>
-
-			<AppSettingsMenu />
 		</header>
 	)
 }
