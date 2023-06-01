@@ -79,9 +79,7 @@ const changePasswordHelper = async (formData) => {
                         return { success: true, message: 'Le mot de passe a été changé.' }
                     })
                     .catch((error) => {
-                        console.log(error)
-
-                        return { success: false, message: error.response.data.error }
+                        return { success: false, message: error.response.data.message }
                     })
     }
 }
