@@ -72,7 +72,7 @@ const changePasswordHelper = async (formData) => {
     const formIsValid = (formData.newPassword.valid && formData.newPasswordVerification.valid)
 
     if(!formIsValid) {
-        return 'Les données rentrées sont invalides'
+        return { success: false, message: 'Les données rentrées sont invalides' }
     } else {
         return axios.post(`${apiUrl}/auth/changePassword`, requestData, { withCredentials: true })
                     .then((response) => {
