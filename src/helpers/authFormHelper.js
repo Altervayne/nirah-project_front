@@ -1,13 +1,14 @@
 import axios from 'axios'
+import { apiUrl } from '../data/variables'
 
-const apiUrl = 'http://localhost:4200/api'
+const url = `${apiUrl}/api`
 
 
 
 const logInHelper = (email, password) => {
     const userData = { email: email, password: password }
 
-    return axios.post(`${apiUrl}/auth/login`, userData, { withCredentials: true })
+    return axios.post(`${url}/auth/login`, userData, { withCredentials: true })
             .then((response) => {
                 return { success: true }
             })
@@ -21,7 +22,7 @@ const logInHelper = (email, password) => {
 const signUpHelper = (username, email, password) => {
     const userData = { username: username, email: email, password: password }
 
-    return axios.post(`${apiUrl}/auth/signup`, userData, { withCredentials: true })
+    return axios.post(`${url}/auth/signup`, userData, { withCredentials: true })
             .then((response) => {
                 return { success: true, token: response.data.token }
             })
@@ -34,7 +35,7 @@ const signUpHelper = (username, email, password) => {
 
 const logOutHelper = async () => {
     try {
-        await axios.get(`${apiUrl}/auth/logout`, { withCredentials: true })
+        await axios.get(`${url}/auth/logout`, { withCredentials: true })
 
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
@@ -48,7 +49,7 @@ const logOutHelper = async () => {
 const deleteAccountHelper = async (password) => {
     const userData = { password: password }
 
-    return axios.delete(`${apiUrl}/auth/delete`, { withCredentials: true, data: userData })
+    return axios.delete(`${url}/auth/delete`, { withCredentials: true, data: userData })
             .then((response) => {
                 document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
@@ -74,7 +75,7 @@ const changePasswordHelper = async (formData) => {
     if(!formIsValid) {
         return { success: false, message: 'Les données rentrées sont invalides' }
     } else {
-        return axios.post(`${apiUrl}/auth/changePassword`, requestData, { withCredentials: true })
+        return axios.post(`${url}/auth/changePassword`, requestData, { withCredentials: true })
                     .then((response) => {
                         return { success: true, message: 'Le mot de passe a été changé.' }
                     })

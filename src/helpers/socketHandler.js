@@ -1,12 +1,9 @@
 import io from 'socket.io-client'
+import { apiUrl } from '../data/variables'
 
 
 
-const SOCKET_SERVER_URL = 'http://localhost:4200'
-
-
-
-const socket = io(SOCKET_SERVER_URL, {
+const socket = io(apiUrl, {
     transports: ['websocket'],
     withCredentials: true
 })

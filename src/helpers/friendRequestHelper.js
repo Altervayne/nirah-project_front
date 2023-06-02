@@ -1,11 +1,12 @@
 import axios from 'axios'
+import { apiUrl } from '../data/variables'
 
-const apiUrl = 'http://localhost:4200/api/friends'
+const url = `${apiUrl}/api/friends`
 
 
 
 const getFriendsInfo = (id) => {
-    return axios.get(`${apiUrl}/${id}`, { withCredentials: true })
+    return axios.get(`${url}/${id}`, { withCredentials: true })
                 .then((response) => {
                     console.log(response)
                     return response.data
@@ -71,7 +72,7 @@ const handleFriendStatusUpdate = async (userId, usersArray, setUsersState) => {
 const handleFriendRequest = (id, requestNature) => {
     console.log(`Request will be sent to: ${apiUrl}/${requestNature}/${id}`)
 
-    return axios.post(`${apiUrl}/${requestNature}/${id}`, { null: null }, { withCredentials: true })
+    return axios.post(`${url}/${requestNature}/${id}`, { null: null }, { withCredentials: true })
                 .then((response) => {
                     return true
                 })

@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { apiUrl } from '../data/variables'
 
-const apiUrl = 'http://localhost:4200/api'
+const url = `${apiUrl}/api`
 
 
 
@@ -38,7 +39,7 @@ const sortChatRoomMembers = (currentUser, members) => {
 
 
 const getCurrentChatRoomInfo = (name) => {
-    return axios.get(`${apiUrl}/chatroom/${name}`, { withCredentials: true })
+    return axios.get(`${url}/chatroom/${name}`, { withCredentials: true })
                 .then((response) => {
                     return response.data
                 })
@@ -152,7 +153,7 @@ const handleUserJoinUpdate = (userId, username, roomId, currentUserInfo, usersAr
 
 
 const handleLeaveRoom = () => {
-    return axios.post(`${apiUrl}/chatroom/leave`, {}, { withCredentials: true })
+    return axios.post(`${url}/chatroom/leave`, {}, { withCredentials: true })
                 .then((response) => {
                     return response.data
                 })
