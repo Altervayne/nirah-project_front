@@ -1,11 +1,12 @@
 import axios from 'axios'
+import { apiUrl } from '../data/variables'
 
-const apiUrl = 'http://localhost:4200/api/auth'
+const url = `${apiUrl}/api/auth`
 
 
 
 const getCurrentUserInfo = () => {
-    return axios.get(`${apiUrl}/user`, { withCredentials: true })
+    return axios.get(`${url}/user`, { withCredentials: true })
                 .then((response) => {
                     return response.data
                 })
