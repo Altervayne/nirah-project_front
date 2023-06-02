@@ -8,6 +8,8 @@ const url = `${apiUrl}/api/auth`
 const getCurrentUserInfo = () => {
     return axios.get(`${url}/user`, { withCredentials: true })
                 .then((response) => {
+                    console.log(response)
+
                     return response.data
                 })
                 .catch((error) => {

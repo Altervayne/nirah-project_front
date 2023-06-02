@@ -121,7 +121,7 @@ const DashBoard = () => {
 		const verifyCurrentUser = async () => {
 			const receivedUser = await getCurrentUserInfo()
 
-			if(receivedUser.currentRoom !== 0){
+			if(receivedUser.currentRoom){
 				navigate(`/room/${receivedUser.currentRoom}`)
 			}
 
