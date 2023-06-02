@@ -21,14 +21,14 @@ const useStyles = makeStyles()((theme) => {
             position: "fixed",
             zIndex: 100,
 
-            [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down('md')]: {
                 width: "100%",
 
                 borderRadius: "0",
 
 				bottom: "0",	
 			},
-			[theme.breakpoints.up('sm')]: {
+			[theme.breakpoints.up('md')]: {
                 width: "50%",
 
                 borderRadius: theme.spacing(2),
