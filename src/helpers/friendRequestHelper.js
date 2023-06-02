@@ -8,7 +8,6 @@ const url = `${apiUrl}/api/friends`
 const getFriendsInfo = (id) => {
     return axios.get(`${url}/${id}`, { withCredentials: true })
                 .then((response) => {
-                    console.log(response)
                     return response.data
                 })
                 .catch((error) => {
@@ -25,9 +24,6 @@ const handleFriendsUpdate = async (userId, username, previousCategory, newCatego
 
     if(newCategory === 'friends') {
         const getFriend = await getFriendsInfo(userId)
-
-        console.log("getFriend object is:")
-        console.log(getFriend)
         
         if(!newNewCategory.includes(getFriend)) {
             newNewCategory.push(getFriend)
@@ -70,8 +66,6 @@ const handleFriendStatusUpdate = async (userId, usersArray, setUsersState) => {
 
 
 const handleFriendRequest = (id, requestNature) => {
-    console.log(`Request will be sent to: ${apiUrl}/${requestNature}/${id}`)
-
     return axios.post(`${url}/${requestNature}/${id}`, { null: null }, { withCredentials: true })
                 .then((response) => {
                     return true

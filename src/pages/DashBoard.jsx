@@ -126,9 +126,6 @@ const DashBoard = () => {
 			}
 
 			const friendsInfo = await getFriendsInfo('')
-
-			console.log("friendsInfo is:")
-			console.log(friendsInfo)
 	
 			if(!receivedUser) {
 				navigate('/')	

@@ -56,8 +56,6 @@ const deleteAccountHelper = async (password) => {
                 return { success: true }
             })
             .catch((error) => {
-                console.log(error)
-
                 return { success: false, message: error.response.data.error }
             })
 }

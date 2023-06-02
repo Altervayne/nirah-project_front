@@ -162,14 +162,10 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
     const { classes } = useStyles()
     const navigate = useNavigate()
 
-    console.log("userId is:" + userId)
-
     const removeFriendHandler = async (event) => {
         event.preventDefault()
 
         const friendWasRemoved = await handleFriendRequest(userId, "remove")
-
-        console.log(`friend was removed: ${friendWasRemoved}`)
 
         if(friendWasRemoved) {
             socketFriendRequestHandler(userId, "remove")
@@ -206,8 +202,6 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
         } else if(requestWasSent && !requestWasAccepted) {
             socketFriendRequestHandler(userId, requestResponse)
             handleFriendsUpdate(userId, username, "requestsReceived", "normalUsers", usersArray, setUsersState)
-        } else {
-            console.log("The request could not be sent or the requestWasAccepted value is invalid.")
         }
     }
 
