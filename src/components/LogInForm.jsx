@@ -98,6 +98,11 @@ const useStyles = makeStyles()((theme) => {
 
             width: "75%",
             marginBottom: "20px",
+
+            [theme.breakpoints.down('md')]: {
+                position: "relative",
+				bottom: theme.spacing(4),
+			},
         },
         formButton: {
             display: "flex",
@@ -119,6 +124,11 @@ const useStyles = makeStyles()((theme) => {
             backgroundColor: "#121420",
 
             cursor: "pointer",
+
+            [theme.breakpoints.down('md')]: {
+                fontSize: theme.typography.pxToRem(17),
+                padding: "10px",
+			},
         },
 	}
 })

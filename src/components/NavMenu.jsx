@@ -28,8 +28,8 @@ const useStyles = makeStyles()((theme) => {
 			alignItems: "center",
             boxSizing: "border-box",
 
-            height: "100%",
-            maxHeight: "100%",
+            height: "100vh",
+            minHeight: "100vh",
 			padding: "5px 0",
             paddingBottom: theme.spacing(4),
             zIndex: 2,
