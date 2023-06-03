@@ -85,7 +85,7 @@ const useStyles = makeStyles()((theme) => {
 
             boxSizing: "border-box",
 
-            width: "93%",
+            width: "100%",
             height: "100%",
             padding: theme.spacing(6),
             paddingRight: theme.spacing(7),
@@ -122,28 +122,27 @@ const useStyles = makeStyles()((theme) => {
             justifyContent: "center",
 
             position: "fixed",
-            right: 0,
+            
             zIndex: 999,
 
             height: theme.spacing(6),
 
-            [theme.breakpoints.down('sm')]: {
+
+			[theme.breakpoints.down('md')]: {
                 bottom: theme.spacing(2),
 
                 paddingTop: theme.spacing(10),
-				width: "100%",
-			},
-			[theme.breakpoints.up('sm')]: {
-                bottom: theme.spacing(2),
+				width: "94%",
 
-                paddingTop: theme.spacing(10),
-				width: "100%",
+                transform: "translate(0, 0)",
 			},
 			[theme.breakpoints.up('md')]: {
                 bottom: theme.spacing(2),
 
                 paddingTop: theme.spacing(8),
 				width: "70%",
+
+                right: 0,
 			},
 			[theme.breakpoints.up('lg')]: {
                 bottom: theme.spacing(4),
