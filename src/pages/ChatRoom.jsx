@@ -81,15 +81,19 @@ const useStyles = makeStyles()((theme) => {
 			}
         },
         chatRoot: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "baseline",
+
             position: "relative",
 
             boxSizing: "border-box",
 
             width: "100%",
             height: "100%",
-            padding: theme.spacing(6),
-            paddingRight: theme.spacing(7),
-            paddingLeft: "0",
+            padding: theme.spacing(3),
+            paddingRight: theme.spacing(1.5),
+            paddingLeft: theme.spacing(2),
 
             overflowY: "scroll",
 
@@ -108,6 +112,7 @@ const useStyles = makeStyles()((theme) => {
             },
         },
         introMessage: {
+            alignSelf: "center",
             textAlign: "center",
             
             width: "100%",
