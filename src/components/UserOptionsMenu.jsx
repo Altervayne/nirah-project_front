@@ -93,15 +93,13 @@ const useStyles = makeStyles()((theme) => {
 			minHeight: "100%",
 
 			[theme.breakpoints.down('sm')]: {
-				/* paddingTop: theme.spacing(16), */
 				width: "100%",	
 			},
 			[theme.breakpoints.up('sm')]: {
-				/* paddingTop: theme.spacing(12), */
 				width: "400px",
 			},
-			[theme.breakpoints.up('md')]: {
-				/* paddingTop: theme.spacing(16), */
+			[theme.breakpoints.down('md')]: {
+                height: "100dvh",
 			},
 		},
 		optionsContainer: {
