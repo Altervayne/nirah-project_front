@@ -18,6 +18,11 @@ const useStyles = makeStyles()((theme) => {
 
             width: "100%",
             height: "100%",
+
+
+            [theme.breakpoints.down('md')]: {
+                height: "100dvh",
+			},
 		},
         formTitle: {
 			marginTop: theme.spacing(4),
@@ -98,11 +103,6 @@ const useStyles = makeStyles()((theme) => {
 
             width: "75%",
             marginBottom: "20px",
-
-            [theme.breakpoints.down('md')]: {
-                position: "relative",
-				bottom: theme.spacing(4),
-			},
         },
         formButton: {
             display: "flex",
