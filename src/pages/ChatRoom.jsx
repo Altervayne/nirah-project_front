@@ -242,17 +242,22 @@ const ChatRoom = () => {
     }
     const handleSendingMessage = (event) => {
         event.preventDefault()
-        const message = {
-            body: currentMessage,
-            sender: { username: currentUser.username },
-            createdAt: new Date(),
-            fromServer: false
+
+        if(!currentMessage) {
+            return
+        } else {
+            const message = {
+                body: currentMessage,
+                sender: { username: currentUser.username },
+                createdAt: new Date(),
+                fromServer: false
+            }
+    
+            newMessageHandler(message)
+            socket.emit("sendMessage", { message: message.body })
+    
+            setCurrentMessage("")
         }
-
-        newMessageHandler(message)
-        socket.emit("sendMessage", { message: message.body })
-
-        setCurrentMessage("")
     }
 
 
