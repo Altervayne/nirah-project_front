@@ -11,7 +11,7 @@ const convertDate = (date) => {
     } else {
         const daysAgo = now.diff(sentDate, "days")
 
-        if(daysAgo === 1) {
+        if(daysAgo <= 1) {
             return "Hier"
         } else {
             return `Il y a ${daysAgo} jours`
