@@ -15,6 +15,7 @@ import { socketFriendRequestHandler } from "../helpers/socketHandler"
 const useStyles = makeStyles()((theme) => {
 	return {
 		root: {
+
 		},
 	}
 })
@@ -23,6 +24,17 @@ const useStyles = makeStyles()((theme) => {
 
 const RemoveFriendButton = ({ userId, username, usersArray, setUsersState }) => {
 	const { classes } = useStyles()
+
+    const removeFriendHandler = async (event) => {
+        event.preventDefault()
+
+        const friendWasRemoved = await handleFriendRequest(userId, "remove")
+
+        if(friendWasRemoved) {
+            socketFriendRequestHandler(userId, "remove")
+            handleFriendsUpdate(userId, username, "friends", "normalUsers", usersArray, setUsersState)
+        }
+    }
 
 
 
