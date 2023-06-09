@@ -1,5 +1,5 @@
 /* Libraries imports */
-import React from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router"
 import { makeStyles } from "tss-react/mui"
 import { motion } from "framer-motion"
@@ -15,6 +15,8 @@ import { TiDelete } from "react-icons/ti"
 /* Helper functions imports */
 import { handleFriendRequest, handleFriendsUpdate } from "../helpers/friendRequestHelper"
 import { socketFriendRequestHandler } from "../helpers/socketHandler"
+/* Components imports */
+import RemoveFriendOverlay from "./RemoveFriendOverlay"
 
 
 
@@ -162,16 +164,9 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
     const { classes } = useStyles()
     const navigate = useNavigate()
 
-    const removeFriendHandler = async (event) => {
-        event.preventDefault()
 
-        const friendWasRemoved = await handleFriendRequest(userId, "remove")
+    const [overlayOpen, setOverlayOpen] = useState(false)
 
-        if(friendWasRemoved) {
-            socketFriendRequestHandler(userId, "remove")
-            handleFriendsUpdate(userId, username, "friends", "normalUsers", usersArray, setUsersState)
-        }
-    }
 
     const addFriendHandler = async (event) => {
         event.preventDefault()
@@ -213,6 +208,14 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
 
 
     return  <div className={ classes.root } >
+                <RemoveFriendOverlay    userId={ userId } 
+                                        username={ username }
+                                        usersArray={ usersArray }
+                                        setUsersState={ setUsersState }
+                                        isOpen={ overlayOpen }
+                                        setIsOpen={ setOverlayOpen }/>
+
+
                 <p className={ isOnline ? classes.userUsername : classes.userUsernameOffline }>{ username }</p>
                 <div className={ classes.userStateContainer }>
 
@@ -238,7 +241,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                                     initial={{ color: "#F2F4F8", scale: 1 }}
                                     whileHover={{ color: "#ED872D", scale: 1.15 }}
                                 >
-                                    <TiDelete className={ classes.userStateIconActive } onClick={ removeFriendHandler } />
+                                    <TiDelete className={ classes.userStateIconActive } onClick={() => setOverlayOpen(true)} />
                                 </motion.button>
                             </> }
 
@@ -262,7 +265,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                                                         initial={{ color: "#F2F4F8", scale: 1 }}
                                                         whileHover={{ color: "#ED872D", scale: 1.15 }}
                                                     >
-                                                        <TiDelete className={ classes.userStateIconActive } onClick={ removeFriendHandler } />
+                                                        <TiDelete className={ classes.userStateIconActive } onClick={() => setOverlayOpen(true)} />
                                                     </motion.button>
                         </> }
 
@@ -277,7 +280,7 @@ const UserEntry = ({ setUsersState, usersArray, username, userId, friendState, i
                                 initial={{ color: "#F2F4F8", scale: 1 }}
                                 whileHover={{ color: "#ED872D", scale: 1.15 }}
                             >
-                                <TiDelete className={ classes.userStateIconActive } onClick={ removeFriendHandler } />
+                                <TiDelete className={ classes.userStateIconActive } onClick={() => setOverlayOpen(true)} />
                             </motion.button>
                         </> }
 
