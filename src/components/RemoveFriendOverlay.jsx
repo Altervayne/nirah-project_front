@@ -38,7 +38,7 @@ const useStyles = makeStyles()((theme) => {
 
 
 			[theme.breakpoints.down('sm')]: {
-                height: "100dvh",
+                height: "100%",
 				width: "100%",
 
                 paddingTop: theme.spacing(10)

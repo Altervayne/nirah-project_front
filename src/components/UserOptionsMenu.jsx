@@ -99,7 +99,7 @@ const useStyles = makeStyles()((theme) => {
 				width: "400px",
 			},
 			[theme.breakpoints.down('md')]: {
-                height: "100dvh",
+                height: "100%",
 			},
 		},
 		optionsContainer: {

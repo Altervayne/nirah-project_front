@@ -18,10 +18,6 @@ const useStyles = makeStyles()((theme) => {
 
             width: "100%",
             height: "100%",
-
-            [theme.breakpoints.down('md')]: {
-                height: "100dvh",
-			},
 		},
         formTitle: {
 			marginTop: theme.spacing(4),

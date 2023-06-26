@@ -60,7 +60,7 @@ const useStyles = makeStyles()((theme) => {
 				paddingTop: theme.spacing(8),
 
 				width: "100%",
-                height: "100dvh",
+                height: "100%",
 			},
 			[theme.breakpoints.up('md')]: {
 				width: "375px",
