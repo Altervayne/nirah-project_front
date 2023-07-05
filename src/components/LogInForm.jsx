@@ -14,18 +14,32 @@ const useStyles = makeStyles()((theme) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "space-between",
 
             width: "100%",
             height: "100%",
+
+            [theme.breakpoints.down('md')]: {
+				justifyContent: "flex-start",
+			},
+			[theme.breakpoints.up('md')]: {
+				justifyContent: "space-between",
+			},
 		},
         formTitle: {
 			marginTop: theme.spacing(4),
 
+            textAlign: "center",
 			fontSize: theme.typography.pxToRem(28),
 			fontWeight: 600,
 
-			color: "#F2F4F8"
+            height: theme.spacing(4),
+            maxHeight: theme.spacing(4),
+
+			color: "#F2F4F8",
+
+            [theme.breakpoints.down('md')]: {
+				flexGrow: "1",
+			},
 		},
         formRoot: {
             display: "flex",
@@ -36,6 +50,11 @@ const useStyles = makeStyles()((theme) => {
             paddingBottom: theme.spacing(2),
 
             width: "100%",
+
+            [theme.breakpoints.down('md')]: {
+                justifyContent: "center",
+				flexGrow: "10",
+			},
         },
         formInput: {
             width: "100%",
@@ -123,6 +142,8 @@ const useStyles = makeStyles()((theme) => {
             [theme.breakpoints.down('md')]: {
                 fontSize: theme.typography.pxToRem(17),
                 padding: "10px",
+
+                boxShadow: "2px 2px 12px rgba(0, 0, 0, 0.2)"
 			},
         },
 	}
