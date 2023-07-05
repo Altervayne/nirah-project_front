@@ -1,6 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { makeStyles } from "tss-react/mui"
+import { useMediaQuery, useTheme } from "@mui/material"
 import { motion } from "framer-motion"
 import LogInForm from "./LogInForm"
 import CloseButton from "./CloseButton"
@@ -76,12 +77,17 @@ const useStyles = makeStyles()((theme) => {
 
 const LogInButton = () => {
 	const { classes } = useStyles()
+	const theme = useTheme()
 
 	const [isOpen, setIsOpen] = useState(false)
 	const [hasAccount, setHasAccount] = useState(false)
 	const handleWindowClick = (event) => { event.stopPropagation() }
 	const setParentHasAccount = (value) => { setHasAccount(value) }
 	const setParentIsOpen = (value) => { setIsOpen(value) }
+
+	const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'))
+	
+	
 
 	return  <div className={ classes.root }>
 				<motion.div className={ classes.launchButton }
@@ -116,22 +122,33 @@ const LogInButton = () => {
 
 					<motion.div className={ classes.modalWindow }
 						onClick={handleWindowClick}
-						initial={{ scale: 0, visibility: "hidden", height:"600px" }}
-						animate={{
-							scale: isOpen ? 1 : 0,
-							visibility: isOpen ? "visible" : "hidden",
-							height: hasAccount ? "400px" : "600px" ,
-							transition: {
-								duration: .2,
-								ease: "easeInOut",
-								visibility: {
-									delay: isOpen ? 0 : .2,
-								},
-								height: {
-									delay: hasAccount ? 0.4 : 0,
-								},
+						initial={{ scale: 0, visibility: "hidden" }}
+						animate={ !isMobileScreen	? {
+								scale: isOpen ? 1 : 0,
+								visibility: isOpen ? "visible" : "hidden",
+								height: hasAccount ? "400px" : "600px" ,
+								transition: {
+									duration: .2,
+									ease: "easeInOut",
+									visibility: {
+										delay: isOpen ? 0 : .2,
+									},
+									height: {
+										delay: hasAccount ? 0.4 : 0,
+									},
+								}
+							}						: {
+								scale: isOpen ? 1 : 0,
+								visibility: isOpen ? "visible" : "hidden",
+								transition: {
+									duration: .2,
+									ease: "easeInOut",
+									visibility: {
+										delay: isOpen ? 0 : .2,
+									},
+								}
 							}
-						}}
+						}
 					> {/* The Modal Window contains the form to log in or sign in. It animates by growing or shrinking to open or close */}
 
 						<CloseButton setIsOpen={ setParentIsOpen } />
