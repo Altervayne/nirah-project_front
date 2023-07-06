@@ -85,7 +85,7 @@ const LogInButton = () => {
 	const setParentHasAccount = (value) => { setHasAccount(value) }
 	const setParentIsOpen = (value) => { setIsOpen(value) }
 
-	const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'))
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
 	
 	
 
@@ -123,7 +123,7 @@ const LogInButton = () => {
 					<motion.div className={ classes.modalWindow }
 						onClick={handleWindowClick}
 						initial={{ scale: 0, visibility: "hidden" }}
-						animate={ !isMobileScreen	? {
+						animate={ !isSmallScreen	? {
 								scale: isOpen ? 1 : 0,
 								visibility: isOpen ? "visible" : "hidden",
 								height: hasAccount ? "400px" : "600px" ,
