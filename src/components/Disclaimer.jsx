@@ -173,7 +173,7 @@ const Disclaimer = () => {
                 </div>
                 <div className={ classes.textRoot }>
                     <p className={ classes.importantText }>Je vous remercie d'être venu jeter un oeil à mon projet personnel, Nirah.</p>
-                    <p className={ classes.text }>Avant de vous libérer, il est important que vous compreniez qu'en sa qualité de projet personnel à but éducatif, Nirah n'est en aucun cas un produit final, et vous ne devriez absolument pas utiliser Nirah dans son état actuel à des fins professionnelles. De plus, vous acceptez que Nirah soit susceptible de présenter des bugs et des erreurs. Pour m'informer des erreurs ou pour quelconque demande, vous pouvez me joindre sur <span className={ classes.contactEmail }>contact@nirah.fr</span>.</p>
+                    <p className={ classes.text }>Avant de vous libérer, il est important que vous compreniez qu'en sa qualité de projet personnel à but éducatif, Nirah n'est en aucun cas un produit final, et vous ne devriez absolument pas utiliser Nirah dans son état actuel à des fins professionnelles. De plus, vous acceptez que Nirah soit susceptible de présenter des bugs et des erreurs.</p>
                 </div>
                 <motion.button className={ classes.understoodButton }
                     onClick={ handleDisclaimerUnderstand }
