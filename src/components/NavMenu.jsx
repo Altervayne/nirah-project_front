@@ -315,10 +315,14 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
     const handleDisconnect = async (event) => {
         event.preventDefault()
 
-        socketDisconnectHandler()
-        await logOutHelper()
+        if (!isShowcase) {
+            socketDisconnectHandler()
+            await logOutHelper()
 
-        navigate('/')
+            navigate('/')
+        } else {
+            navigate('/')
+        }
     }
     const handleRoomJoin = async (event) => {
         event.preventDefault()

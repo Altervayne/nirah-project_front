@@ -59,6 +59,13 @@ const showcaseUsersList = {
       ]
 }
 
+const showcaseCurrentUser = {
+      username: "Moi-même",
+      friendsList: [],
+      requestsReceived: [],
+      requestsSent: []
+}
+
 
 
 const useStyles = makeStyles()((theme) => {
@@ -212,7 +219,7 @@ const DashBoard = () => {
 								isChatRoom={ false }
 								chatRoomId={ null }
 								usersArray={ isShowcase ? showcaseUsersList : friends }
-								currentUserInfo={ currentUser }
+								currentUserInfo={ isShowcase ? showcaseCurrentUser : currentUser }
 								setIsLoading={ setIsLoading } />
 
 					<div className={ classes.mainContainer }>
