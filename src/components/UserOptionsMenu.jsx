@@ -11,6 +11,8 @@ import { HiCog } from "react-icons/hi"
 import { deleteAccountHelper, changePasswordHelper } from "../helpers/authFormHelper"
 import { socket, socketLeaveHandler, socketAccountDeleteHandler } from "../helpers/socketHandler"
 
+const isShowcase = process.env.REACT_APP_SHOWCASE_STATUS
+
 
 
 const useStyles = makeStyles()((theme) => {
@@ -445,11 +447,11 @@ const UserOptionsMenu = ({ setIsLoading, isChatRoom, currentUser }) => {
 
 								<div className={ classes.inputContainer }>
 									<p className={ classes.inputLabel } htmlFor="password-field">Nom d'utilisateur</p>
-									<p className={ classes.userInfoText }>{ currentUser.username }</p>
+									<p className={ classes.userInfoText }>{ isShowcase ? "Moi-même" : currentUser.username }</p>
 								</div>
 								<div className={ classes.inputContainer }>
 									<p className={ classes.inputLabel } htmlFor="password-field">Adresse Email</p>
-									<p className={ classes.userInfoText }>{ currentUser.email }</p>
+									<p className={ classes.userInfoText }>{ isShowcase ? "moimeme@mail.com" : currentUser.email }</p>
 								</div>
 							</div>
 
