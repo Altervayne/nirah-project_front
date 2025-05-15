@@ -4,6 +4,8 @@ import LogInButton from "../components/LogInButton"
 import { useNavigate } from "react-router"
 import { getCurrentUserInfo } from "../helpers/userRequestHelper"
 
+const isShowcase = process.env.REACT_APP_SHOWCASE_STATUS
+
 
 
 const useStyles = makeStyles()((theme) => {
@@ -92,7 +94,7 @@ const Home = () => {
 			}
 		}
 	  
-		verifyCurrentUser()
+		!isShowcase && verifyCurrentUser() 
 	}, [ navigate ])
 
 

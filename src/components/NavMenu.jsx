@@ -14,6 +14,8 @@ import { logOutHelper } from "../helpers/authFormHelper"
 import { socketLeaveHandler, socketDisconnectHandler } from "../helpers/socketHandler"
 import { handleLeaveRoom } from "../helpers/chatRoomHelper"
 
+const isShowcase = process.env.REACT_APP_SHOWCASE_STATUS
+
 
 
 const useStyles = makeStyles()((theme) => {
@@ -328,10 +330,14 @@ const NavMenuContent = ({ setUsersState, isChatRoom, chatRoomId, usersArray, cur
     const handleRoomLeave = async (event) => {
         event.preventDefault()
 
-        await handleLeaveRoom()
-        await socketLeaveHandler()
+        if (!isShowcase) {
+            await handleLeaveRoom()
+            await socketLeaveHandler()
 
-        navigate('/dashboard')
+            navigate('/dashboard')
+        } else {
+            navigate('/dashboard')
+        }
     }
     
 

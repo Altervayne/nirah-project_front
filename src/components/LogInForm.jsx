@@ -6,6 +6,8 @@ import { motion } from "framer-motion"
 import { logInHelper, signUpHelper } from "../helpers/authFormHelper"
 import LoadingScreen from "./LoadingScreen"
 
+const isShowcase = process.env.REACT_APP_SHOWCASE_STATUS
+
 
 
 const useStyles = makeStyles()((theme) => {
@@ -318,6 +320,12 @@ const LogInForm = ({ setHasAccount, hasAccount }) => {
     /* Helper function to deal with the form confirmation */   
     const handleFormSend = async (event) => {
         event.preventDefault()
+
+        if (isShowcase) {
+            navigate("/dashboard")
+
+            return
+        }
 
         /* We toggle the loading screen */
         setIsLoading(true)

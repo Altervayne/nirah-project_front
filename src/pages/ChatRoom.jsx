@@ -14,6 +14,112 @@ import { socket, socketJoinHandler } from "../helpers/socketHandler"
 import { getCurrentUserInfo } from "../helpers/userRequestHelper"
 import { sortChatRoomMembers, getCurrentChatRoomInfo } from "../helpers/chatRoomHelper"
 
+const isShowcase = process.env.REACT_APP_SHOWCASE_STATUS
+
+const showcaseUsersList = {
+      requestsReceived: [
+            {
+                  username: "John Doe",
+                  userId: "001",
+                  friendState: "requestReceived",
+                  isOnline: true,
+                  currentRoom: "1234"
+            }
+      ],
+      requestsSent: [
+            {
+                  username: "John Smith",
+                  userId: "002",
+                  friendState: "requestSent",
+                  isOnline: true,
+                  currentRoom: "1234"
+            }
+      ],
+      friends: [
+            {
+                  username: "Michael Scott",
+                  userId: "003",
+                  friendState: "isFriend",
+                  isOnline: true,
+                  currentRoom: "1234"
+            },
+            {
+                  username: "Sebas Tian",
+                  userId: "004",
+                  friendState: "isFriend",
+                  isOnline: false,
+                  currentRoom: "1234"
+            }
+      ],
+      normalUsers: [
+            {
+                  username: "Foo Bar",
+                  userId: "005",
+                  friendState: "notFriend",
+                  isOnline: true,
+                  currentRoom: "1234"
+            }
+      ]
+}
+
+const showcaseCurrentUser = {
+      username: "Moi-même",
+      friendsList: [],
+      requestsReceived: [],
+      requestsSent: []
+}
+
+const showcaseMessagesHistory = [
+      {
+            body: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.",
+            sender: {
+                  username: "John Doe"
+            },
+            createdAt: new Date(),
+            fromServer: false
+      },
+      {
+            body: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.",
+            sender: {
+                  username: "Sebas Tian"
+            },
+            createdAt: new Date(),
+            fromServer: false
+      },
+      {
+            body: "Ceci est un message serveur.",
+            sender: {
+                  username: "Server"
+            },
+            createdAt: new Date(),
+            fromServer: true
+      },
+      {
+            body: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Amet consectetur adipiscing elit quisque faucibus ex sapien. Quisque faucibus ex sapien vitae pellentesque sem placerat. Vitae pellentesque sem placerat in id cursus mi.",
+            sender: {
+                  username: "John Smith"
+            },
+            createdAt: new Date(),
+            fromServer: false
+      },
+      {
+            body: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+            sender: {
+                  username: "Michael Scott"
+            },
+            createdAt: new Date(),
+            fromServer: false
+      },
+      {
+            body: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Adipiscing elit quisque faucibus ex sapien vitae pellentesque. Vitae pellentesque sem placerat in id cursus mi. Cursus mi pretium tellus duis convallis tempus leo. Tempus leo eu aenean sed diam urna tempor. Urna tempor pulvinar vivamus fringilla lacus nec metus.",
+            sender: {
+                  username: "Foo Bar"
+            },
+            createdAt: new Date(),
+            fromServer: false
+      }
+]
+
 
 
 
@@ -248,7 +354,7 @@ const ChatRoom = () => {
         } else {
             const message = {
                 body: currentMessage,
-                sender: { username: currentUser.username },
+                sender: { username: isShowcase ? showcaseCurrentUser.username : currentUser.username },
                 createdAt: new Date(),
                 fromServer: false
             }
@@ -263,26 +369,26 @@ const ChatRoom = () => {
 
     /* This block handles fetching the user's info and loading in the chatroom */
     const [isLoading, setIsLoading] = useState(true)
-	const [currentUser, setCurrentUser] = useState({
-		username: '',
-		friendsList: [],
-		requestsReceived: [],
-		requestsSent: []
-	})
+      const [currentUser, setCurrentUser] = useState({
+            username: '',
+            friendsList: [],
+            requestsReceived: [],
+            requestsSent: []
+      })
   
     useEffect(() => {
 		const connectUserToChat = async () => {
 			const authenticatedUser = await getCurrentUserInfo()
-            const chatRoomData = await getCurrentChatRoomInfo(id)
+                  const chatRoomData = await getCurrentChatRoomInfo(id)
 	
 			if(!authenticatedUser) {
 				navigate('/')	
 			} else {
                 const members = sortChatRoomMembers(authenticatedUser, chatRoomData.members)
 
-				await setCurrentUser(authenticatedUser)
-                await setMessages(chatRoomData.messages)
-                await setMembers(members)
+                  await setCurrentUser(authenticatedUser)
+                  await setMessages(chatRoomData.messages)
+                  await setMembers(members)
 
                 const userJoined = await socketJoinHandler(id)
                 
@@ -296,15 +402,20 @@ const ChatRoom = () => {
         
         const roomIdRegex = /^\d{1,6}$/
 
-        if(roomIdRegex.test(`${id}`)) {
-            socket.on("sameRoomName", listenForSameRoomName)
-            connectUserToChat()
+        if (!isShowcase) {
+            if(roomIdRegex.test(`${id}`)) {
+                  socket.on("sameRoomName", listenForSameRoomName)
+                  connectUserToChat()
+            } else {
+                  navigate('/dashboard')
+            }
+                  
+            return () => {
+                  socket.off("sameRoomName", listenForSameRoomName)
+            }
         } else {
-            navigate('/dashboard')
-        }
-		
-        return () => {
-            socket.off("sameRoomName", listenForSameRoomName)
+            setMessages(showcaseMessagesHistory)
+            setIsLoading(false)
         }
 	}, [ navigate, id ])
 
@@ -321,10 +432,12 @@ const ChatRoom = () => {
         }
 
     
-        socket.on("message", handleReceivingMessage)
+        if (!isShowcase) {
+            socket.on("message", handleReceivingMessage)
     
-        return () => {
-            socket.off("message", handleReceivingMessage)
+            return () => {
+                  socket.off("message", handleReceivingMessage)
+            }
         }
     }, [ currentUser.username, messages, setMessages ])
 
@@ -347,8 +460,8 @@ const ChatRoom = () => {
                     <NavMenu    setUsersState={ setMembers }
                                 isChatRoom={ true }
                                 chatRoomId={ id }
-                                usersArray={ members }
-                                currentUserInfo={ currentUser }
+                                usersArray={ isShowcase ? showcaseUsersList : members }
+                                currentUserInfo={ isShowcase ? showcaseCurrentUser : currentUser }
                                 setIsLoading={ setIsLoading } />
 
                     <div className={ classes.mainContainer }>

@@ -11,6 +11,54 @@ import { getFriendsInfo } from "../helpers/friendRequestHelper"
 import { getCurrentUserInfo } from "../helpers/userRequestHelper"
 import { socket } from "../helpers/socketHandler"
 
+const isShowcase = process.env.REACT_APP_SHOWCASE_STATUS
+
+const showcaseUsersList = {
+      requestsReceived: [
+            {
+                  username: "John Doe",
+                  userId: "001",
+                  friendState: "requestReceived",
+                  isOnline: true,
+                  currentRoom: "1234"
+            }
+      ],
+      requestsSent: [
+            {
+                  username: "John Smith",
+                  userId: "002",
+                  friendState: "requestSent",
+                  isOnline: true,
+                  currentRoom: "1234"
+            }
+      ],
+      friends: [
+            {
+                  username: "Michael Scott",
+                  userId: "003",
+                  friendState: "isFriend",
+                  isOnline: true,
+                  currentRoom: "1234"
+            },
+            {
+                  username: "Sebas Tian",
+                  userId: "004",
+                  friendState: "isFriend",
+                  isOnline: false,
+                  currentRoom: "1234"
+            }
+      ],
+      normalUsers: [
+            {
+                  username: "Foo Bar",
+                  userId: "005",
+                  friendState: "notFriend",
+                  isOnline: true,
+                  currentRoom: "1234"
+            }
+      ]
+}
+
 
 
 const useStyles = makeStyles()((theme) => {
@@ -143,7 +191,7 @@ const DashBoard = () => {
 			}
 		}
 	  
-		verifyCurrentUser()
+		isShowcase ? setIsLoading(false) : verifyCurrentUser()
 	}, [ navigate ])
 
 
@@ -163,7 +211,7 @@ const DashBoard = () => {
 					<NavMenu 	setUsersState={ setFriends }
 								isChatRoom={ false }
 								chatRoomId={ null }
-								usersArray={ friends }
+								usersArray={ isShowcase ? showcaseUsersList : friends }
 								currentUserInfo={ currentUser }
 								setIsLoading={ setIsLoading } />
 
